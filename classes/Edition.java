@@ -1,15 +1,17 @@
 package recrutement.classes;
 
+import java.sql.Date;
+
 public class Edition {
     private int numEdition;
-    private date dateParution;
+    private Date dateParution;
 
     public Edition(int numEdition) {
         this.numEdition = numEdition;
-        dateParution = new date();
+        this.dateParution = new Date(System.currentTimeMillis());
     }
 
-    public date getDateParution() {
+    public Date getDateParution() {
         return dateParution;
     }
 
@@ -17,7 +19,7 @@ public class Edition {
         return numEdition;
     }
 
-    public void setDateParution(date dateParution) {
+    public void setDateParution(Date dateParution) {
         this.dateParution = dateParution;
     }
 
