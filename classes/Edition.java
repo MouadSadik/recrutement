@@ -7,9 +7,10 @@ public class Edition {
     private Date dateParution;
     private String codeJournal;
 
-    public Edition(int numEdition) {
+    public Edition(int numEdition, String codeJournal){
         this.numEdition = numEdition;
         this.dateParution = new Date(System.currentTimeMillis());
+        this.codeJournal = codeJournal;
     }
 
     //getters
@@ -38,6 +39,14 @@ public class Edition {
         this.codeJournal = codeJournal;
     }
 
+    public void publierOffre(OffreEmploi offre) {
+
+    }
+
+    public void consulterOffre(OffreEmploi offre) {
+
+    }
+
     @Override
     public String toString() {
         return "Edition{" +
@@ -45,5 +54,9 @@ public class Edition {
                 ", dateParution=" + dateParution +
                 ", codeJournal='" + codeJournal + '\'' +
                 '}';
+    }
+
+    public static void main(String[] args) {
+        System.out.println("Test");
     }
 }

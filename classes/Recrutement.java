@@ -3,7 +3,7 @@ import java.util.Date;
 
 public class Recrutement {
     
-    Date dateRecrutement;
+    private Date dateRecrutement;
 
     public Recrutement(Date dateRecrutement) {
 		super();

@@ -2,12 +2,12 @@ package recrutement.classes;
 
 public class OffreEmploi {
     
-    int numOffre;
-    String titre;
-    String competences;
-    int nbAnneeExperienceDemandee;
-    int nbPostes;
-    String etat;
+    private int numOffre;
+    private String titre;
+    private String competences;
+    private int nbAnneeExperienceDemandee;
+    private int nbPostes;
+    private String etat;
 
     public OffreEmploi(int numOffre, String titre, String competences, int nbAnneeExperienceDemandee, int nbPostes,
 			String etat) {
