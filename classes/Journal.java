@@ -5,14 +5,17 @@ public class Journal {
     private String nomJournal;
     private String periodicite;
     private String langue;
+    private int idCategorie;
 
-    public Journal(int codeJournal, String nomJournal, String periodicite, String langue) {
+    public Journal(int codeJournal, String nomJournal, String periodicite, String langue, int idCategorie) {
         this.codeJournal = codeJournal;
         this.nomJournal = nomJournal;
         this.periodicite = periodicite;
         this.langue = langue;
+        this.idCategorie = idCategorie;
     }
-
+    
+    //getters
     public int getCodeJournal() {
         return codeJournal;
     }
@@ -29,6 +32,11 @@ public class Journal {
         return langue;
     }
 
+    public int getIdCategorie() {
+        return idCategorie;
+    }
+
+    //setters
     public void setCodeJournal(int codeJournal) {
         this.codeJournal = codeJournal;
     }
@@ -43,5 +51,20 @@ public class Journal {
 
     public void setLangue(String langue) {
         this.langue = langue;
+    }
+
+    public void setIdCategorie(int idCategorie) {
+        this.idCategorie = idCategorie;
+    }
+
+    @Override
+    public String toString() {
+        return "Journal{" +
+                "code='" + code + '\'' +
+                ", nom='" + nom + '\'' +
+                ", periodicite='" + periodicite + '\'' +
+                ", langue='" + langue + '\'' +
+                ", categorieId=" + categorieId +
+                '}';
     }
 }
