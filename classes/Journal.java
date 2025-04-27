@@ -6,7 +6,7 @@ public class Journal {
     private String periodicite;
     private String langue;
 
-    public Journal(int codeJournalm, String nomJournal, String periodicite, String langue) {
+    public Journal(int codeJournal, String nomJournal, String periodicite, String langue) {
         this.codeJournal = codeJournal;
         this.nomJournal = nomJournal;
         this.periodicite = periodicite;

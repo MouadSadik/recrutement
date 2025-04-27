@@ -9,7 +9,7 @@ public abstract class Client {
 
 
     public Client(int codecl, String adresse, String tel) {
-        this.codecl = id;
+        this.codecl = ++id;
         this.adresse = adresse;
         this.tel = tel;
     }
@@ -36,13 +36,6 @@ public abstract class Client {
 
     public void setTel(String tel) {
         this.tel = tel;
-    }
-    public static int getId() {
-        return ++id;
-    }
-
-    public static void setId(int id) {
-        Client.id = id;
     }
 
 }

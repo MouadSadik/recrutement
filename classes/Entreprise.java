@@ -9,7 +9,7 @@ public class Entreprise extends Client {
     private List<Abonnement> abonnements;
 
     public Entreprise(int codeClient, String adresse, String telephone, String raisonSociale, String descriptionActive) {
-        //super(codeClient, adresse, telephone);
+        super(codeClient, adresse, telephone);
         this.raisonSociale = raisonSociale;
         this.descriptionActive = descriptionActive;
         this.abonnements = new ArrayList<>();
