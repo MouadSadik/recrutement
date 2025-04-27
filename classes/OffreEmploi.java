@@ -5,17 +5,17 @@ public class OffreEmploi {
     int numOffre;
     String titre;
     String competences;
-    int experienceDemandee;
+    int nbAnneeExperienceDemandee;
     int nbPostes;
     String etat;
 
-    public OffreEmploi(int numOffre, String titre, String competences, int experienceDemandee, int nbPostes,
+    public OffreEmploi(int numOffre, String titre, String competences, int nbAnneeExperienceDemandee, int nbPostes,
 			String etat) {
 		super();
 		this.numOffre = numOffre;
 		this.titre = titre;
 		this.competences = competences;
-		this.experienceDemandee = experienceDemandee;
+		this.nbAnneeExperienceDemandee = nbAnneeExperienceDemandee;
 		this.nbPostes = nbPostes;
 		this.etat = etat;
 	}
@@ -44,12 +44,12 @@ public class OffreEmploi {
 		this.competences = competences;
 	}
 
-	public int getExperienceDemandee() {
-		return experienceDemandee;
+	public int getNbAnneeExperienceDemandee() {
+		return nbAnneeExperienceDemandee;
 	}
 
-	public void setExperienceDemandee(int experienceDemandee) {
-		this.experienceDemandee = experienceDemandee;
+	public void setNbAnneeExperienceDemandee(int nbAnneeExperienceDemandee) {
+		this.nbAnneeExperienceDemandee = nbAnneeExperienceDemandee;
 	}
 
 	public int getNbPostes() {
