@@ -13,17 +13,21 @@ public class OffreEmploi {
     private int nbPostes;
     private String etat;
 	private Abonnement abonnement;
+	private Postulation postulation;
+	private Edition edition;
 	private List<Recrutement> recrutements;
 
 	
     public OffreEmploi( String titre, String competences, int nbAnneeExperienceDemandee, int nbPostes,
-			String etat) {
+			String etat,Postulation postulation, Edition edition) {
 		this.numOffre = compteur++;
 		this.titre = titre;
 		this.competences = competences;
 		this.nbAnneeExperienceDemandee = nbAnneeExperienceDemandee;
 		this.nbPostes = nbPostes;
 		this.etat = etat;
+		this.postulation = postulation;
+		this.edition = edition;
 		this.recrutements = new ArrayList<>();
 	}
     
@@ -34,24 +38,7 @@ public class OffreEmploi {
 //    }
 //    private EtatOffre etat;
     
-
-	public Abonnement getAbonnement() {
-		return abonnement;
-	}
-
-	public void setAbonnement(Abonnement abonnement) {
-		this.abonnement = abonnement;
-	}
-
-	public List<Recrutement> getRecrutements() {
-		return recrutements;
-	}
-	
-	public void ajouterRecrutement(Recrutement recrutement){
-		recrutements.add(recrutement);
-    } 
-
-	public int getNumOffre() {
+    public int getNumOffre() {
 		return numOffre;
 	}
 
@@ -66,11 +53,11 @@ public class OffreEmploi {
 	public String getCompetences() {
 		return competences;
 	}
-
+	
 	public void setCompetences(String competences) {
 		this.competences = competences;
 	}
-
+	
 	public int getNbAnneeExperienceDemandee() {
 		return nbAnneeExperienceDemandee;
 	}
@@ -101,15 +88,47 @@ public class OffreEmploi {
 		this.etat = etat;
 	}
 
+	public Abonnement getAbonnement() {
+		return abonnement;
+	}
+
+	public void setAbonnement(Abonnement abonnement) {
+		this.abonnement = abonnement;
+	}
+
+	public Postulation getPostulation() {
+		return postulation;
+	}
+
+	public void setPostulation(Postulation postulation) {
+		this.postulation = postulation;
+	}
+
+	public Edition getEdition() {
+		return edition;
+	}
+
+	public void setEdition(Edition edition) {
+		this.edition = edition;
+	}
+	
+	public List<Recrutement> getRecrutements() {
+		return recrutements;
+	}
+	
+	public void ajouterRecrutement(Recrutement recrutement){
+		recrutements.add(recrutement);
+    } 
+
+
 	@Override
 	public String toString() {
 		return "OffreEmploi [numOffre=" + numOffre + ", titre=" + titre + ", competences=" + competences
 				+ ", nbAnneeExperienceDemandee=" + nbAnneeExperienceDemandee + ", nbPostes=" + nbPostes + ", etat="
-				+ etat + ", abonnement=" + abonnement + ", recrutements=" + recrutements.size() + "]";
+				+ etat + ", abonnement=" + abonnement + ", postulation=" + postulation + ", edition=" + edition
+				+ ", recrutements=" + recrutements.size() + "]";
 	}
-	
-	
-	
+
 	//methodes
 	public boolean estDisponible() {
 	    return recrutements.size() < nbPostes && "OUVERTE".equalsIgnoreCase(etat);
@@ -142,7 +161,5 @@ public class OffreEmploi {
 	public boolean peutAjouterRecrutement() {
 	    return getNbPostesRestants() > 0 && "OUVERTE".equalsIgnoreCase(etat);
 	}
-	
-	
 	
 }
