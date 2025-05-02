@@ -25,4 +25,15 @@ public abstract class Client {
     }
 
 
+
+    @Override
+    public String toString() {
+        return "{" +
+            " codeClient='" + getCodeClient() + "'" +
+            ", adresse='" + getAdresse() + "'" +
+            ", telephone='" + getTelephone() + "'" +
+            "}";
+    }
+
+
 }

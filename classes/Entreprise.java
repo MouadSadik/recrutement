@@ -39,4 +39,15 @@ public class Entreprise extends Client {
         abonnements.add(abonnement);
     }
 
+
+    @Override
+    public String toString() {
+        return "{" + super.toString() + 
+            " raisonSociale='" + getRaisonSociale() + "'" +
+            ", descriptionActive='" + getDescriptionActive() + "'" +
+            ", abonnements='" + getAbonnements() + "'" +
+            "}";
+    }
+
+
 }
