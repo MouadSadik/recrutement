@@ -1,41 +1,28 @@
 package classes;
 
 public abstract class Client {
-    private int codecl;
-    private String adresse;
-    static protected int id=0;
-    
-    private String tel;
+    protected int codeClient;
+    protected String adresse;
+    protected String telephone;
 
-
-    public Client( String adresse, String tel) {
-        this.codecl = ++id;
+    public Client(int codeClient, String adresse, String telephone) {
+        this.codeClient = codeClient;
         this.adresse = adresse;
-        this.tel = tel;
+        this.telephone = telephone;
     }
 
-    public int getCodecl() {
-        return codecl;
-    }
 
-    public void setCodecl(int codecl) {
-        this.codecl = codecl;
+    public int getCodeClient() {
+        return codeClient;
     }
 
     public String getAdresse() {
         return adresse;
     }
 
-    public void setAdresse(String adresse) {
-        this.adresse = adresse;
+    public String getTelephone() {
+        return telephone;
     }
 
-    public String getTel() {
-        return tel;
-    }
-
-    public void setTel(String tel) {
-        this.tel = tel;
-    }
 
 }

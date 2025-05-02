@@ -14,9 +14,9 @@ public class Demandeur extends Client {
     
 
 
-    public Demandeur(String adresse, String tel, String nom, String prenom, String fax, int anneeExp,
+    public Demandeur(int codeClient,String adresse, String tel, String nom, String prenom, String fax, int anneeExp,
             double salaiireSouhaite, String diplome) {
-        super( adresse, tel);
+                super(codeClient, adresse, tel);
         this.nom = nom;
         this.prenom = prenom;
         this.fax = fax;

@@ -1,6 +1,6 @@
 package classes;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 public class Entreprise extends Client {
@@ -8,11 +8,11 @@ public class Entreprise extends Client {
     private String descriptionActive;
     private List<Abonnement> abonnements;
 
-    public Entreprise(int codeClient, String adresse, String telephone, String raisonSociale, String descriptionActive) {
-        super(adresse, telephone);
+    public Entreprise(int codeClient, String adresse, String telephone,
+                      String raisonSociale, String descriptionActivite) {
+        super(codeClient, adresse, telephone);
         this.raisonSociale = raisonSociale;
-        this.descriptionActive = descriptionActive;
-        this.abonnements = new ArrayList<>();
+        this.descriptionActive = descriptionActivite;
     }
 
     public String getRaisonSociale() {
