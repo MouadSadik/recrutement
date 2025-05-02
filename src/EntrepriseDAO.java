@@ -1,16 +1,13 @@
 import classes.Entreprise;
+import utils.DatabaseConnection;
 import java.sql.*;
 
 public class EntrepriseDAO {
 
-    private static final String URL = "jdbc:postgresql://aws-0-eu-west-2.pooler.supabase.com:5432/postgres";
-    private static final String USER = "postgres.mlargwldfixnhgdppvje";
-    private static final String PASSWORD = "Badrmane2020.";
-
     public static Entreprise getEntrepriseById(int id) {
         Entreprise entreprise = null;
 
-        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD)) {
+        try (Connection conn = DatabaseConnection.getConnection()) {
             String sql = """
                 SELECT c.codeClient, c.adresse, c.telephone,
                        e.raisonSociale, e.descriptionActivite
@@ -35,7 +32,6 @@ public class EntrepriseDAO {
             }
         } catch (SQLException e) {
             System.err.println("❌ Erreur SQL : " + e.getMessage());
-            e.printStackTrace();
         }
 
         return entreprise;
@@ -44,7 +40,8 @@ public class EntrepriseDAO {
     public static void main(String[] args) {
         Entreprise e = getEntrepriseById(1);
         if (e != null) {
-           System.out.println( e.toString());
+            System.out.println("✅ Entreprise trouvée :");
+            System.out.println(e);
         } else {
             System.out.println("❌ Aucune entreprise trouvée.");
         }
