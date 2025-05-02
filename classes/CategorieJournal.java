@@ -51,7 +51,7 @@ public class CategorieJournal {
     @Override
     public String toString() {
         return "Categorie{" +
-                "id=" + id +
+                "id=" + idCategorie +
                 ", libelle='" + libelle + '\'' +
                 '}';
     }

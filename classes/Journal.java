@@ -92,7 +92,7 @@ public class Journal {
         }
     }
 
-    public void ajouterOffre(OffreEmploi offre) {
+    /*public void ajouterOffre(OffreEmploi offre) {
         if (offre != null) {
             offres.add(offre);
             System.out.println("Offre Ajoutee");
@@ -108,7 +108,7 @@ public class Journal {
         } else {
             System.out.println("Edition n'existe pas");
         }
-    }
+    }*/
 
     public void ajouterCategorie(CategorieJournal categorie) {
         this.idCategorie = categorie.getIdCategorie();
