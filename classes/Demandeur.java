@@ -1,4 +1,4 @@
-package recrutement.classes;
+package classes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,13 +10,13 @@ public class Demandeur extends Client {
     private int anneeExp;
     private double salaiireSouhaite;
     private String diplome;
-    private List<Emploi> emplois;
+    private List<OffreEmploi> emplois;
     
 
 
     public Demandeur(String adresse, String tel, String nom, String prenom, String fax, int anneeExp,
             double salaiireSouhaite, String diplome) {
-        super(adresse, tel);
+        super( adresse, tel);
         this.nom = nom;
         this.prenom = prenom;
         this.fax = fax;
@@ -73,10 +73,10 @@ public class Demandeur extends Client {
     public void setDiplome(String diplome) {
         this.diplome = diplome;
     }
-    public List<Emploi> getEmplois() {
+    public List<OffreEmploi> getEmplois() {
         return emplois;
     }
-    public void ajouterEmploi(Emploi emploi){
+    public void ajouterEmploi(OffreEmploi emploi){
         emplois.add(emploi);
     }
 }

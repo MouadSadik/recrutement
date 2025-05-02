@@ -1,4 +1,4 @@
-package recrutement.classes;
+package classes;
 
 public abstract class Client {
     private int codecl;
@@ -8,7 +8,7 @@ public abstract class Client {
     private String tel;
 
 
-    public Client(int codecl, String adresse, String tel) {
+    public Client( String adresse, String tel) {
         this.codecl = ++id;
         this.adresse = adresse;
         this.tel = tel;

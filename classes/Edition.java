@@ -1,4 +1,4 @@
-package recrutement.classes;
+package classes;
 
 import java.sql.Date;
 
