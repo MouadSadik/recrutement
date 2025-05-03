@@ -11,7 +11,7 @@ public class CategorieJournal {
     public CategorieJournal(int idCategorie, String libelle) {
         this.idCategorie = idCategorie;
         this.libelle = libelle;
-        journals = new ArrayList<>();
+        journals = new ArrayList<>(); 
     }
 
     public int getIdCategorie() {
