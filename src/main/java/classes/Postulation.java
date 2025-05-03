@@ -1,4 +1,4 @@
-package classes;
+package main.java.classes;
 
 import java.util.Date;
 
@@ -59,7 +59,8 @@ public class Postulation {
 
 	//methodes
 	public boolean estEncoreValide() {
-	    return offreEmploi != null && "OUVERTE".equalsIgnoreCase(offreEmploi.getEtat());
+	    return offreEmploi != null && offreEmploi.getEtat() == OffreEmploi.EtatOffre.OUVERTE;
+
 	}
 	
 	

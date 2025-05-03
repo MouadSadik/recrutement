@@ -1,5 +1,5 @@
-import classes.Entreprise;
-import utils.DatabaseConnection;
+import main.java.classes.Entreprise;
+import main.java.utils.DatabaseConnection;
 import java.sql.*;
 
 public class EntrepriseDAO {
