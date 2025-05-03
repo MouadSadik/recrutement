@@ -115,11 +115,13 @@ public class EntrepriseDAO {
             } else {
                 conn.rollback(); // Annuler si partiel
                 return false;
-            } catch (SQLException e) {
-                System.err.println("Erreur SQL (modification) : " + e.getMessage());
-                return false;
             }
+        } 
+        catch (SQLException e) {
+            System.err.println("Erreur SQL (modification) : " + e.getMessage());
+            return false;
         }
+        
     }
 
     // Delete
