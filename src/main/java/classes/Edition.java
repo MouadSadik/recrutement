@@ -1,20 +1,21 @@
 package main.java.classes;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 public class Edition {
     private int numEdition;
-    private Date dateParution;
-    private String codeJournal;
+    private LocalDate dateParution;
+    private int codeJournal;
 
-    public Edition(int numEdition, String codeJournal){
+    public Edition(int numEdition, int codeJournal, LocalDate dateparution){
         this.numEdition = numEdition;
-        this.dateParution = new Date(System.currentTimeMillis());
+        this.dateParution = dateparution;
         this.codeJournal = codeJournal;
     }
 
     //getters
-    public Date getDateParution() {
+    public LocalDate getDateParution() {
         return dateParution;
     }
 
@@ -22,12 +23,12 @@ public class Edition {
         return numEdition;
     }
 
-    public String getCodeJournal() {
+    public int getCodeJournal() {
         return codeJournal;
     }
 
     //setters
-    public void setDateParution(Date dateParution) {
+    public void setDateParution(LocalDate dateParution) {
         this.dateParution = dateParution;
     }
 
@@ -35,7 +36,7 @@ public class Edition {
         this.numEdition = numEdition;
     }
 
-    public void setCodeJournal(String codeJournal) {
+    public void setCodeJournal(int codeJournal) {
         this.codeJournal = codeJournal;
     }
 
