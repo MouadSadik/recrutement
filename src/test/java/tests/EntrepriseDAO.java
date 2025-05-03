@@ -1,3 +1,4 @@
+package test.java.tests;
 import main.java.classes.Entreprise;
 import main.java.utils.DatabaseConnection;
 import java.sql.*;
