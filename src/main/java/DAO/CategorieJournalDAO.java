@@ -1,4 +1,4 @@
-package test.java.tests;
+package main.java.DAO;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ public class CategorieJournalDAO {
 
     // Create
     public static boolean ajouterCategorie(CategorieJournal categorie) {
-        String sql = "INSERT INTO categorie (libelle) VALUES (?)";
+        String sql = "INSERT INTO categoriejournal (libelle) VALUES (?)";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, categorie.getLibelle());
@@ -25,7 +25,7 @@ public class CategorieJournalDAO {
 
     // Read (par id)
     public static CategorieJournal getCategorieById(int id) {
-        String sql = "SELECT * FROM categorie WHERE idcategorie = ?";
+        String sql = "SELECT * FROM categoriejournal WHERE idcategorie = ?";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
@@ -44,7 +44,7 @@ public class CategorieJournalDAO {
     // Read (toutes les categories)
     public static List<CategorieJournal> getAllCategories() {
         List<CategorieJournal> categories = new ArrayList<>();
-        String sql = "SELECT * FROM categorie";
+        String sql = "SELECT * FROM categoriejournal";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql);
                 ResultSet rs = stmt.executeQuery()) {
@@ -62,7 +62,7 @@ public class CategorieJournalDAO {
 
     // Update
     public static boolean modifierCategorie(CategorieJournal categorie) {
-        String sql = "UPDATE categorie SET libelle = ? WHERE idcategorie = ?";
+        String sql = "UPDATE categoriejournal SET libelle = ? WHERE idcategorie = ?";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, categorie.getLibelle());
@@ -77,7 +77,7 @@ public class CategorieJournalDAO {
 
     // Delete
     public static boolean supprimerCategorie(int id) {
-        String sql = "DELETE FROM categorie WHERE idcategorie = ?";
+        String sql = "DELETE FROM categoriejournal WHERE idcategorie = ?";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, id);
