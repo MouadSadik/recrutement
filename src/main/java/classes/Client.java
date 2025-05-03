@@ -4,13 +4,21 @@ public abstract class Client {
     protected int codeClient;
     protected String adresse;
     protected String telephone;
+    static protected int id=1;
 
-    public Client(int codeClient, String adresse, String telephone) {
-        this.codeClient = codeClient;
+    public Client(String adresse, String telephone) {
+        this.codeClient = id++;
         this.adresse = adresse;
         this.telephone = telephone;
     }
 
+    public void setAdresse(String adresse) {
+        this.adresse = adresse;
+    }
+
+    public void setTelephone(String telephone) {
+        this.telephone = telephone;
+    }
 
     public int getCodeClient() {
         return codeClient;

@@ -5,6 +5,7 @@ import java.time.LocalDate;
 public class Abonnement {
     private Entreprise entreprise;
     private Journal journal;
+    private OffreEmploi offreEmploi;
     private int idAbonnement;
     private LocalDate dateExpiration;
     private boolean actif;

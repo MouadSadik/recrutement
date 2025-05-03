@@ -2,17 +2,18 @@ package main.java.classes;
 
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class Entreprise extends Client {
     private String raisonSociale;
-    private String descriptionActive;
+    private String descriptionActivite;
     private List<Abonnement> abonnements;
 
-    public Entreprise(int codeClient, String adresse, String telephone,
-                      String raisonSociale, String descriptionActivite) {
-        super(codeClient, adresse, telephone);
+    public Entreprise(String adresse, String telephone, String raisonSociale, String descriptionActivite) {
+        super(adresse, telephone);
         this.raisonSociale = raisonSociale;
-        this.descriptionActive = descriptionActivite;
+        this.descriptionActivite = descriptionActivite;
+        this.abonnements = new ArrayList<>();
     }
 
     public String getRaisonSociale() {
@@ -23,12 +24,12 @@ public class Entreprise extends Client {
         this.raisonSociale = raisonSociale;
     }
 
-    public String getDescriptionActive() {
-        return this.descriptionActive;
+    public String getDescriptionActivite() {
+        return this.descriptionActivite;
     }
 
-    public void setDescriptionActive(String descriptionActive) {
-        this.descriptionActive = descriptionActive;
+    public void setDescriptionActivite(String descriptionActivite) {
+        this.descriptionActivite = descriptionActivite;
     }
 
     public List<Abonnement> getAbonnements() {
@@ -44,7 +45,7 @@ public class Entreprise extends Client {
     public String toString() {
         return "{" + super.toString() + 
             " raisonSociale='" + getRaisonSociale() + "'" +
-            ", descriptionActive='" + getDescriptionActive() + "'" +
+            ", descriptionActive='" + getDescriptionActivite() + "'" +
             ", abonnements='" + getAbonnements() + "'" +
             "}";
     }
