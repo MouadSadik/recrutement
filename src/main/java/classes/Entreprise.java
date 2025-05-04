@@ -16,6 +16,13 @@ public class Entreprise extends Client {
         this.abonnements = new ArrayList<>();
     }
 
+    public Entreprise(int codeClient, String adresse, String telephone, String raisonSociale, String descriptionActivite) {
+        super(codeClient, adresse, telephone);
+        this.raisonSociale = raisonSociale;
+        this.descriptionActivite = descriptionActivite;
+        this.abonnements = new ArrayList<>();
+    }
+
     public String getRaisonSociale() {
         return this.raisonSociale;
     }

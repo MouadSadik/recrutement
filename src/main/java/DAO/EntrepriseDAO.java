@@ -8,58 +8,77 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.classes.Entreprise;
-import main.java.classes.Abonnement;
-import main.java.classes.Client;
 import main.java.utils.DatabaseConnection;
 
 public class EntrepriseDAO {
     // Create
     public static boolean ajouterEntreprise(Entreprise entreprise) {
-        String sqlClient = "INSERT INTO client (nom, email) VALUES (?, ?)";
-            psClient = conn.prepareStatement(sqlClient, Statement.RETURN_GENERATED_KEYS);
-            psClient.setString(1, entreprise.getAdresse());
-            psClient.setString(2, entreprise.getTelephone());
-            psClient.executeUpdate();
-            // Récupérer l'id_client généré
-            generatedKeys = psClient.getGeneratedKeys();
-            if (generatedKeys.next()) {
-                int idClient = generatedKeys.getInt(1);
-                entreprise.setCodeClient(idClient); // mettre à jour dans l'objet
-            } else {
-                throw new SQLException("Échec de la création du client, aucun ID généré.");
+        String sqlClient = "INSERT INTO client (adresse, telephone) VALUES (?, ?)";
+        String sqlEntreprise = "INSERT INTO entreprise (codeclient, raisonsociale, descriptionactivites) VALUES (?, ?, ?)";
+    
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false); // Début de transaction
+    
+            // Insertion dans la table client
+            try (PreparedStatement psClient = conn.prepareStatement(sqlClient, PreparedStatement.RETURN_GENERATED_KEYS)) {
+                psClient.setString(1, entreprise.getAdresse());
+                psClient.setString(2, entreprise.getTelephone());
+                psClient.executeUpdate();
+    
+                ResultSet generatedKeys = psClient.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    int idClient = generatedKeys.getInt(1);
+                    entreprise.setCodeClient(idClient); // mise à jour dans l’objet
+                } else {
+                    conn.rollback();
+                    throw new SQLException("Échec de la création du client : aucun ID généré.");
+                }
             }
-
-        String sql = "INSERT INTO entreprise (codeclient, raisonsociale, descriptionactivites) VALUES (?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, entreprise.getCodeClient());
-            stmt.setString(2, entreprise.getRaisonSociale());
-            stmt.setString(4, entreprise.getDescriptionActivite());
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0;
+    
+            // Insertion dans la table entreprise
+            try (PreparedStatement stmt = conn.prepareStatement(sqlEntreprise)) {
+                stmt.setInt(1, entreprise.getCodeClient());
+                stmt.setString(2, entreprise.getRaisonSociale());
+                stmt.setString(3, entreprise.getDescriptionActivite());
+                int rowsInserted = stmt.executeUpdate();
+    
+                if (rowsInserted > 0) {
+                    conn.commit(); // Tout s'est bien passé
+                    return true;
+                } else {
+                    conn.rollback();
+                    return false;
+                }
+            }
+    
         } catch (SQLException e) {
-            System.err.println("Erreur SQL (ajout) : " + e.getMessage());
+            System.err.println("Erreur SQL (ajout entreprise) : " + e.getMessage());
             return false;
         }
     }
 
     // Read By id
     public static Entreprise getEntrepriseById(int id) {
-        String sql = "SELECT c.codeclient, c.adresse, c.telephone, e.raisonsociale, e.descriptionactivites FROM client c JOIN entreprise e ON c.codeclient = e.codeclient";
+        String sql = "SELECT c.codeclient, c.adresse, c.telephone, e.raisonsociale, e.descriptionactivites " +
+                     "FROM client c JOIN entreprise e ON c.codeclient = e.codeclient WHERE c.codeclient = ?";
+    
         try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
+    
             if (rs.next()) {
                 return new Entreprise(
-                        rs.getInt("codeclient"),
-                        rs.getString("adresse"),
-                        rs.getString("telephone"),
-                        rs.getString("raisonsociale"),
-                        rs.getString("descriptionactivites"));
+                    rs.getInt("codeclient"),
+                    rs.getString("adresse"),
+                    rs.getString("telephone"),
+                    rs.getString("raisonsociale"),
+                    rs.getString("descriptionactivites")
+                );
             }
         } catch (SQLException e) {
-            System.err.println("Erreur SQL (lecture par id) : " + e.getMessage());
+            System.err.println("Erreur SQL (lecture entreprise par ID) : " + e.getMessage());
         }
         return null;
     }
@@ -90,42 +109,51 @@ public class EntrepriseDAO {
     public static boolean modifierEntreprise(Entreprise entreprise) {
         String sqlClient = "UPDATE client SET adresse = ?, telephone = ? WHERE codeclient = ?";
         String sqlEntreprise = "UPDATE entreprise SET raisonsociale = ?, descriptionactivites = ? WHERE codeclient = ?";
-
+    
+        Connection conn = null;
+        PreparedStatement psClient = null;
+        PreparedStatement psEntreprise = null;
+    
         try {
             conn = DatabaseConnection.getConnection();
-            conn.setAutoCommit(false); // Début transaction
-
-            // Mise à jour table client
+            conn.setAutoCommit(false);
+    
             psClient = conn.prepareStatement(sqlClient);
             psClient.setString(1, entreprise.getAdresse());
             psClient.setString(2, entreprise.getTelephone());
-            psClient.setString(3, entreprise.getCodeClient());
+            psClient.setInt(3, entreprise.getCodeClient());
             int rowsUpdated1 = psClient.executeUpdate();
-
-            // Mise à jour table entreprise
+    
             psEntreprise = conn.prepareStatement(sqlEntreprise);
-            psEntreprise.setString(1, entreprise.getSecteurActivite());
-            psEntreprise.setString(2, entreprise.getNumeroSIRET());
-            psEntreprise.setString(3, entreprise.getCodeClient());
+            psEntreprise.setString(1, entreprise.getRaisonSociale());
+            psEntreprise.setString(2, entreprise.getDescriptionActivite());
+            psEntreprise.setInt(3, entreprise.getCodeClient());
             int rowsUpdated2 = psEntreprise.executeUpdate();
-
+    
             if (rowsUpdated1 > 0 && rowsUpdated2 > 0) {
-                conn.commit(); // Valider si tout OK
+                conn.commit();
                 return true;
             } else {
-                conn.rollback(); // Annuler si partiel
+                conn.rollback();
                 return false;
             }
-        } 
-        catch (SQLException e) {
-            System.err.println("Erreur SQL (modification) : " + e.getMessage());
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL (modification entreprise) : " + e.getMessage());
+            try {
+                if (conn != null) conn.rollback();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
             return false;
+        } finally {
+            try { if (psClient != null) psClient.close(); } catch (Exception e) {}
+            try { if (psEntreprise != null) psEntreprise.close(); } catch (Exception e) {}
+            try { if (conn != null) conn.close(); } catch (Exception e) {}
         }
-        
     }
 
     // Delete
-    public static boolean supprimerEntreprise(String codeClient) {
+    public static boolean supprimerEntreprise(int codeClient) {
         String sqlDeleteEntreprise = "DELETE FROM entreprise WHERE codeclient = ?";
         String sqlDeleteClient = "DELETE FROM client WHERE codeclient = ?";
 
@@ -139,12 +167,12 @@ public class EntrepriseDAO {
 
             // Étape 1 : Supprimer dans la table entreprise
             psEntreprise = conn.prepareStatement(sqlDeleteEntreprise);
-            psEntreprise.setString(1, codeClient);
+            psEntreprise.setInt(1, codeClient);
             int rowsEntreprise = psEntreprise.executeUpdate();
 
             // Étape 2 : Supprimer dans la table client
             psClient = conn.prepareStatement(sqlDeleteClient);
-            psClient.setString(1, codeClient);
+            psClient.setInt(1, codeClient);
             int rowsClient = psClient.executeUpdate();
 
             if (rowsEntreprise > 0 && rowsClient > 0) {

@@ -4,144 +4,140 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 import main.java.classes.Entreprise;
 import main.java.classes.Journal;
-import main.java.classes.OffreEmploi;
+// import main.java.classes.OffreEmploi;
 import main.java.classes.Abonnement;
 import main.java.utils.DatabaseConnection;
 
 public class AbonnementDAO {
     // Create
     public static boolean ajouterAbonnement(Abonnement abonnement) {
-        String sql = "INSERT INTO abonnement (codeclient, codejournal, datedebut, dateexpiration, etat) VALUES (?, ?, ?, ?, ?)";
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, abonnement.getCodeClient());
-            stmt.setString(2, abonnement.getCodeJournal());
-            stmt.setString(3, LocalDate.now().toString());
-            stmt.setString(4, abonnement.getDateExpiration());
-            stmt.setInt(5, abonnement.estActif());
-            int rowsInserted = stmt.executeUpdate();
-            return rowsInserted > 0;
-        } catch (SQLException e) {
-            System.err.println("Erreur SQL (ajout) : " + e.getMessage());
-            return false;
-        }
+    String sql = "INSERT INTO abonnement (codeclient, codejournal, dateexpiration, etat) VALUES (?, ?, ?, ?)";
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, abonnement.getEntreprise().getCodeClient());
+        stmt.setInt(2, abonnement.getJournal().getCodeJournal());  // assure-toi que getIdJournal() existe
+        stmt.setDate(3, java.sql.Date.valueOf(abonnement.getDateExpiration()));
+        stmt.setBoolean(4, abonnement.estActif());
+
+        int rowsInserted = stmt.executeUpdate();
+        return rowsInserted > 0;
+    } catch (SQLException e) {
+        System.err.println("Erreur SQL (ajout abonnement) : " + e.getMessage());
+        return false;
     }
+}
+
 
     // Read By id
     public static Abonnement getAbonnementById(int id) {
         String sql = "SELECT * FROM abonnement WHERE idabonnement = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
+            
             if (rs.next()) {
-                return new Abonnement(
-                        rs.getInt("idabonnement"),
-                        rs.getString("codeclient"),
-                        rs.getString("codejournal"),
-                        rs.getString("datedebut"),
-                        rs.getString("dateexpiration"),
-                        rs.getInt("etat"));
+                int idAbonnement = rs.getInt("idabonnement");
+                int codeClient = rs.getInt("codeclient");
+                int codeJournal = rs.getInt("codejournal");
+                LocalDate dateExpiration = rs.getDate("dateexpiration").toLocalDate();
+                boolean etat = rs.getBoolean("etat");
+    
+                Entreprise entreprise = EntrepriseDAO.getEntrepriseById(codeClient); // à créer
+                Journal journal = JournalDAO.getJournalById(codeJournal);           // à créer
+    
+                return new Abonnement( idAbonnement, entreprise, journal, null, dateExpiration, etat);
             }
         } catch (SQLException e) {
-            System.err.println("Erreur SQL (lecture par id) : " + e.getMessage());
+            System.err.println("Erreur SQL (getAbonnementById) : " + e.getMessage());
         }
         return null;
     }
+    
 
     // Read (tous les abonnements)
     public static List<Abonnement> getAllAbonnements() {
         List<Abonnement> abonnements = new ArrayList<>();
         String sql = "SELECT * FROM abonnement";
         try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql);
-                ResultSet rs = stmt.executeQuery()) {
+             PreparedStatement stmt = conn.prepareStatement(sql);
+             ResultSet rs = stmt.executeQuery()) {
+    
             while (rs.next()) {
-                Abonnement a = new Abonnement(
-                        rs.getInt("idabonnement"),
-                        rs.getString("codeclient"),
-                        rs.getString("codejournal"),
-                        rs.getString("datedebut"),
-                        rs.getString("dateexpiration"),
-                        rs.getInt("etat"));
-                abonnements.add(a);
+                int id = rs.getInt("idabonnement");
+                int codeClient = rs.getInt("codeclient");
+                int codeJournal = rs.getInt("codejournal");
+                LocalDate dateExpiration = rs.getDate("dateexpiration").toLocalDate();
+                boolean actif = rs.getBoolean("etat");
+    
+                Entreprise entreprise = EntrepriseDAO.getEntrepriseById(codeClient);
+                Journal journal = JournalDAO.getJournalById(codeJournal);
+    
+                Abonnement abonnement = new Abonnement(id, entreprise, journal, null, dateExpiration, actif);
+                abonnements.add(abonnement);
             }
         } catch (SQLException e) {
-            System.err.println("Erreur SQL (lecture all) : " + e.getMessage());
+            System.err.println("Erreur SQL (getAllAbonnements) : " + e.getMessage());
         }
         return abonnements;
     }
 
     // Update
     public static boolean modifierAbonnement(Abonnement abonnement) {
-        String sql = "UPDATE abonnement SET codeclient = ?, codeJournal = ?, datedebut = ?, dateexpiration = ?, etat = ? WHERE idabonnement = ?";
+        String sql = "UPDATE abonnement SET codeclient = ?, codejournal = ?, dateexpiration = ?, etat = ? WHERE idabonnement = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setString(1, abonnement.getCodeClient());
-            stmt.setString(2, abonnement.getCodeJournal());
-            stmt.setString(3, LocalDate.now().toString());
-            stmt.setString(4, abonnement.getDateExpiration());
-            stmt.setInt(5, abonnement.estActif());
-            stmt.setInt(6, abonnement.getIdAbonnement());
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    
+            stmt.setInt(1, abonnement.getEntreprise().getCodeClient());  // Utilisation de l'objet Entreprise
+            stmt.setInt(2, abonnement.getJournal().getCodeJournal());      // Utilisation de l'objet Journal
+            stmt.setDate(3, java.sql.Date.valueOf(abonnement.getDateExpiration()));  // Conversion LocalDate -> Date SQL
+            stmt.setBoolean(4, abonnement.estActif());                   // État actif
+            stmt.setInt(5, abonnement.getIdAbonnement());               // L'ID de l'abonnement à modifier
+    
             int rowsUpdated = stmt.executeUpdate();
             return rowsUpdated > 0;
         } catch (SQLException e) {
-            System.err.println("Erreur SQL (modification) : " + e.getMessage());
+            System.err.println("Erreur SQL (modification abonnement) : " + e.getMessage());
             return false;
         }
     }
-
-    // Delete
+    
+    //Delete
     public static boolean supprimerAbonnement(int id) {
         String sql = "DELETE FROM abonnement WHERE idabonnement = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement stmt = conn.prepareStatement(sql)) {
-            stmt.setInt(1, id);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+    
+            stmt.setInt(1, id);  // L'ID de l'abonnement à supprimer
+    
             int rowsDeleted = stmt.executeUpdate();
             return rowsDeleted > 0;
         } catch (SQLException e) {
-            System.err.println("Erreur SQL (suppression) : " + e.getMessage());
+            System.err.println("Erreur SQL (suppression abonnement) : " + e.getMessage());
             return false;
         }
     }
 
+
     public static void main(String[] args) {
-
-        //Entreprise entreprise = new Entreprise(1, "Rue X", "0611223344", "Ma Société", "Informatique");
-        // Journal journal = new Journal(1, "Le Monde", "Hebdomadaire", "Français", 2);
-
-        Abonnement nouvelleAbonnement = new Abonnement(getEntrepriseById(1), getJournalById(1), LocalDate.now().toString(), "2026-03-03", 1);
-
-        if (ajouterAbonnement(nouvelleAbonnement)) {
-            System.out.println("Abonnement ajoutee");
+        // Exemple de mise à jour d'un abonnement
+        Abonnement abonnement = AbonnementDAO.getAbonnementById(1);
+        if (abonnement != null) {
+            abonnement.setDateExpiration(LocalDate.now().plusMonths(12));  // Exemple de mise à jour de la date d'expiration
+            boolean updated = AbonnementDAO.modifierAbonnement(abonnement);
+            System.out.println("Abonnement mis à jour ? " + updated);
         }
-
-        Abonnement abonnement1 = getAbonnementById(1);
-        if (abonnement1 != null) {
-            System.out.println("abonnement trouvee : " + abonnement1);
-        }
-
-        List<Abonnement> allAbonnements = getAllAbonnements();
-        System.out.println("Toutes les Abonnements :");
-        for (Abonnement a : allAbonnements) {
-            System.out.println(a);
-        }
-
-        Abonnement abonnement2 = getAbonnementById(2);
-        if (abonnement2 != null) {
-            abonnement2.setCodeJournal("Francais");
-            if (modifierAbonnement(abonnement2)) {
-                System.out.println("abonnement modifiee");
-            }
-        }
-
-        if (supprimerAbonnement(2)) {
-            System.out.println("Abonnement Suprimee");
-        }
+    
+        // Exemple de suppression d'un abonnement
+        boolean deleted = AbonnementDAO.supprimerAbonnement(2);  // Suppression de l'abonnement avec id = 2
+        System.out.println("Abonnement supprimé ? " + deleted);
     }
 }
