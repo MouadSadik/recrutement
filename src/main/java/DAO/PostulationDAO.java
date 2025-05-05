@@ -1,0 +1,94 @@
+package main.java.DAO;
+
+import main.java.classes.Postulation;
+import main.java.classes.OffreEmploi;
+import main.java.classes.Edition;
+import main.java.classes.Demandeur;
+import main.java.utils.DatabaseConnection;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class PostulationDAO {
+
+    // Ajouter une postulation
+    public static void addPostulation(Postulation postulation) throws SQLException {
+        String sql = "INSERT INTO Postulation (codeClient, numOffre, codeJournal, numEdition, datePostulation) " +
+                     "VALUES (?, ?, ?, ?, ?)";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, postulation.getDemandeur().getCodeClient());
+            statement.setInt(2, postulation.getOffreEmploi().getNumOffre());
+            statement.setInt(3, postulation.getEdition().getCodeJournal());
+            statement.setInt(4, postulation.getEdition().getNumEdition());
+            statement.setDate(5, postulation.getDatePostulation());
+
+            statement.executeUpdate();
+        }
+    }
+
+    // Récupérer une postulation par son id
+    public static Postulation getPostulationById(int idPostulation) throws SQLException {
+        String sql = "SELECT * FROM Postulation WHERE idPostulation = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, idPostulation);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                if (resultSet.next()) {
+                    return mapResultSetToPostulation(resultSet);
+                }
+            }
+        }
+        return null;
+    }
+
+    // Récupérer toutes les postulations
+    public static List<Postulation> getAllPostulations() throws SQLException {
+        String sql = "SELECT * FROM Postulation";
+        List<Postulation> postulations = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql);
+             ResultSet resultSet = statement.executeQuery()) {
+
+            while (resultSet.next()) {
+                Postulation postulation = mapResultSetToPostulation(resultSet);
+                postulations.add(postulation);
+            }
+        }
+        return postulations;
+    }
+
+    // Supprimer une postulation
+    public static void deletePostulation(int idPostulation) throws SQLException {
+        String sql = "DELETE FROM Postulation WHERE idPostulation = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, idPostulation);
+            statement.executeUpdate();
+        }
+    }
+
+    // Mapper un ResultSet vers une instance de Postulation
+    private static Postulation mapResultSetToPostulation(ResultSet resultSet) throws SQLException {
+        int idPostulation = resultSet.getInt("idPostulation");
+        Date datePostulation = resultSet.getDate("datePostulation");
+        int codeClient = resultSet.getInt("codeClient");
+        int numOffre = resultSet.getInt("numOffre");
+        int codeJournal = resultSet.getInt("codeJournal");
+        int numEdition = resultSet.getInt("numEdition");
+
+        Demandeur demandeur = DemandeurDAO.getDemandeurById(codeClient);
+        OffreEmploi offreEmploi = OffreEmploiDAO.getOffreEmploiById(numOffre);
+        Edition edition = EditionDAO.getEditionById(codeJournal, numEdition);
+
+        return new Postulation(idPostulation, datePostulation, offreEmploi, demandeur, edition);
+    }
+}
