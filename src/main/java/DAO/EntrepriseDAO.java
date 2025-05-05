@@ -211,7 +211,7 @@ public class EntrepriseDAO {
         boolean ajout = EntrepriseDAO.ajouterEntreprise(e);
         System.out.println("Ajout réussi ? " + ajout);
 
-        // 🔹 3. Affichage
+        /*// 🔹 3. Affichage
         System.out.println("\nEntreprises enregistrées :");
         List<Entreprise> entreprises = EntrepriseDAO.getAllEntreprises();
         for (Entreprise ent : entreprises) {
@@ -243,7 +243,7 @@ public class EntrepriseDAO {
         entreprises = EntrepriseDAO.getAllEntreprises();
         for (Entreprise ent : entreprises) {
             System.out.println(ent);
-        }
+        }*/
 
         System.out.println("\n==== FIN TEST ====");
     }
