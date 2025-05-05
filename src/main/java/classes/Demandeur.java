@@ -6,7 +6,6 @@ import java.util.List;
 public class Demandeur extends Client {
     private String nom;
     private String prenom;
-    private String fax;
     private int anneeExp;
     private double salaiireSouhaite;
     private String diplome;
@@ -14,12 +13,11 @@ public class Demandeur extends Client {
     
 
 
-    public Demandeur(int codeClient,String adresse, String tel, String nom, String prenom, String fax, int anneeExp,
+    public Demandeur(int codeClient,String adresse, String tel, String nom, String prenom, int anneeExp,
             double salaiireSouhaite, String diplome) {
                 super(codeClient, adresse, tel);
         this.nom = nom;
         this.prenom = prenom;
-        this.fax = fax;
         this.anneeExp = anneeExp;
         this.salaiireSouhaite = salaiireSouhaite;
         this.diplome = diplome;
@@ -42,13 +40,7 @@ public class Demandeur extends Client {
         this.prenom = prenom;
     }
 
-    public String getFax() {
-        return fax;
-    }
 
-    public void setFax(String fax) {
-        this.fax = fax;
-    }
 
     public int getAnneeExp() {
         return anneeExp;
