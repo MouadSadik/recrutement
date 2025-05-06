@@ -56,6 +56,4 @@ public class Entreprise extends Client {
             ", abonnements='" + getAbonnements() + "'" +
             "}";
     }
-
-
 }
