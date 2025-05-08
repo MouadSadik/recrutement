@@ -7,10 +7,12 @@ public class Abonnement {
     private Journal journal;
     private OffreEmploi offreEmploi;
     private int idAbonnement;
+    private LocalDate dateDebut;
     private LocalDate dateExpiration;
     private boolean actif;
 
 
+    // pour cree une nouvelle abonnement
     public Abonnement(Entreprise entreprise, Journal journal, OffreEmploi offreEmploi, int idAbonnement, LocalDate dateExpiration, boolean actif) {
         this.entreprise = entreprise;
         this.journal = journal;
@@ -18,16 +20,18 @@ public class Abonnement {
         this.idAbonnement = idAbonnement;
         this.dateExpiration = dateExpiration;
         this.actif = actif;
+        this.dateDebut=LocalDate.now();
     }
 
     // utiliser dans DAO
-    public Abonnement(int idAbonnement, Entreprise entreprise, Journal journal, OffreEmploi offreEmploi, LocalDate dateExpiration, boolean actif) {
+    public Abonnement(int idAbonnement, Entreprise entreprise, Journal journal, OffreEmploi offreEmploi,LocalDate dateDebut, LocalDate dateExpiration, boolean actif) {
         this.idAbonnement = idAbonnement;
         this.entreprise = entreprise;
         this.journal = journal;
         this.offreEmploi = offreEmploi;
         this.dateExpiration = dateExpiration;
         this.actif = actif;
+        this.dateDebut=dateDebut;
     }
 
 
@@ -63,6 +67,14 @@ public class Abonnement {
         this.idAbonnement = idAbonnement;
     }
 
+    public LocalDate getDateDebut() {
+		return dateDebut;
+	}
+
+	public void setDateDebut(LocalDate dateDebut) {
+		this.dateDebut = dateDebut;
+    }
+
     public LocalDate getDateExpiration() {
         return dateExpiration;
     }
@@ -83,4 +95,9 @@ public class Abonnement {
         this.actif = false;
     }
 
+    @Override
+	public String toString() {
+		return "Abonnement [entreprise=" + entreprise + ", journal=" + journal + ", offreEmploi=" + offreEmploi
+				+ ", idAbonnement=" + idAbonnement + ", dateExpiration=" + dateExpiration + ", actif=" + actif + "]";
+	}
 }

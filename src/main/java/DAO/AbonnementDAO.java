@@ -8,22 +8,31 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+<<<<<<< HEAD
 import main.java.models.Abonnement;
 import main.java.models.Entreprise;
 import main.java.models.Journal;
+=======
+import main.java.classes.Entreprise;
+import main.java.classes.Journal;
+// import main.java.DAO.*;
+// import main.java.classes.OffreEmploi;
+import main.java.classes.Abonnement;
+>>>>>>> 6423bac4aa4183ab5702e7ba7e354a3598097fd0
 import main.java.utils.DatabaseConnection;
 
 public class AbonnementDAO {
     // Create
     public static boolean ajouterAbonnement(Abonnement abonnement) {
-    String sql = "INSERT INTO abonnement (codeclient, codejournal, dateexpiration, etat) VALUES (?, ?, ?, ?)";
+    String sql = "INSERT INTO abonnement (codeclient, codejournal, datedebut, dateexpiration, etat) VALUES (?, ?, ?, ?, ?)";
     try (Connection conn = DatabaseConnection.getConnection();
          PreparedStatement stmt = conn.prepareStatement(sql)) {
 
         stmt.setInt(1, abonnement.getEntreprise().getCodeClient());
-        stmt.setInt(2, abonnement.getJournal().getCodeJournal());  // assure-toi que getIdJournal() existe
-        stmt.setDate(3, java.sql.Date.valueOf(abonnement.getDateExpiration()));
-        stmt.setBoolean(4, abonnement.estActif());
+        stmt.setInt(2, abonnement.getJournal().getCodeJournal()); 
+        stmt.setDate(3, java.sql.Date.valueOf(abonnement.getDateDebut()));
+        stmt.setDate(4, java.sql.Date.valueOf(abonnement.getDateExpiration()));
+        stmt.setBoolean(5, abonnement.estActif());
 
         int rowsInserted = stmt.executeUpdate();
         return rowsInserted > 0;
@@ -47,13 +56,14 @@ public class AbonnementDAO {
                 int idAbonnement = rs.getInt("idabonnement");
                 int codeClient = rs.getInt("codeclient");
                 int codeJournal = rs.getInt("codejournal");
+                LocalDate dateDebut = rs.getDate("datedebut").toLocalDate();
                 LocalDate dateExpiration = rs.getDate("dateexpiration").toLocalDate();
                 boolean etat = rs.getBoolean("etat");
     
                 Entreprise entreprise = EntrepriseDAO.getEntrepriseById(codeClient); // à créer
                 Journal journal = JournalDAO.getJournalById(codeJournal);           // à créer
     
-                return new Abonnement( idAbonnement, entreprise, journal, null, dateExpiration, etat);
+                return new Abonnement( idAbonnement, entreprise, journal, null, dateDebut, dateExpiration, etat);
             }
         } catch (SQLException e) {
             System.err.println("Erreur SQL (getAbonnementById) : " + e.getMessage());
@@ -74,13 +84,14 @@ public class AbonnementDAO {
                 int id = rs.getInt("idabonnement");
                 int codeClient = rs.getInt("codeclient");
                 int codeJournal = rs.getInt("codejournal");
+                LocalDate dateDebut = rs.getDate("datedebut").toLocalDate();
                 LocalDate dateExpiration = rs.getDate("dateexpiration").toLocalDate();
                 boolean actif = rs.getBoolean("etat");
     
                 Entreprise entreprise = EntrepriseDAO.getEntrepriseById(codeClient);
                 Journal journal = JournalDAO.getJournalById(codeJournal);
     
-                Abonnement abonnement = new Abonnement(id, entreprise, journal, null, dateExpiration, actif);
+                Abonnement abonnement = new Abonnement(id, entreprise, journal, null,dateDebut, dateExpiration, actif);
                 abonnements.add(abonnement);
             }
         } catch (SQLException e) {
@@ -123,20 +134,5 @@ public class AbonnementDAO {
             System.err.println("Erreur SQL (suppression abonnement) : " + e.getMessage());
             return false;
         }
-    }
-
-
-    public static void main(String[] args) {
-        // Exemple de mise à jour d'un abonnement
-        Abonnement abonnement = AbonnementDAO.getAbonnementById(1);
-        if (abonnement != null) {
-            abonnement.setDateExpiration(LocalDate.now().plusMonths(12));  // Exemple de mise à jour de la date d'expiration
-            boolean updated = AbonnementDAO.modifierAbonnement(abonnement);
-            System.out.println("Abonnement mis à jour ? " + updated);
-        }
-    
-        // Exemple de suppression d'un abonnement
-        boolean deleted = AbonnementDAO.supprimerAbonnement(2);  // Suppression de l'abonnement avec id = 2
-        System.out.println("Abonnement supprimé ? " + deleted);
     }
 }
