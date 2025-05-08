@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.classes.Entreprise;
+import main.java.models.Entreprise;
 import main.java.utils.DatabaseConnection;
 
 public class EntrepriseDAO {

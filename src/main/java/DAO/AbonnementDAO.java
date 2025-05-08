@@ -8,10 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.classes.Entreprise;
-import main.java.classes.Journal;
-// import main.java.classes.OffreEmploi;
-import main.java.classes.Abonnement;
+import main.java.models.Abonnement;
+import main.java.models.Entreprise;
+import main.java.models.Journal;
 import main.java.utils.DatabaseConnection;
 
 public class AbonnementDAO {

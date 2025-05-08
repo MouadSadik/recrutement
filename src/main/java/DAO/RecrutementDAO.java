@@ -1,8 +1,8 @@
 package main.java.DAO;
 
-import main.java.classes.Recrutement;
-import main.java.classes.Demandeur;
-import main.java.classes.OffreEmploi;
+import main.java.models.Demandeur;
+import main.java.models.OffreEmploi;
+import main.java.models.Recrutement;
 import main.java.utils.DatabaseConnection;
 
 import java.sql.*;

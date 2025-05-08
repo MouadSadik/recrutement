@@ -1,8 +1,8 @@
 package main.java.DAO;
 
-import main.java.classes.OffreEmploi;
-import main.java.classes.Edition;
-import main.java.classes.Abonnement;
+import main.java.models.Abonnement;
+import main.java.models.Edition;
+import main.java.models.OffreEmploi;
 import main.java.utils.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;

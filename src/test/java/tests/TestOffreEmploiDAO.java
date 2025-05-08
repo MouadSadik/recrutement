@@ -6,8 +6,8 @@ import java.util.List;
 import main.java.DAO.AbonnementDAO;
 import main.java.DAO.EditionDAO;
 import main.java.DAO.OffreEmploiDAO;
-import main.java.classes.Abonnement;
-import main.java.classes.OffreEmploi;
+import main.java.models.Abonnement;
+import main.java.models.OffreEmploi;
 
 public class TestOffreEmploiDAO {
     public static void main(String[] args) {

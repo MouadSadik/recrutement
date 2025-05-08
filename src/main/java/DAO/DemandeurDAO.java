@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.classes.Demandeur;
+import main.java.models.Demandeur;
 import main.java.utils.DatabaseConnection;
 
 public class DemandeurDAO {

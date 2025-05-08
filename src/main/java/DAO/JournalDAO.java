@@ -7,8 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.classes.CategorieJournal;
-import main.java.classes.Journal;
+import main.java.models.CategorieJournal;
+import main.java.models.Journal;
 import main.java.utils.DatabaseConnection;
 
 public class JournalDAO {

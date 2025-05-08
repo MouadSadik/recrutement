@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.classes.CategorieJournal;
+import main.java.models.CategorieJournal;
 import main.java.utils.DatabaseConnection;
 
 public class CategorieJournalDAO {

@@ -1,6 +1,6 @@
 package main.java.DAO;
 
-import main.java.classes.Client;
+import main.java.models.Client;
 import main.java.utils.DatabaseConnection;
 
 import java.sql.*;

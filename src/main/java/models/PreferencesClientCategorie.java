@@ -1,4 +1,4 @@
-package main.java.classes;
+package main.java.models;
 
 public class PreferencesClientCategorie {
     private Client client;

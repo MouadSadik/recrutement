@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.classes.Edition;
-import main.java.classes.Journal;
+import main.java.models.Edition;
+import main.java.models.Journal;
 import main.java.utils.DatabaseConnection;
 
 public class EditionDAO {

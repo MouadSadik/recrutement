@@ -1,6 +1,6 @@
 package test.java.tests;
 import main.java.DAO.EntrepriseDAO;
-import main.java.classes.Entreprise;
+import main.java.models.Entreprise;
 
 public class TestEntrepriseDAO {
 

@@ -1,4 +1,4 @@
-package main.java.classes;
+package main.java.models;
 
 public abstract class Client {
     protected int codeClient;
