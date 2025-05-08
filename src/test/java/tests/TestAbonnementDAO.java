@@ -3,7 +3,7 @@ package test.java.tests;
 // import java.time.LocalDate;
 
 import main.java.DAO.AbonnementDAO;
-import main.java.classes.Abonnement;
+import main.java.models.Abonnement;
 
 public class TestAbonnementDAO {
     
