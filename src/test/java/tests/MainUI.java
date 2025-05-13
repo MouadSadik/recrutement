@@ -1,6 +1,7 @@
-package main.java.ui;
+package test.java.tests;
 
 import javax.swing.*;
+
 import java.awt.*;
 
 public class MainUI extends JFrame {
