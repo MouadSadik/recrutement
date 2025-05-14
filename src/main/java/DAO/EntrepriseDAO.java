@@ -15,16 +15,17 @@ public class EntrepriseDAO {
     public static boolean ajouterEntreprise(Entreprise entreprise) {
         String sqlClient = "INSERT INTO client (adresse, telephone) VALUES (?, ?)";
         String sqlEntreprise = "INSERT INTO entreprise (codeclient, raisonsociale, descriptionactivites) VALUES (?, ?, ?)";
-    
+
         try (Connection conn = DatabaseConnection.getConnection()) {
             conn.setAutoCommit(false); // Début de transaction
-    
+
             // Insertion dans la table client
-            try (PreparedStatement psClient = conn.prepareStatement(sqlClient, PreparedStatement.RETURN_GENERATED_KEYS)) {
+            try (PreparedStatement psClient = conn.prepareStatement(sqlClient,
+                    PreparedStatement.RETURN_GENERATED_KEYS)) {
                 psClient.setString(1, entreprise.getAdresse());
                 psClient.setString(2, entreprise.getTelephone());
                 psClient.executeUpdate();
-    
+
                 ResultSet generatedKeys = psClient.getGeneratedKeys();
                 if (generatedKeys.next()) {
                     int idClient = generatedKeys.getInt(1);
@@ -34,14 +35,14 @@ public class EntrepriseDAO {
                     throw new SQLException("Échec de la création du client : aucun ID généré.");
                 }
             }
-    
+
             // Insertion dans la table entreprise
             try (PreparedStatement stmt = conn.prepareStatement(sqlEntreprise)) {
                 stmt.setInt(1, entreprise.getCodeClient());
                 stmt.setString(2, entreprise.getRaisonSociale());
                 stmt.setString(3, entreprise.getDescriptionActivite());
                 int rowsInserted = stmt.executeUpdate();
-    
+
                 if (rowsInserted > 0) {
                     conn.commit(); // Tout s'est bien passé
                     return true;
@@ -50,7 +51,7 @@ public class EntrepriseDAO {
                     return false;
                 }
             }
-    
+
         } catch (SQLException e) {
             System.err.println("Erreur SQL (ajout entreprise) : " + e.getMessage());
             return false;
@@ -60,22 +61,21 @@ public class EntrepriseDAO {
     // Read By id
     public static Entreprise getEntrepriseById(int id) {
         String sql = "SELECT c.codeclient, c.adresse, c.telephone, e.raisonsociale, e.descriptionactivites " +
-                     "FROM client c JOIN entreprise e ON c.codeclient = e.codeclient WHERE c.codeclient = ?";
-    
+                "FROM client c JOIN entreprise e ON c.codeclient = e.codeclient WHERE c.codeclient = ?";
+
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-    
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
-    
+
             if (rs.next()) {
                 return new Entreprise(
-                    rs.getInt("codeclient"),
-                    rs.getString("adresse"),
-                    rs.getString("telephone"),
-                    rs.getString("raisonsociale"),
-                    rs.getString("descriptionactivites")
-                );
+                        rs.getInt("codeclient"),
+                        rs.getString("adresse"),
+                        rs.getString("telephone"),
+                        rs.getString("raisonsociale"),
+                        rs.getString("descriptionactivites"));
             }
         } catch (SQLException e) {
             System.err.println("Erreur SQL (lecture entreprise par ID) : " + e.getMessage());
@@ -109,27 +109,27 @@ public class EntrepriseDAO {
     public static boolean modifierEntreprise(Entreprise entreprise) {
         String sqlClient = "UPDATE client SET adresse = ?, telephone = ? WHERE codeclient = ?";
         String sqlEntreprise = "UPDATE entreprise SET raisonsociale = ?, descriptionactivites = ? WHERE codeclient = ?";
-    
+
         Connection conn = null;
         PreparedStatement psClient = null;
         PreparedStatement psEntreprise = null;
-    
+
         try {
             conn = DatabaseConnection.getConnection();
             conn.setAutoCommit(false);
-    
+
             psClient = conn.prepareStatement(sqlClient);
             psClient.setString(1, entreprise.getAdresse());
             psClient.setString(2, entreprise.getTelephone());
             psClient.setInt(3, entreprise.getCodeClient());
             int rowsUpdated1 = psClient.executeUpdate();
-    
+
             psEntreprise = conn.prepareStatement(sqlEntreprise);
             psEntreprise.setString(1, entreprise.getRaisonSociale());
             psEntreprise.setString(2, entreprise.getDescriptionActivite());
             psEntreprise.setInt(3, entreprise.getCodeClient());
             int rowsUpdated2 = psEntreprise.executeUpdate();
-    
+
             if (rowsUpdated1 > 0 && rowsUpdated2 > 0) {
                 conn.commit();
                 return true;
@@ -140,15 +140,28 @@ public class EntrepriseDAO {
         } catch (SQLException e) {
             System.err.println("Erreur SQL (modification entreprise) : " + e.getMessage());
             try {
-                if (conn != null) conn.rollback();
+                if (conn != null)
+                    conn.rollback();
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
             return false;
         } finally {
-            try { if (psClient != null) psClient.close(); } catch (Exception e) {}
-            try { if (psEntreprise != null) psEntreprise.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            try {
+                if (psClient != null)
+                    psClient.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (psEntreprise != null)
+                    psEntreprise.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+            }
         }
     }
 
@@ -185,7 +198,8 @@ public class EntrepriseDAO {
 
         } catch (SQLException ex) {
             try {
-                if (conn != null) conn.rollback();
+                if (conn != null)
+                    conn.rollback();
             } catch (SQLException e2) {
                 e2.printStackTrace();
             }
@@ -193,27 +207,57 @@ public class EntrepriseDAO {
             return false;
 
         } finally {
-            try { if (psEntreprise != null) psEntreprise.close(); } catch (Exception e) {}
-            try { if (psClient != null) psClient.close(); } catch (Exception e) {}
-            try { if (conn != null) conn.close(); } catch (Exception e) {}
+            try {
+                if (psEntreprise != null)
+                    psEntreprise.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (psClient != null)
+                    psClient.close();
+            } catch (Exception e) {
+            }
+            try {
+                if (conn != null)
+                    conn.close();
+            } catch (Exception e) {
+            }
         }
     }
 
+    public static Entreprise getEntrepriseParNom(String nom) {
+        Entreprise entreprise = null;
+        // Correction : utiliser la colonne "raisonsociale" et joindre les tables si
+        // nécessaire
+        String sql = "SELECT c.codeclient, c.adresse, c.telephone, e.raisonsociale, e.descriptionactivites " +
+                "FROM client c JOIN entreprise e ON c.codeclient = e.codeclient " +
+                "WHERE e.raisonsociale = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nom);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Entreprise(
+                        rs.getInt("codeclient"),
+                        rs.getString("adresse"),
+                        rs.getString("telephone"),
+                        rs.getString("raisonsociale"),
+                        rs.getString("descriptionactivites"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return entreprise;
+    }
 
     public static boolean verifierEntrepriseParNom(String nom) {
-    String sql = "SELECT * FROM entreprise WHERE raisonsociale = ?";
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setString(1, nom);
-        ResultSet rs = stmt.executeQuery();
-        return rs.next(); // existe ou pas
-    } catch (SQLException e) {
-        System.err.println("Erreur SQL (vérification entreprise) : " + e.getMessage());
-        return false;
+        return getEntrepriseParNom(nom) != null;
     }
-}
-
-
 
     public static void main(String[] args) {
 
@@ -226,42 +270,46 @@ public class EntrepriseDAO {
         boolean ajout = EntrepriseDAO.ajouterEntreprise(e);
         System.out.println("Ajout réussi ? " + ajout);
 
-        /*// 🔹 3. Affichage
-        System.out.println("\nEntreprises enregistrées :");
-        List<Entreprise> entreprises = EntrepriseDAO.getAllEntreprises();
-        for (Entreprise ent : entreprises) {
-            System.out.println(ent);
-        }
+        /*
+         * // 🔹 3. Affichage
+         * System.out.println("\nEntreprises enregistrées :");
+         * List<Entreprise> entreprises = EntrepriseDAO.getAllEntreprises();
+         * for (Entreprise ent : entreprises) {
+         * System.out.println(ent);
+         * }
+         * 
+         * // 🔹 4. Modification
+         * e.setAdresse("456 Avenue du Numérique");
+         * e.setTelephone("0987654321");
+         * e.setRaisonSociale("TechCorp International");
+         * e.setDescriptionActivite("Informatique & IA");
+         * 
+         * boolean modif = EntrepriseDAO.modifierEntreprise(e);
+         * System.out.println("\nModification réussie ? " + modif);
+         * 
+         * // 🔹 5. Affichage après modification
+         * System.out.println("\nEntreprises après modification :");
+         * entreprises = EntrepriseDAO.getAllEntreprises();
+         * for (Entreprise ent : entreprises) {
+         * System.out.println(ent);
+         * }
+         * 
+         * // 🔹 6. Suppression
+         * boolean suppr = EntrepriseDAO.supprimerEntreprise(e.getCodeClient());
+         * System.out.println("\nSuppression réussie ? " + suppr);
+         * 
+         * // 🔹 7. Affichage final
+         * System.out.println("\nEntreprises après suppression :");
+         * entreprises = EntrepriseDAO.getAllEntreprises();
+         * for (Entreprise ent : entreprises) {
+         * System.out.println(ent);
+         * }
+         */
 
-        // 🔹 4. Modification
-        e.setAdresse("456 Avenue du Numérique");
-        e.setTelephone("0987654321");
-        e.setRaisonSociale("TechCorp International");
-        e.setDescriptionActivite("Informatique & IA");
-
-        boolean modif = EntrepriseDAO.modifierEntreprise(e);
-        System.out.println("\nModification réussie ? " + modif);
-
-        // 🔹 5. Affichage après modification
-        System.out.println("\nEntreprises après modification :");
-        entreprises = EntrepriseDAO.getAllEntreprises();
-        for (Entreprise ent : entreprises) {
-            System.out.println(ent);
-        }
-
-        // 🔹 6. Suppression
-        boolean suppr = EntrepriseDAO.supprimerEntreprise(e.getCodeClient());
-        System.out.println("\nSuppression réussie ? " + suppr);
-
-        // 🔹 7. Affichage final
-        System.out.println("\nEntreprises après suppression :");
-        entreprises = EntrepriseDAO.getAllEntreprises();
-        for (Entreprise ent : entreprises) {
-            System.out.println(ent);
-        }*/
-
-        System.out.println(verifierEntrepriseParNom("Mouad"));
+        System.out.println(verifierEntrepriseParNom("MouadTech"));
+        System.out.println(getEntrepriseParNom("MouadTech"));
 
         System.out.println("\n==== FIN TEST ====");
     }
+
 }
