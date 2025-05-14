@@ -200,6 +200,21 @@ public class EntrepriseDAO {
     }
 
 
+    public static boolean verifierEntrepriseParNom(String nom) {
+    String sql = "SELECT * FROM entreprise WHERE raisonsociale = ?";
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setString(1, nom);
+        ResultSet rs = stmt.executeQuery();
+        return rs.next(); // existe ou pas
+    } catch (SQLException e) {
+        System.err.println("Erreur SQL (vérification entreprise) : " + e.getMessage());
+        return false;
+    }
+}
+
+
+
     public static void main(String[] args) {
 
         System.out.println("==== TEST ENTREPRISE DAO ====");
@@ -244,6 +259,8 @@ public class EntrepriseDAO {
         for (Entreprise ent : entreprises) {
             System.out.println(ent);
         }*/
+
+        System.out.println(verifierEntrepriseParNom("Mouad"));
 
         System.out.println("\n==== FIN TEST ====");
     }

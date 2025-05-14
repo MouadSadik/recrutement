@@ -2,20 +2,21 @@ package main.java.models;
 
 import java.sql.Date;
 // import java.time.LocalDate;
+import java.time.LocalDate;
 
 public class Edition {
     private int numEdition;
-    private Date dateParution;
+    private LocalDate dateParution;
     private int codeJournal;
 
-    public Edition(int numEdition, int codeJournal, Date dateparution){
+    public Edition(int numEdition, int codeJournal, LocalDate dateParution2){
         this.numEdition = numEdition;
-        this.dateParution = dateparution;
+        this.dateParution = dateParution2;
         this.codeJournal = codeJournal;
     }
 
     //getters
-    public Date getDateParution() {
+    public LocalDate getDateParution() {
         return dateParution;
     }
 
@@ -28,7 +29,7 @@ public class Edition {
     }
 
     //setters
-    public void setDateParution(Date dateParution) {
+    public void setDateParution(LocalDate dateParution) {
         this.dateParution = dateParution;
     }
 
