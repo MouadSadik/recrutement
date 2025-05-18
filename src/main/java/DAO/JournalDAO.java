@@ -50,7 +50,7 @@ public class JournalDAO {
         return null;
     }
 
-    // Read (tous les journals)
+    // Read (all journals)
     public static List<Journal> getAllJournals() {
         List<Journal> journals = new ArrayList<>();
         String sql = "SELECT * FROM journal";
