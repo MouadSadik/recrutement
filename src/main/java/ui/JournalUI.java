@@ -51,7 +51,10 @@ public class JournalUI extends JFrame {
             });
 
         JPanel topPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        topPanel.add(ajouterButton);
+
+
+        // topPanel.add(ajouterButton);
+
         // Ajout bouton dans le panneau supérieur
 
         topPanel.add(rechercherButton);
