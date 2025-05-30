@@ -27,8 +27,7 @@ Elle permet aux entreprises de publier des offres, consulter et gérer les candi
 
 ## Capture d’écran
 
-![Interface principale](./screenshots/interface_principale.png)  
-*Exemple de l’interface principale pour les entreprises*
+![Interface principale](./imgs/image.png)  
 
 ---
 
