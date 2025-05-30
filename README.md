@@ -35,19 +35,13 @@ Elle permet aux entreprises de publier des offres, consulter et gérer les candi
 
 - **Langage :** Java 17  
 - **Interface graphique :** Java Swing  
-- **Base de données :** MySQL 8+  
+- **Base de données :** PostgreSql
 - **Connexion DB :** JDBC avec DAO Pattern  
-- **Outils de gestion DB :** pgAdmin, MySQL Workbench  
+- **Outils de gestion DB :** Supabase 
 - **Gestion de versions :** Git  
 
 ---
 
-## Architecture
-
-L’application est organisée selon une architecture MVC (Modèle-Vue-Contrôleur) pour une séparation claire des responsabilités.
-
-
----
 
 ## 🛢 Base de Données
 
