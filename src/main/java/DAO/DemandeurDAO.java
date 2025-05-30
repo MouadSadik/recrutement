@@ -193,6 +193,33 @@ public class DemandeurDAO {
         return demandeurs;
     }
 
+    public static Demandeur getDemandeurByNom(String nom) throws SQLException {
+    String sql = "SELECT * FROM Demandeur WHERE nom = ?";
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement statement = conn.prepareStatement(sql)) {
+
+        statement.setString(1, nom);
+
+        try (ResultSet rs = statement.executeQuery()) {
+            if (rs.next()) {
+                return new Demandeur(
+                    rs.getInt("codeClient"),
+                    rs.getString("adresse"),
+                    rs.getString("tel"),
+                    rs.getString("nom"),
+                    rs.getString("prenom"),
+                    rs.getInt("nbanneesexperience"),
+                    rs.getDouble("salairesouhaite"),
+                    rs.getString("diplome")
+                );
+            }
+        }
+    }
+    return null;
+}
+
+
     public static void main(String[] args) {
 
         System.out.println("==== TEST DEMANDEUR DAO ====");

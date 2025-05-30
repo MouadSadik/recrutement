@@ -47,7 +47,7 @@ public class ConnexionEntrepriseUI extends JFrame {
             if (EntrepriseDAO.verifierEntrepriseParNom(nom)) {
                 JOptionPane.showMessageDialog(this, "Connexion réussie !");
                 dispose();
-                new InterfaceEntrepriseEspace(nom); // ⬅️ Passe bien le nom ici
+                new InterfaceEntrepriseEspace(nom); // ⬅ Passe bien le nom ici
             } else {
                 JOptionPane.showMessageDialog(this, "Entreprise introuvable.");
             }

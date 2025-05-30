@@ -72,6 +72,31 @@ public class RecrutementDAO {
         }
     }
 
+    public static List<Recrutement> getRecrutementsByEntreprise(String nomEntreprise) throws SQLException {
+    String sql = """
+        SELECT r.* FROM Recrutement r
+        JOIN OffreEmploi o ON r.numOffre = o.numOffre
+        JOIN Abonnement a ON o.idAbonnement = a.idAbonnement
+        JOIN Entreprise e ON a.idEntreprise = e.idEntreprise
+        WHERE e.nom = ?
+    """;
+
+    List<Recrutement> recrutements = new ArrayList<>();
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setString(1, nomEntreprise);
+        try (ResultSet rs = stmt.executeQuery()) {
+            while (rs.next()) {
+                recrutements.add(mapResultSetToRecrutement(rs));
+            }
+        }
+    }
+    return recrutements;
+}
+
+
     // Mapper un ResultSet vers une instance de Recrutement
     private static Recrutement mapResultSetToRecrutement(ResultSet resultSet) throws SQLException {
         int idRecrutement = resultSet.getInt("idRecrutement");

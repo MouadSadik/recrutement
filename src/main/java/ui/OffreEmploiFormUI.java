@@ -120,6 +120,8 @@ public class OffreEmploiFormUI extends JFrame {
         editionComboBox.setSelectedIndex(0);
     }
 
+    
+
     public static void main(String[] args) {
         SwingUtilities.invokeLater(OffreEmploiFormUI::new);
     }

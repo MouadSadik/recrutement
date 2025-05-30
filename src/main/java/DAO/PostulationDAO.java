@@ -16,7 +16,7 @@ public class PostulationDAO {
     public static void addPostulation(Postulation postulation) throws SQLException {
         String sql = "INSERT INTO Postulation (codeClient, numOffre, codeJournal, numEdition, datePostulation) " +
                      "VALUES (?, ?, ?, ?, ?)";
-
+                     
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement statement = conn.prepareStatement(sql)) {
 
@@ -75,6 +75,31 @@ public class PostulationDAO {
             statement.executeUpdate();
         }
     }
+
+        public static List<Postulation> getPostulationsByEntreprise(String nomEntreprise) throws SQLException {
+            String sql = """
+                SELECT p.* FROM Postulation p
+                JOIN OffreEmploi o ON p.numOffre = o.numOffre
+                JOIN Abonnement a ON o.idAbonnement = a.idAbonnement
+                JOIN Entreprise e ON a.idEntreprise = e.idEntreprise
+                WHERE e.nom = ?
+            """;
+
+        List<Postulation> postulations = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nomEntreprise);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    postulations.add(mapResultSetToPostulation(rs));
+                }
+            }
+        }
+        return postulations;
+    }
+
 
     // Mapper un ResultSet vers une instance de Postulation
     private static Postulation mapResultSetToPostulation(ResultSet resultSet) throws SQLException {

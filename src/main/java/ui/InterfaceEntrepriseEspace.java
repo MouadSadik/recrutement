@@ -15,21 +15,20 @@ public class InterfaceEntrepriseEspace extends JFrame {
     public InterfaceEntrepriseEspace(String raisonSociale) {
         setTitle("Espace Entreprise");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(800, 600);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
-        // 🔎 Debug : afficher le nom reçu
-        System.out.println("Raison sociale reçue : " + raisonSociale);
-
+        // Vérifier la validité du nom de l’entreprise
         if (raisonSociale == null || raisonSociale.trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Nom de l'entreprise manquant !");
             dispose();
             return;
         }
 
+        // Récupérer l’entreprise
         Entreprise entreprise = EntrepriseDAO.getEntrepriseParNom(raisonSociale.trim());
         if (entreprise == null) {
-            JOptionPane.showMessageDialog(this, "Entreprise non trouvée");
+            JOptionPane.showMessageDialog(this, "Entreprise non trouvée !");
             dispose();
             return;
         }
@@ -38,21 +37,41 @@ public class InterfaceEntrepriseEspace extends JFrame {
         JPanel panel = new JPanel(new BorderLayout(10, 10));
         panel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
-        // 🔷 Haut : Infos entreprise
-        JPanel infoPanel = new JPanel(new GridLayout(3, 1));
+        //  Haut : Infos entreprise + boutons
+        JPanel infoPanel = new JPanel(new BorderLayout());
         infoPanel.setBorder(BorderFactory.createTitledBorder("Informations Entreprise"));
 
-        JLabel lblNom = new JLabel("📌 Raison sociale : " + entreprise.getRaisonSociale());
-        JLabel lblActivite = new JLabel("💼 Activités : " + entreprise.getDescriptionActivite());
-        JLabel lblAbos = new JLabel("🔢 Abonnements actifs : " + entreprise.getAbonnements());
+        // Infos entreprise (à gauche)
+        JPanel infos = new JPanel(new GridLayout(3, 1));
+        infos.add(new JLabel(" Raison sociale : " + entreprise.getRaisonSociale()));
+        infos.add(new JLabel(" Activités : " + entreprise.getDescriptionActivite()));
+        infos.add(new JLabel(" Abonnements actifs : " + entreprise.getAbonnements()));
 
-        infoPanel.add(lblNom);
-        infoPanel.add(lblActivite);
-        infoPanel.add(lblAbos);
+        // Boutons (à droite)
+        JPanel boutonsPanel = new JPanel(new GridLayout(2, 1, 5, 5));
+        JButton btnCreerOffre = new JButton("Créer Offre");
+        JButton btnGererCandidats = new JButton("Gérer Candidatures");
 
-        // 🔶 Centre : Offres
+        // ➡ Actions des boutons
+        btnCreerOffre.addActionListener(e -> {
+            dispose();
+            new OffreEmploiFormUI(); // On passe l’objet Entreprise pour pré-remplir
+        });
+
+        btnGererCandidats.addActionListener(e -> {
+            dispose();
+            new GestionCandidatsUI(entreprise.getRaisonSociale());
+        });
+
+        boutonsPanel.add(btnCreerOffre);
+        boutonsPanel.add(btnGererCandidats);
+
+        infoPanel.add(infos, BorderLayout.CENTER);
+        infoPanel.add(boutonsPanel, BorderLayout.EAST);
+
+        //  Centre : tableau des offres
         JPanel offresPanel = new JPanel(new BorderLayout());
-        offresPanel.setBorder(BorderFactory.createTitledBorder("📊 Offres publiées"));
+        offresPanel.setBorder(BorderFactory.createTitledBorder(" Offres publiées"));
 
         String[] colonnes = {"Titre", "Compétences", "État"};
         DefaultTableModel model = new DefaultTableModel(colonnes, 0);
@@ -61,7 +80,7 @@ public class InterfaceEntrepriseEspace extends JFrame {
         for (OffreEmploi offre : offres) {
             model.addRow(new Object[]{
                 offre.getTitre(),
-                offre.getCompetences(), // ou getDescription si c’est plutôt ça
+                offre.getCompetences(),
                 offre.getEtat() == EtatOffre.ACTIVE ? "Active" : "Désactivée"
             });
         }
@@ -70,7 +89,7 @@ public class InterfaceEntrepriseEspace extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
         offresPanel.add(scrollPane, BorderLayout.CENTER);
 
-        // 🔙 Bas : Bouton retour
+        //  Bas : Bouton retour
         JPanel basPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         JButton btnRetour = new JButton("Retour");
         btnRetour.addActionListener(e -> {
@@ -87,9 +106,4 @@ public class InterfaceEntrepriseEspace extends JFrame {
         add(panel);
         setVisible(true);
     }
-
-    // Pour test en local
-    /*public static void main(String[] args) {
-        new InterfaceEntrepriseEspace("TechCorp");
-    }*/
 }
