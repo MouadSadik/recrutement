@@ -27,7 +27,7 @@ Elle permet aux entreprises de publier des offres, consulter et gérer les candi
 
 ## Capture d’écran
 
-![Interface principale](./imgs/image.png)  
+![Interface principale](./imgs/image.png)
 
 ---
 
