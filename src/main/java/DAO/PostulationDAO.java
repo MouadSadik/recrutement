@@ -15,10 +15,10 @@ public class PostulationDAO {
     // Ajouter une postulation
     public static void addPostulation(Postulation postulation) throws SQLException {
         String sql = "INSERT INTO Postulation (codeClient, numOffre, codeJournal, numEdition, datePostulation) " +
-                     "VALUES (?, ?, ?, ?, ?)";
+                "VALUES (?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setInt(1, postulation.getDemandeur().getCodeClient());
             statement.setInt(2, postulation.getOffreEmploi().getNumOffre());
@@ -35,7 +35,7 @@ public class PostulationDAO {
         String sql = "SELECT * FROM Postulation WHERE idPostulation = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setInt(1, idPostulation);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -47,14 +47,32 @@ public class PostulationDAO {
         return null;
     }
 
+    public static List<Postulation> getAllPostulationsByDemandeur(int idClient) throws SQLException {
+        String sql = "SELECT * FROM Postulation WHERE codeClient = ?";
+        List<Postulation> postulations = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, idClient);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Postulation postulation = mapResultSetToPostulation(resultSet);
+                    postulations.add(postulation);
+                }
+            }
+        }
+        return postulations;
+    }
+
     // Récupérer toutes les postulations
     public static List<Postulation> getAllPostulations() throws SQLException {
         String sql = "SELECT * FROM Postulation";
         List<Postulation> postulations = new ArrayList<>();
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+                PreparedStatement statement = conn.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 Postulation postulation = mapResultSetToPostulation(resultSet);
@@ -69,7 +87,7 @@ public class PostulationDAO {
         String sql = "DELETE FROM Postulation WHERE idPostulation = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setInt(1, idPostulation);
             statement.executeUpdate();

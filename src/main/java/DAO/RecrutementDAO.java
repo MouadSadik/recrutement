@@ -16,7 +16,7 @@ public class RecrutementDAO {
         String sql = "INSERT INTO Recrutement (numOffre, codeClient, dateRecrutement) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setInt(1, recrutement.getOffreEmploi().getNumOffre());
             statement.setInt(2, recrutement.getDemandeur().getCodeClient());
@@ -31,7 +31,7 @@ public class RecrutementDAO {
         String sql = "SELECT * FROM Recrutement WHERE idRecrutement = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setInt(1, idRecrutement);
             try (ResultSet resultSet = statement.executeQuery()) {
@@ -49,8 +49,8 @@ public class RecrutementDAO {
         List<Recrutement> recrutements = new ArrayList<>();
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+                PreparedStatement statement = conn.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()) {
 
             while (resultSet.next()) {
                 Recrutement recrutement = mapResultSetToRecrutement(resultSet);
@@ -65,11 +65,29 @@ public class RecrutementDAO {
         String sql = "DELETE FROM Recrutement WHERE idRecrutement = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setInt(1, idRecrutement);
             statement.executeUpdate();
         }
+    }
+
+    public static List<Recrutement> getAllRecrutementsByDemandeur(int idClient) throws SQLException {
+        String sql = "SELECT * FROM Recrutement WHERE codeClient = ?";
+        List<Recrutement> recrutements = new ArrayList<>();
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement statement = conn.prepareStatement(sql)) {
+
+            statement.setInt(1, idClient);
+            try (ResultSet resultSet = statement.executeQuery()) {
+                while (resultSet.next()) {
+                    Recrutement recrutement = mapResultSetToRecrutement(resultSet);
+                    recrutements.add(recrutement);
+                }
+            }
+        }
+        return recrutements;
     }
 
     // Mapper un ResultSet vers une instance de Recrutement

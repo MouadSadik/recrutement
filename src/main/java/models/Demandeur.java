@@ -62,6 +62,7 @@ public class Demandeur extends Client {
         return diplome;
     }
 
+
     public void setDiplome(String diplome) {
         this.diplome = diplome;
     }
