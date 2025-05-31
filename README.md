@@ -1,28 +1,48 @@
-# 🏢 Agence de Recrutement
+# Projet Agence de Recrutement
 
-Application Java de gestion d'une agence de recrutement, reliant entreprises, demandeurs d'emploi et journaux.
+## Description
 
----
-
-## 🚀 Technologies utilisées
-
-- **Java SE** – développement de la logique métier
-- **JavaFX** – création de l'interface graphique
-- **MySQL** – base de données relationnelle
-- **Maven** – gestion du projet et des dépendances
+Ce projet est une application desktop Java Swing pour une agence de recrutement.  
+Elle permet aux entreprises de publier des offres, consulter et gérer les candidatures, et aux candidats de postuler et suivre leurs démarches.  
 
 ---
 
-## 📚 Fonctionnalités principales
+## Fonctionnalités principales
 
-- Gestion des clients : entreprises et demandeurs d’emploi.
-- Gestion des abonnements aux journaux pour les entreprises.
-- Publication d’offres d’emploi.
-- Postulation des demandeurs aux offres.
-- Suivi des recrutements.
-- Administration des journaux, éditions et catégories.
+- **Pour les entreprises :**  
+  - Publication, modification et suppression des offres d’emploi  
+  - Consultation et filtrage des candidatures reçues  
+  - Recrutement et suivi des candidats  
+  - Visualisation de l’historique des recrutements  
+  - Gestion du profil entreprise
+
+- **Pour les candidats :**  
+  - Inscription et gestion de profil  
+  - Consultation des offres d’emploi disponibles  
+  - Postulation en ligne avec CV et lettre de motivation  
+  - Suivi du statut des candidatures  
+  - Notifications des nouvelles offres correspondant au profil
 
 ---
+
+## Capture d’écran
+
+![Interface principale](./imgs/image.png)
+
+
+---
+
+## Technologies utilisées
+
+- **Langage :** Java 17  
+- **Interface graphique :** Java Swing  
+- **Base de données :** PostgreSql
+- **Connexion DB :** JDBC avec DAO Pattern  
+- **Outils de gestion DB :** Supabase 
+- **Gestion de versions :** Git  
+
+---
+
 
 ## 🛢 Base de Données
 

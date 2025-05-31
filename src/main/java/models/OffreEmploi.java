@@ -40,7 +40,11 @@ public class OffreEmploi {
 		this.recrutements = new ArrayList<>();
 	}
 
-	// Getters et Setters
+	public OffreEmploi(int i, Journal journal, String nom, int duree, double prix) {
+        //TODO Auto-generated constructor stub
+    }
+
+    // Getters et Setters
 	public int getNumOffre() {
 		return numOffre;
 	}

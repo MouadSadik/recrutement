@@ -1,6 +1,7 @@
 package main.java.models;
 
 import java.sql.Date;
+// import java.time.LocalDate;
 import java.time.LocalDate;
 
 public class Edition {
@@ -8,9 +9,9 @@ public class Edition {
     private LocalDate dateParution;
     private int codeJournal;
 
-    public Edition(int numEdition, int codeJournal, LocalDate dateparution){
+    public Edition(int numEdition, int codeJournal, LocalDate dateParution2){
         this.numEdition = numEdition;
-        this.dateParution = dateparution;
+        this.dateParution = dateParution2;
         this.codeJournal = codeJournal;
     }
 

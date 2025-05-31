@@ -3,6 +3,7 @@ package main.java.DAO;
 import main.java.models.Abonnement;
 import main.java.models.Edition;
 import main.java.models.OffreEmploi;
+import main.java.models.OffreEmploi.EtatOffre;
 import main.java.utils.DatabaseConnection;
 import java.sql.*;
 import java.util.ArrayList;
@@ -12,11 +13,12 @@ public class OffreEmploiDAO {
 
     // Ajouter une offre d'emploi
     public static void addOffreEmploi(OffreEmploi offreEmploi) throws SQLException {
-        String sql = "INSERT INTO OffreEmploi (titre, competences, nbAnneeExperienceDemandee, nbPostes, etat, idAbonnement, codeJournal, numEdition) " +
-                     "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO OffreEmploi (titre, competences, nbAnneeExperienceDemandee, nbPostes, etat, idAbonnement, codeJournal, numEdition) "
+                +
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setString(1, offreEmploi.getTitre());
             statement.setString(2, offreEmploi.getCompetences());
@@ -36,7 +38,7 @@ public class OffreEmploiDAO {
         String sql = "SELECT * FROM OffreEmploi WHERE numOffre = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
             statement.setInt(1, numOffre);
             try (ResultSet resultSet = statement.executeQuery()) {
                 if (resultSet.next()) {
@@ -53,8 +55,8 @@ public class OffreEmploiDAO {
         List<OffreEmploi> offresEmploi = new ArrayList<>();
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql);
-             ResultSet resultSet = statement.executeQuery()) {
+                PreparedStatement statement = conn.prepareStatement(sql);
+                ResultSet resultSet = statement.executeQuery()) {
             while (resultSet.next()) {
                 OffreEmploi offreEmploi = mapResultSetToOffreEmploi(resultSet);
                 offresEmploi.add(offreEmploi);
@@ -65,11 +67,12 @@ public class OffreEmploiDAO {
 
     // Mettre à jour une offre d'emploi
     public static void updateOffreEmploi(OffreEmploi offreEmploi) throws SQLException {
-        String sql = "UPDATE OffreEmploi SET titre = ?, competences = ?, nbAnneeExperienceDemandee = ?, nbPostes = ?, " +
-                     "etat = ?, idAbonnement = ?, codeJournal = ?, numEdition = ? WHERE numOffre = ?";
+        String sql = "UPDATE OffreEmploi SET titre = ?, competences = ?, nbAnneeExperienceDemandee = ?, nbPostes = ?, "
+                +
+                "etat = ?, idAbonnement = ?, codeJournal = ?, numEdition = ? WHERE numOffre = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
 
             statement.setString(1, offreEmploi.getTitre());
             statement.setString(2, offreEmploi.getCompetences());
@@ -90,7 +93,7 @@ public class OffreEmploiDAO {
         String sql = "DELETE FROM OffreEmploi WHERE numOffre = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement statement = conn.prepareStatement(sql)) {
+                PreparedStatement statement = conn.prepareStatement(sql)) {
             statement.setInt(1, numOffre);
             statement.executeUpdate();
         }
@@ -112,6 +115,87 @@ public class OffreEmploiDAO {
         Edition edition = EditionDAO.getEditionById(codeJournal, numEdition);
         Abonnement abonnement = AbonnementDAO.getAbonnementById(idAbonnement);
 
-        return new OffreEmploi(numOffre, titre, competences, nbAnneeExperienceDemandee, nbPostes, etat, edition, abonnement);
+        return new OffreEmploi(numOffre, titre, competences, nbAnneeExperienceDemandee, nbPostes, etat, edition,
+                abonnement);
     }
+
+    public static List<OffreEmploi> getOffresParEntreprise(int entrepriseId) {
+        List<OffreEmploi> offres = new ArrayList<>();
+        String sql = "SELECT * FROM offreemploi WHERE numoffre = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, entrepriseId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int numOffre = rs.getInt("numoffre");
+                String titre = rs.getString("titre");
+                String competences = rs.getString("competences");
+                int nbAnneeExperience = rs.getInt("nbanneeexperiencedemandee");
+                int nbPostes = rs.getInt("nbpostes");
+                int codeJournal = rs.getInt("codejournal");
+
+                EtatOffre etat = EtatOffre.valueOf(rs.getString("etat"));
+
+                int editionId = rs.getInt("numedition");
+                Edition edition = EditionDAO.getEditionById(codeJournal, editionId);
+
+                int abonnementId = rs.getInt("idabonnement");
+                Abonnement abonnement = AbonnementDAO.getAbonnementById(abonnementId);
+
+                // Création de l'objet OffreEmploi
+                OffreEmploi offre = new OffreEmploi(
+                        numOffre,
+                        titre,
+                        competences,
+                        nbAnneeExperience,
+                        nbPostes,
+                        etat,
+                        edition,
+                        abonnement);
+
+                offres.add(offre);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return offres;
+    }
+
+    public static OffreEmploi getOffreEmploiByTitre(String titre) throws SQLException {
+    String sql = "SELECT * FROM OffreEmploi WHERE titre = ?";
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement statement = conn.prepareStatement(sql)) {
+
+        statement.setString(1, titre);
+
+        try (ResultSet rs = statement.executeQuery()) {
+            if (rs.next()) {
+                int numOffre = rs.getInt("numOffre");
+                String competences = rs.getString("competences");
+                int nbAnneeExp = rs.getInt("nbAnneeExperienceDemandee");
+                int nbPostes = rs.getInt("nbPostes");
+                EtatOffre etat = EtatOffre.valueOf(rs.getString("etat"));
+
+                int codeJournal = rs.getInt("codeJournal");
+                int numEdition = rs.getInt("numEdition");
+                Edition edition = EditionDAO.getEditionById(codeJournal, numEdition);
+
+                int idAbonnement = rs.getInt("idAbonnement");
+                Abonnement abonnement = AbonnementDAO.getAbonnementById(idAbonnement);
+
+                return new OffreEmploi(numOffre, titre, competences, nbAnneeExp, nbPostes, etat, edition, abonnement);
+            }
+        }
+    }
+    return null;
+}
+
+
+
 }
