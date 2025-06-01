@@ -3,9 +3,9 @@ package main.java.ui;
 import javax.swing.*;
 import java.awt.*;
 
-public class DetailJournalFrame extends JFrame {
+    public class DetailJournalFrame extends JFrame {
 
-    public DetailJournalFrame(String nom, String langue, int idCategorie) {
+    public DetailJournalFrame(int codeJournal, String nom, String langue, int idCategorie) {
         setTitle("Détail du Journal");
         setSize(300, 250);
         setLocationRelativeTo(null);
@@ -16,19 +16,23 @@ public class DetailJournalFrame extends JFrame {
         JLabel langueLabel = new JLabel("Langue : " + langue);
         JLabel categorieLabel = new JLabel("ID Catégorie : " + idCategorie);
 
-        // Layout
-        setLayout(new GridLayout(4, 1));
+        setLayout(new GridLayout(5, 1));
         add(nomLabel);
         add(langueLabel);
         add(categorieLabel);
 
-        // Ajouter le bouton de modification
         JButton modifierButton = new JButton("Modifier");
         modifierButton.addActionListener(e -> {
             new ModifierJournalFrame(nom, langue, idCategorie).setVisible(true);
-            dispose();  // Fermer la fenêtre de détail
+            dispose();
+        });
+
+        JButton voirEditionsButton = new JButton("Voir les Éditions");
+        voirEditionsButton.addActionListener(e -> {
+            new EditionUI(codeJournal).setVisible(true);
         });
 
         // add(modifierButton);
+        add(voirEditionsButton);
     }
 }

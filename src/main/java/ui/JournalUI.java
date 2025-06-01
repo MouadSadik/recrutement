@@ -40,7 +40,7 @@ public class JournalUI extends JFrame {
                         int id = Integer.parseInt(idStr);
                         Journal journal = JournalDAO.getJournalById(id);
                         if (journal != null) {
-                            new DetailJournalFrame(journal.getNomJournal(), journal.getLangue(), journal.getIdCategorie()).setVisible(true);
+                            new DetailJournalFrame(journal.getCodeJournal(),journal.getNomJournal(), journal.getLangue(), journal.getIdCategorie()).setVisible(true);
                         } else {
                             JOptionPane.showMessageDialog(this, "Aucun journal trouvé avec cet ID.", "Erreur", JOptionPane.ERROR_MESSAGE);
                         }
@@ -69,17 +69,22 @@ public class JournalUI extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         // Listener de clic sur la ligne
-        table.getSelectionModel().addListSelectionListener(event -> {
-            if (!event.getValueIsAdjusting() && table.getSelectedRow() != -1) {
-                int selectedRow = table.getSelectedRow();
-                String nom = table.getValueAt(selectedRow, 1).toString();
-                String langue = table.getValueAt(selectedRow, 3).toString();
-                int idCategorie = Integer.parseInt(table.getValueAt(selectedRow, 4).toString());
+        // Listener de clic sur la ligne
+    table.getSelectionModel().addListSelectionListener(event -> {
+        if (!event.getValueIsAdjusting() && table.getSelectedRow() != -1) {
+            int selectedRow = table.getSelectedRow();
 
-                // Ouvre la fenêtre de détail
-                new DetailJournalFrame(nom, langue, idCategorie).setVisible(true);
-            }
-        });
+            // Extract values from selected row
+            int code = Integer.parseInt(table.getValueAt(selectedRow, 0).toString()); // Fix here
+            String nom = table.getValueAt(selectedRow, 1).toString();
+            String langue = table.getValueAt(selectedRow, 3).toString();
+            int idCategorie = Integer.parseInt(table.getValueAt(selectedRow, 4).toString());
+
+            // Ouvre la fenêtre de détail
+            new DetailJournalFrame(code, nom, langue, idCategorie).setVisible(true);
+        }
+});
+
     }
 
     public void rechargerTable() {

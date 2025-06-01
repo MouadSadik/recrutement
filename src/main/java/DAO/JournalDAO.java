@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.models.CategorieJournal;
+//import main.java.models.CategorieJournal;
 import main.java.models.Journal;
 import main.java.utils.DatabaseConnection;
 

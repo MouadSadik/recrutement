@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.models.Edition;
-import main.java.models.Journal;
+//import main.java.models.Journal;
 import main.java.utils.DatabaseConnection;
 
 public class EditionDAO {
@@ -66,12 +66,13 @@ public class EditionDAO {
 
 
     public static Edition getEditionById(int codeJournal, int numEdition) {
-        String sql = "SELECT * FROM edition WHERE codejournal = ? AND numEdition = ?";
+        String sql = "SELECT * FROM edition WHERE numEdition = ? AND codejournal = ? ";
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setInt(1, codeJournal);
-            stmt.setInt(2, numEdition);
+            stmt.setInt(1, numEdition);
+            stmt.setInt(2, codeJournal);
+            
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
@@ -80,8 +81,8 @@ public class EditionDAO {
                 LocalDate dateParution = sqlDate.toLocalDate();
 
                 return new Edition(
-                        rs.getInt("codejournal"),
                         rs.getInt("numEdition"),
+                        rs.getInt("codejournal"),
                         dateParution);
 
             }
@@ -101,8 +102,8 @@ public class EditionDAO {
                 java.sql.Date sqlDate = rs.getDate("dateparution");
                 LocalDate dateParution = sqlDate.toLocalDate();
                 Edition e = new Edition(
-                        rs.getInt("codejournal"),
                         rs.getInt("numEdition"),
+                        rs.getInt("codejournal"),
                         dateParution);
 
                 editions.add(e);
