@@ -27,7 +27,7 @@ public class ClientUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Lancer l'UI de Journal
                 SwingUtilities.invokeLater(() -> {
-                    // new DomendeurUI.java().setVisible(true);
+                     new DemandeurUI().setVisible(true);
                 });
             }
         });
@@ -38,7 +38,7 @@ public class ClientUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Lancer l'UI d'Entreprise
                 SwingUtilities.invokeLater(() -> {
-                    // new InterfaceEntrepriseEspace().setVisible(true);
+                    // new InterfaceEntrepriseEspace("").setVisible(true);
                 });
             }
         });

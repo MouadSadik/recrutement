@@ -1,6 +1,7 @@
 package main.java.ui;
 
 import main.java.DAO.EditionDAO;
+import main.java.DAO.JournalDAO;
 import main.java.models.Edition;
 
 import javax.swing.*;
@@ -15,10 +16,10 @@ public class EditionUI extends JFrame {
     private DefaultTableModel tableModel;
     private int codeJournal;
 
-    public EditionUI(int codeJournal) {
+    public EditionUI(int codeDemandeur, int codeJournal) {
         this.codeJournal = codeJournal;
 
-        setTitle("Éditions du Journal #" + codeJournal);
+        setTitle("Éditions du Journal : " + JournalDAO.getJournalById(codeJournal).getNomJournal());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setSize(800, 400);
         setLocationRelativeTo(null);

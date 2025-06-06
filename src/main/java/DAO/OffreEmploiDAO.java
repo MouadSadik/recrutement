@@ -166,35 +166,56 @@ public class OffreEmploiDAO {
         return offres;
     }
 
+
     public static OffreEmploi getOffreEmploiByTitre(String titre) throws SQLException {
-    String sql = "SELECT * FROM OffreEmploi WHERE titre = ?";
+        String sql = "SELECT * FROM OffreEmploi WHERE titre = ?";
 
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement statement = conn.prepareStatement(sql)) {
 
-        statement.setString(1, titre);
+            statement.setString(1, titre);
 
-        try (ResultSet rs = statement.executeQuery()) {
-            if (rs.next()) {
-                int numOffre = rs.getInt("numOffre");
-                String competences = rs.getString("competences");
-                int nbAnneeExp = rs.getInt("nbAnneeExperienceDemandee");
-                int nbPostes = rs.getInt("nbPostes");
-                EtatOffre etat = EtatOffre.valueOf(rs.getString("etat"));
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    int numOffre = rs.getInt("numOffre");
+                    String competences = rs.getString("competences");
+                    int nbAnneeExp = rs.getInt("nbAnneeExperienceDemandee");
+                    int nbPostes = rs.getInt("nbPostes");
+                    EtatOffre etat = EtatOffre.valueOf(rs.getString("etat"));
 
-                int codeJournal = rs.getInt("codeJournal");
-                int numEdition = rs.getInt("numEdition");
-                Edition edition = EditionDAO.getEditionById(codeJournal, numEdition);
+                    int codeJournal = rs.getInt("codeJournal");
+                    int numEdition = rs.getInt("numEdition");
+                    Edition edition = EditionDAO.getEditionById(codeJournal, numEdition);
 
-                int idAbonnement = rs.getInt("idAbonnement");
-                Abonnement abonnement = AbonnementDAO.getAbonnementById(idAbonnement);
+                    int idAbonnement = rs.getInt("idAbonnement");
+                    Abonnement abonnement = AbonnementDAO.getAbonnementById(idAbonnement);
 
-                return new OffreEmploi(numOffre, titre, competences, nbAnneeExp, nbPostes, etat, edition, abonnement);
+                    return new OffreEmploi(numOffre, titre, competences, nbAnneeExp, nbPostes, etat, edition, abonnement);
+                }
             }
         }
+        return null;
     }
-    return null;
+
+    public static List<OffreEmploi> getOffresParEdition(int codeJournal, int numEdition) throws SQLException {
+    String sql = "SELECT * FROM OffreEmploi WHERE codeJournal = ? AND numEdition = ?";
+    List<OffreEmploi> offres = new ArrayList<>();
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+        stmt.setInt(1, codeJournal);
+        stmt.setInt(2, numEdition);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            offres.add(mapResultSetToOffreEmploi(rs));
+        }
+    }
+
+    return offres;
 }
+
 
 
 

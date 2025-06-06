@@ -15,13 +15,8 @@ public class PostulationDAO {
     // Ajouter une postulation
     public static void addPostulation(Postulation postulation) throws SQLException {
         String sql = "INSERT INTO Postulation (codeClient, numOffre, codeJournal, numEdition, datePostulation) " +
-<<<<<<< HEAD
                 "VALUES (?, ?, ?, ?, ?)";
-
-=======
-                     "VALUES (?, ?, ?, ?, ?)";
                      
->>>>>>> 117a4c9e6ee2cb6ea2376760bb8063b4bbacafe3
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement statement = conn.prepareStatement(sql)) {
 

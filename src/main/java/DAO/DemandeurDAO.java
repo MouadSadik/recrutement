@@ -194,7 +194,10 @@ public class DemandeurDAO {
     }
 
     public static Demandeur getDemandeurByNom(String nom) throws SQLException {
-    String sql = "SELECT * FROM Demandeur WHERE nom = ?";
+    // String sql = "SELECT * FROM Demandeur WHERE nom = ?";
+
+    String sql = "SELECT c.codeclient, c.adresse, c.telephone, d.nom, d.prenom, d.nbanneesexperience, d.salairesouhaite, d.diplome "
+               + "FROM client c JOIN demandeur d ON c.codeclient = d.codeclient WHERE d.nom = ?";
 
     try (Connection conn = DatabaseConnection.getConnection();
          PreparedStatement statement = conn.prepareStatement(sql)) {
@@ -206,7 +209,7 @@ public class DemandeurDAO {
                 return new Demandeur(
                     rs.getInt("codeClient"),
                     rs.getString("adresse"),
-                    rs.getString("tel"),
+                    rs.getString("telephone"),
                     rs.getString("nom"),
                     rs.getString("prenom"),
                     rs.getInt("nbanneesexperience"),

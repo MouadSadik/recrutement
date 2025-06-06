@@ -1,11 +1,14 @@
 package main.java.ui;
 
 import javax.swing.*;
+
+import main.java.DAO.CategorieJournalDAO;
+
 import java.awt.*;
 
     public class DetailJournalFrame extends JFrame {
 
-    public DetailJournalFrame(int codeJournal, String nom, String langue, int idCategorie) {
+    public DetailJournalFrame(int codeDemandeur, int codeJournal, String nom, String langue, int idCategorie) {
         setTitle("Détail du Journal");
         setSize(300, 250);
         setLocationRelativeTo(null);
@@ -14,7 +17,7 @@ import java.awt.*;
         // Labels
         JLabel nomLabel = new JLabel("Nom : " + nom);
         JLabel langueLabel = new JLabel("Langue : " + langue);
-        JLabel categorieLabel = new JLabel("ID Catégorie : " + idCategorie);
+        JLabel categorieLabel = new JLabel("ID Catégorie : " + CategorieJournalDAO.getCategorieById(idCategorie).getLibelle());
 
         setLayout(new GridLayout(5, 1));
         add(nomLabel);
@@ -29,7 +32,7 @@ import java.awt.*;
 
         JButton voirEditionsButton = new JButton("Voir les Éditions");
         voirEditionsButton.addActionListener(e -> {
-            new EditionUI(codeJournal).setVisible(true);
+            new EditionUI(codeDemandeur,codeJournal).setVisible(true);
         });
 
         // add(modifierButton);
