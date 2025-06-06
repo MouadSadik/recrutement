@@ -38,7 +38,7 @@ public class ClientUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 // Lancer l'UI d'Entreprise
                 SwingUtilities.invokeLater(() -> {
-                    // new InterfaceEntrepriseEspace("").setVisible(true);
+                    new AccueilEntrepriseUI().setVisible(true);
                 });
             }
         });

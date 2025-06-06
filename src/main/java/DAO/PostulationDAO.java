@@ -7,26 +7,83 @@ import main.java.models.Postulation;
 import main.java.utils.DatabaseConnection;
 
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 public class PostulationDAO {
 
     // Ajouter une postulation
-    public static void addPostulation(Postulation postulation) throws SQLException {
-        String sql = "INSERT INTO Postulation (codeClient, numOffre, codeJournal, numEdition, datePostulation) " +
-                "VALUES (?, ?, ?, ?, ?)";
-                     
-        try (Connection conn = DatabaseConnection.getConnection();
-                PreparedStatement statement = conn.prepareStatement(sql)) {
 
-            statement.setInt(1, postulation.getDemandeur().getCodeClient());
-            statement.setInt(2, postulation.getOffreEmploi().getNumOffre());
-            statement.setInt(3, postulation.getEdition().getCodeJournal());
-            statement.setInt(4, postulation.getEdition().getNumEdition());
-            statement.setDate(5, postulation.getDatePostulation());
+    public static void ajouterPostulation(int codeDemandeur, int codeJournal, int numEdition, int numOffre) throws SQLException {
+        try (Connection conn = DatabaseConnection.getConnection()) {
+            conn.setAutoCommit(false);
 
-            statement.executeUpdate();
+            try {
+                // 1. Charger l'offre
+                OffreEmploi offre = OffreEmploiDAO.getOffreEmploiById(numOffre);
+                if (offre == null) throw new SQLException("Offre introuvable.");
+
+                // 2. Vérifier que l'offre est ACTIVE
+                if (offre.getEtat() != OffreEmploi.EtatOffre.ACTIVE) {
+                    throw new SQLException("Offre non active.");
+                }
+
+                // 3. Charger le demandeur
+                Demandeur demandeur = DemandeurDAO.getDemandeurById(codeDemandeur);
+                if (demandeur == null) throw new SQLException("Demandeur introuvable.");
+
+                // 4. Vérifier l'expérience
+                if (demandeur.getAnneeExp() < offre.getNbAnneeExperienceDemandee()) {
+                    throw new SQLException("Expérience insuffisante pour postuler à cette offre.");
+                }
+
+                // 5. Compter le nombre de postulations actuelles
+                String countSql = "SELECT COUNT(*) FROM Postulation WHERE numOffre = ?";
+                int nbPostulations = 0;
+
+                try (PreparedStatement countStmt = conn.prepareStatement(countSql)) {
+                    countStmt.setInt(1, numOffre);
+                    try (ResultSet rs = countStmt.executeQuery()) {
+                        if (rs.next()) nbPostulations = rs.getInt(1);
+                    }
+                }
+
+                if (nbPostulations >= offre.getNbPostes()) {
+                    throw new SQLException("Le nombre de postes a déjà été atteint.");
+                }
+
+                // 6. Insérer la postulation
+                String insertSql = "INSERT INTO Postulation (codeClient, numOffre, codeJournal, numEdition, datePostulation) " +
+                                "VALUES (?, ?, ?, ?, ?)";
+
+                try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
+                    insertStmt.setInt(1, codeDemandeur);
+                    insertStmt.setInt(2, numOffre);
+                    insertStmt.setInt(3, codeJournal);
+                    insertStmt.setInt(4, numEdition);
+                    insertStmt.setDate(5, Date.valueOf(LocalDate.now()));
+                    insertStmt.executeUpdate();
+                }
+
+                // 7. Mettre à jour l'état si besoin
+                if (nbPostulations + 1 >= offre.getNbPostes()) {
+                    String updateEtatSql = "UPDATE OffreEmploi SET etat = ? WHERE numOffre = ?";
+                    try (PreparedStatement updateStmt = conn.prepareStatement(updateEtatSql)) {
+                        updateStmt.setString(1, OffreEmploi.EtatOffre.DESACTIVEE.name());
+                        updateStmt.setInt(2, numOffre);
+                        updateStmt.executeUpdate();
+                    }
+                }
+
+                conn.commit();
+
+            } catch (Exception e) {
+                conn.rollback();
+                throw e;
+            } finally {
+                conn.setAutoCommit(true);
+            }
         }
     }
 
@@ -64,6 +121,23 @@ public class PostulationDAO {
         }
         return postulations;
     }
+
+    public static List<OffreEmploi> getPostulationsByDemandeur(int codeDemandeur) throws SQLException {
+    List<OffreEmploi> offres = new ArrayList<>();
+    String sql = "SELECT o.* FROM Postulation p JOIN OffreEmploi o ON p.numOffre = o.numOffre WHERE p.codeClient = ?";
+
+    try (Connection conn = DatabaseConnection.getConnection();
+         PreparedStatement stmt = conn.prepareStatement(sql)) {
+        stmt.setInt(1, codeDemandeur);
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            offres.add(OffreEmploiDAO.getOffreEmploiById(rs.getInt("numOffre")));
+        }
+    }
+    return offres;
+}
+
 
     // Récupérer toutes les postulations
     public static List<Postulation> getAllPostulations() throws SQLException {

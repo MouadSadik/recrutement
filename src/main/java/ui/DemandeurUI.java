@@ -48,23 +48,46 @@ public class DemandeurUI extends JFrame {
                                             "\nExpérience: " + d.getAnneeExp() + " ans" +
                                             "\nSalaire souhaité: " + d.getSalaiireSouhaite();
 
-                            Object[] options = {"liste des journaux", "Fermer"};
+                            Object[] options = {"Liste des journaux", "Mes postulations", "Fermer"};
                             int choice = JOptionPane.showOptionDialog(
                                     null,
                                     message,
                                     "Connexion réussie",
-                                    JOptionPane.YES_NO_OPTION,
+                                    JOptionPane.YES_NO_CANCEL_OPTION,
                                     JOptionPane.INFORMATION_MESSAGE,
                                     null,
                                     options,
                                     options[0]
                             );
 
-                            if (choice == JOptionPane.YES_OPTION) {
+                            if (choice == 0) {
                                 SwingUtilities.invokeLater(() -> {
                                     new JournalUI(d.getCodeClient()).setVisible(true);
                                 });
+                            } else if (choice == 1) {
+                                SwingUtilities.invokeLater(() -> {
+                                    new PostulationsUI(d.getCodeClient()).setVisible(true);
+                                });
                             }
+
+                            // Object[] options = {"liste des journaux", "Fermer"};
+                            
+                            // int choice = JOptionPane.showOptionDialog(
+                            //         null,
+                            //         message,
+                            //         "Connexion réussie",
+                            //         JOptionPane.YES_NO_OPTION,
+                            //         JOptionPane.INFORMATION_MESSAGE,
+                            //         null,
+                            //         options,
+                            //         options[0]
+                            // );
+
+                            // if (choice == JOptionPane.YES_OPTION) {
+                            //     SwingUtilities.invokeLater(() -> {
+                            //         new JournalUI(d.getCodeClient()).setVisible(true);
+                            //     });
+                            // }
                         }
 
                         else {

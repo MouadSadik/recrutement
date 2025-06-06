@@ -1,8 +1,8 @@
 package main.java.ui;
 
-import main.java.DAO.EditionDAO;
-import main.java.DAO.JournalDAO;
+import main.java.DAO.*;
 import main.java.models.Edition;
+import main.java.models.OffreEmploi;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -38,6 +38,19 @@ public class EditionUI extends JFrame {
         add(scrollPane, BorderLayout.CENTER);
 
         loadEditions();
+
+    table.getSelectionModel().addListSelectionListener(event -> {
+        if (!event.getValueIsAdjusting() && table.getSelectedRow() != -1) {
+            int selectedRow = table.getSelectedRow();
+
+            int numEdition = (int) tableModel.getValueAt(selectedRow, 1);
+            OffresEditionUI offresUI = new OffresEditionUI(codeDemandeur, codeJournal, numEdition);
+            offresUI.setVisible(true);
+        }
+    });
+
+
+
     }
 
     private void loadEditions() {
