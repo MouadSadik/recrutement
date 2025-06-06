@@ -15,6 +15,7 @@ public class JournalUI extends JFrame {
     private DefaultTableModel tableModel;
 
     public JournalUI(int codeDemandeur) {
+        
         setTitle("Liste des Journaux");
         // setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 400);
@@ -42,6 +43,7 @@ public class JournalUI extends JFrame {
                         Journal journal = JournalDAO.getJournalById(id);
                         if (journal != null) {
                             new DetailJournalFrame(codeDemandeur, journal.getCodeJournal(),journal.getNomJournal(), journal.getLangue(), journal.getIdCategorie()).setVisible(true);
+                            
                         } else {
                             JOptionPane.showMessageDialog(this, "Aucun journal trouvé avec cet ID.", "Erreur", JOptionPane.ERROR_MESSAGE);
                         }
@@ -71,20 +73,21 @@ public class JournalUI extends JFrame {
 
         // Listener de clic sur la ligne
         // Listener de clic sur la ligne
-    table.getSelectionModel().addListSelectionListener(event -> {
-        if (!event.getValueIsAdjusting() && table.getSelectedRow() != -1) {
-            int selectedRow = table.getSelectedRow();
+        table.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting() && table.getSelectedRow() != -1) {
+                int selectedRow = table.getSelectedRow();
 
-            // Extract values from selected row
-            int code = Integer.parseInt(table.getValueAt(selectedRow, 0).toString()); // Fix here
-            String nom = table.getValueAt(selectedRow, 1).toString();
-            String langue = table.getValueAt(selectedRow, 3).toString();
-            int idCategorie = Integer.parseInt(table.getValueAt(selectedRow, 4).toString());
+                // Extract values from selected row
+                int code = Integer.parseInt(table.getValueAt(selectedRow, 0).toString()); // Fix here
+                String nom = table.getValueAt(selectedRow, 1).toString();
+                String langue = table.getValueAt(selectedRow, 3).toString();
+                // String Categorie = table.getValueAt(selectedRow, 4).toString();
 
-            // Ouvre la fenêtre de détail
-            new DetailJournalFrame(codeDemandeur, code, nom, langue, idCategorie).setVisible(true);
-        }
-});
+                // Ouvre la fenêtre de détail
+                // CategorieJournalDAO.getCategorieByIdJournal(code);
+                new DetailJournalFrame(codeDemandeur, code, nom, langue, CategorieJournalDAO.getCategorieByIdJournal(code)).setVisible(true);
+            }
+        });
 
     }
 
