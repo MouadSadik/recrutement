@@ -1,130 +1,211 @@
 package main.java.DAO;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import main.java.models.Abonnement;
+import main.java.utils.DatabaseConnection;
+
+import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import main.java.models.Abonnement;
-import main.java.models.Entreprise;
-import main.java.models.Journal;
-import main.java.utils.DatabaseConnection;
-
 public class AbonnementDAO {
-    // Create
-    public static boolean ajouterAbonnement(Abonnement abonnement) {
-    String sql = "INSERT INTO abonnement (codeclient, codejournal, datedebut, dateexpiration, etat) VALUES (?, ?, ?, ?, ?)";
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        stmt.setInt(1, abonnement.getEntreprise().getCodeClient());
-        stmt.setInt(2, abonnement.getJournal().getCodeJournal()); 
-        stmt.setDate(3, java.sql.Date.valueOf(abonnement.getDateDebut()));
-        stmt.setDate(4, java.sql.Date.valueOf(abonnement.getDateExpiration()));
-        stmt.setBoolean(5, abonnement.estActif());
+    // Ajouter un abonnement
+    public static boolean ajouterAbonnement(int codeClient, int codeJournal, int nbrMois) {
+        String sql = "INSERT INTO abonnement (codeclient, codejournal, datedebut, dateexpiration, etat) VALUES (?, ?, ?, ?, ?)";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-        int rowsInserted = stmt.executeUpdate();
-        return rowsInserted > 0;
-    } catch (SQLException e) {
-        System.err.println("Erreur SQL (ajout abonnement) : " + e.getMessage());
-        return false;
+            LocalDate dateDebut = LocalDate.now();
+            LocalDate dateExpiration = dateDebut.plusMonths(nbrMois);
+
+            stmt.setInt(1, codeClient);
+            stmt.setInt(2, codeJournal);
+            stmt.setDate(3, Date.valueOf(dateDebut));
+            stmt.setDate(4, Date.valueOf(dateExpiration));
+            stmt.setBoolean(5, true);
+
+            int rowsInserted = stmt.executeUpdate();
+            return rowsInserted > 0;
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL (ajout abonnement) : " + e.getMessage());
+            return false;
+        }
     }
-}
 
-
-    // Read By id
-    public static Abonnement getAbonnementById(int id) {
+    // Lire un abonnement par ID
+    public static Abonnement getAbonnementById(int idAbonnement) {
         String sql = "SELECT * FROM abonnement WHERE idabonnement = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-            
-            stmt.setInt(1, id);
+
+            stmt.setInt(1, idAbonnement);
             ResultSet rs = stmt.executeQuery();
-            
+
             if (rs.next()) {
-                int idAbonnement = rs.getInt("idabonnement");
-                int codeClient = rs.getInt("codeclient");
-                int codeJournal = rs.getInt("codejournal");
-                LocalDate dateDebut = rs.getDate("datedebut").toLocalDate();
-                LocalDate dateExpiration = rs.getDate("dateexpiration").toLocalDate();
-                boolean etat = rs.getBoolean("etat");
-    
-                Entreprise entreprise = EntrepriseDAO.getEntrepriseById(codeClient); // à créer
-                Journal journal = JournalDAO.getJournalById(codeJournal);           // à créer
-    
-                return new Abonnement( idAbonnement, entreprise, journal, null, dateDebut, dateExpiration, etat);
+                return new Abonnement(
+                    rs.getInt("idabonnement"),
+                    rs.getInt("codeclient"),
+                    rs.getInt("codejournal"),
+                    rs.getDate("datedebut").toLocalDate(),
+                    rs.getDate("dateexpiration").toLocalDate(),
+                    rs.getBoolean("etat")
+                );
             }
+
         } catch (SQLException e) {
-            System.err.println("Erreur SQL (getAbonnementById) : " + e.getMessage());
+            System.err.println("Erreur SQL (lecture abonnement par ID) : " + e.getMessage());
         }
         return null;
     }
-    
 
-    // Read (tous les abonnements)
+    // Vérifie si un client est abonné à un journal
+    public static Abonnement getAbonnementActif(int codeClient, int codeJournal) {
+        String sql = "SELECT * FROM abonnement WHERE codeclient = ? AND codejournal = ? AND etat = true AND dateexpiration > CURRENT_DATE";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, codeClient);
+            stmt.setInt(2, codeJournal);
+
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return new Abonnement(
+                    rs.getInt("idabonnement"),
+                    rs.getInt("codeclient"),
+                    rs.getInt("codejournal"),
+                    rs.getDate("datedebut").toLocalDate(),
+                    rs.getDate("dateexpiration").toLocalDate(),
+                    rs.getBoolean("etat")
+                );
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL (recherche abonnement actif) : " + e.getMessage());
+        }
+        return null;
+    }
+
+    // Liste de tous les abonnements
     public static List<Abonnement> getAllAbonnements() {
         List<Abonnement> abonnements = new ArrayList<>();
         String sql = "SELECT * FROM abonnement";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql);
              ResultSet rs = stmt.executeQuery()) {
-    
+
             while (rs.next()) {
-                int id = rs.getInt("idabonnement");
-                int codeClient = rs.getInt("codeclient");
-                int codeJournal = rs.getInt("codejournal");
-                LocalDate dateDebut = rs.getDate("datedebut").toLocalDate();
-                LocalDate dateExpiration = rs.getDate("dateexpiration").toLocalDate();
-                boolean actif = rs.getBoolean("etat");
-    
-                Entreprise entreprise = EntrepriseDAO.getEntrepriseById(codeClient);
-                Journal journal = JournalDAO.getJournalById(codeJournal);
-    
-                Abonnement abonnement = new Abonnement(id, entreprise, journal, null,dateDebut, dateExpiration, actif);
-                abonnements.add(abonnement);
+                Abonnement ab = new Abonnement(
+                    rs.getInt("idabonnement"),
+                    rs.getInt("codeclient"),
+                    rs.getInt("codejournal"),
+                    rs.getDate("datedebut").toLocalDate(),
+                    rs.getDate("dateexpiration").toLocalDate(),
+                    rs.getBoolean("etat")
+                );
+                abonnements.add(ab);
             }
+
         } catch (SQLException e) {
-            System.err.println("Erreur SQL (getAllAbonnements) : " + e.getMessage());
+            System.err.println("Erreur SQL (lecture abonnements) : " + e.getMessage());
         }
         return abonnements;
     }
 
-    // Update
-    public static boolean modifierAbonnement(Abonnement abonnement) {
-        String sql = "UPDATE abonnement SET codeclient = ?, codejournal = ?, dateexpiration = ?, etat = ? WHERE idabonnement = ?";
-        try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
-    
-            stmt.setInt(1, abonnement.getEntreprise().getCodeClient());  // Utilisation de l'objet Entreprise
-            stmt.setInt(2, abonnement.getJournal().getCodeJournal());      // Utilisation de l'objet Journal
-            stmt.setDate(3, java.sql.Date.valueOf(abonnement.getDateExpiration()));  // Conversion LocalDate -> Date SQL
-            stmt.setBoolean(4, abonnement.estActif());                   // État actif
-            stmt.setInt(5, abonnement.getIdAbonnement());               // L'ID de l'abonnement à modifier
-    
-            int rowsUpdated = stmt.executeUpdate();
-            return rowsUpdated > 0;
-        } catch (SQLException e) {
-            System.err.println("Erreur SQL (modification abonnement) : " + e.getMessage());
-            return false;
-        }
-    }
-    
-    //Delete
-    public static boolean supprimerAbonnement(int id) {
+    // Supprimer un abonnement
+    public static boolean supprimerAbonnement(int idAbonnement) {
         String sql = "DELETE FROM abonnement WHERE idabonnement = ?";
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
-    
-            stmt.setInt(1, id);  // L'ID de l'abonnement à supprimer
-    
-            int rowsDeleted = stmt.executeUpdate();
-            return rowsDeleted > 0;
+
+            stmt.setInt(1, idAbonnement);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+
         } catch (SQLException e) {
             System.err.println("Erreur SQL (suppression abonnement) : " + e.getMessage());
             return false;
         }
     }
+
+    // Désactiver un abonnement (mettre état à false)
+    public static boolean desactiverAbonnement(int idAbonnement) {
+        String sql = "UPDATE abonnement SET etat = false WHERE idabonnement = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, idAbonnement);
+            int rows = stmt.executeUpdate();
+            return rows > 0;
+
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL (désactivation abonnement) : " + e.getMessage());
+            return false;
+        }
+    }
+
+    public static List<Abonnement> getAbonnementsParClient(int codeClient) {
+        List<Abonnement> abonnements = new ArrayList<>();
+        String sql = "SELECT * FROM abonnement WHERE codeclient = ? AND etat = true";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, codeClient);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                abonnements.add(new Abonnement(
+                        rs.getInt("idabonnement"),
+                        rs.getInt("codeclient"),
+                        rs.getInt("codejournal"),
+                        rs.getDate("datedebut").toLocalDate(),
+                        rs.getDate("dateexpiration").toLocalDate(),
+                        rs.getBoolean("etat")
+                ));
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL (abonnement par client) : " + e.getMessage());
+        }
+
+        return abonnements;
+    }
+
+    public static List<Object[]> getAbonnementsActifsParClient(int codeClient) {
+        List<Object[]> resultats = new ArrayList<>();
+        String sql = """
+            SELECT a.idabonnement, j.codejournal, j.nom, a.datedebut, a.dateexpiration
+            FROM abonnement a
+            JOIN journal j ON a.codejournal = j.codejournal
+            WHERE a.codeclient = ? AND a.etat = true AND a.dateexpiration > CURRENT_DATE
+        """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, codeClient);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Object[] row = new Object[]{
+                    rs.getInt("idabonnement"),
+                    rs.getInt("codejournal"),
+                    rs.getString("nom"),
+                    rs.getDate("datedebut").toLocalDate(),
+                    rs.getDate("dateexpiration").toLocalDate()
+                };
+                resultats.add(row);
+            }
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL (abonnements actifs) : " + e.getMessage());
+        }
+
+        return resultats;
+    }
+
+
+    
+
 }

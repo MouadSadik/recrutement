@@ -208,4 +208,55 @@ public class PostulationDAO {
 
         return new Postulation(idPostulation, datePostulation, offreEmploi, demandeur, edition);
     }
+
+    public static List<Object[]> getPostulationsParOffre(int numOffre) {
+        List<Object[]> postulations = new ArrayList<>();
+
+        String sql = """
+            SELECT p.idpostulation, d.cin, d.nom, d.prenom, d.email, d.telephone, p.etat
+            FROM postulation p
+            JOIN demandeur d ON p.cin = d.cin
+            WHERE p.numoffre = ?
+        """;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, numOffre);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Object[] row = new Object[]{
+                    rs.getInt("idpostulation"),
+                    rs.getString("cin"),
+                    rs.getString("nom"),
+                    rs.getString("prenom"),
+                    rs.getString("email"),
+                    rs.getString("telephone"),
+                    rs.getString("etat")
+                };
+                postulations.add(row);
+            }
+
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL (récupération postulations) : " + e.getMessage());
+        }
+
+        return postulations;
+    }
+
+    public static void mettreAJourEtat(int idPostulation, String nouvelEtat) {
+        String sql = "UPDATE postulation SET etat = ? WHERE idpostulation = ?";
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, nouvelEtat);
+            stmt.setInt(2, idPostulation);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            System.err.println("Erreur SQL (maj état postulation) : " + e.getMessage());
+        }
+    }
+
+    
+
 }

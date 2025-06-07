@@ -3,62 +3,24 @@ package main.java.models;
 import java.time.LocalDate;
 
 public class Abonnement {
-    private Entreprise entreprise;
-    private Journal journal;
-    private OffreEmploi offreEmploi;
     private int idAbonnement;
+    private int codeClient;
+    private int codeJournal;
     private LocalDate dateDebut;
     private LocalDate dateExpiration;
-    private boolean actif;
+    private boolean etat;
 
-
-    // pour cree une nouvelle abonnement
-    public Abonnement(Entreprise entreprise, Journal journal, OffreEmploi offreEmploi, int idAbonnement, LocalDate dateExpiration, boolean actif) {
-        this.entreprise = entreprise;
-        this.journal = journal;
-        this.offreEmploi=offreEmploi;
+    // Constructeur
+    public Abonnement(int idAbonnement, int codeClient, int codeJournal, LocalDate dateDebut, LocalDate dateExpiration, boolean etat) {
         this.idAbonnement = idAbonnement;
+        this.codeClient = codeClient;
+        this.codeJournal = codeJournal;
+        this.dateDebut = dateDebut;
         this.dateExpiration = dateExpiration;
-        this.actif = actif;
-        this.dateDebut=LocalDate.now();
+        this.etat = etat;
     }
 
-    // utiliser dans DAO
-    public Abonnement(int idAbonnement, Entreprise entreprise, Journal journal, OffreEmploi offreEmploi,LocalDate dateDebut, LocalDate dateExpiration, boolean actif) {
-        this.idAbonnement = idAbonnement;
-        this.entreprise = entreprise;
-        this.journal = journal;
-        this.offreEmploi = offreEmploi;
-        this.dateExpiration = dateExpiration;
-        this.actif = actif;
-        this.dateDebut=dateDebut;
-    }
-
-
-    public Entreprise getEntreprise() {
-        return entreprise;
-    }
-
-    public void setEntreprise(Entreprise entreprise) {
-        this.entreprise = entreprise;
-    }
-
-    public Journal getJournal() {
-        return journal;
-    }
-
-    public void setJournal(Journal journal) {
-        this.journal = journal;
-    }
-
-    public OffreEmploi getOffreEmploi() {
-        return offreEmploi;
-    }
-
-    public void setOffreEmploi(OffreEmploi offreEmploi) {
-        this.offreEmploi = offreEmploi;
-    }
-
+    // Getters et Setters
     public int getIdAbonnement() {
         return idAbonnement;
     }
@@ -67,12 +29,28 @@ public class Abonnement {
         this.idAbonnement = idAbonnement;
     }
 
-    public LocalDate getDateDebut() {
-		return dateDebut;
-	}
+    public int getCodeClient() {
+        return codeClient;
+    }
 
-	public void setDateDebut(LocalDate dateDebut) {
-		this.dateDebut = dateDebut;
+    public void setCodeClient(int codeClient) {
+        this.codeClient = codeClient;
+    }
+
+    public int getCodeJournal() {
+        return codeJournal;
+    }
+
+    public void setCodeJournal(int codeJournal) {
+        this.codeJournal = codeJournal;
+    }
+
+    public LocalDate getDateDebut() {
+        return dateDebut;
+    }
+
+    public void setDateDebut(LocalDate dateDebut) {
+        this.dateDebut = dateDebut;
     }
 
     public LocalDate getDateExpiration() {
@@ -83,21 +61,21 @@ public class Abonnement {
         this.dateExpiration = dateExpiration;
     }
 
-    public void setActif(boolean actif) {
-        this.actif = actif;
+    public boolean isEtat() {
+        return etat;
     }
 
-    public boolean estActif() {
-        return actif && LocalDate.now().isBefore(dateExpiration);
-    }
-
-    public void desactiver() {
-        this.actif = false;
+    public void setEtat(boolean etat) {
+        this.etat = etat;
     }
 
     @Override
-	public String toString() {
-		return "Abonnement [entreprise=" + entreprise + ", journal=" + journal + ", offreEmploi=" + offreEmploi
-				+ ", idAbonnement=" + idAbonnement + ", dateExpiration=" + dateExpiration + ", actif=" + actif + "]";
-	}
+    public String toString() {
+        return "Abonnement [id=" + idAbonnement +
+                ", client=" + codeClient +
+                ", journal=" + codeJournal +
+                ", debut=" + dateDebut +
+                ", expiration=" + dateExpiration +
+                ", actif=" + etat + "]";
+    }
 }

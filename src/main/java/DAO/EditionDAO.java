@@ -114,37 +114,4 @@ public class EditionDAO {
         return editions;
     }
 
-    public static void main(String[] args) {
-
-        Edition edition1 = new Edition(2, 1, LocalDate.of(2025, 10, 10));
-        if (ajouterEdition(edition1)) {
-            System.out.println("Edition Ajoute");
-        }
-
-        Edition edition2 = new Edition(3, 3, LocalDate.of(2025, 10, 10));
-        if (ajouterEdition(edition2)) {
-            System.out.println("Edition Ajoute");
-        }
-
-        Edition edition3 = new Edition(3, 1, LocalDate.of(2025, 10, 10));
-        if (ajouterEdition(edition3)) {
-            System.out.println("Edition Ajoute");
-        }
-
-        if (supprimerEdition(1, 3)) {
-            System.out.println("Edition Supprimee");
-        }
-
-        Edition edition4 = getEditionById(1, 2);
-        if (edition4 != null) {
-            System.out.println("Edition Trouvee : " + edition4);
-        }
-
-        List<Edition> allEditions = getAllEditions();
-        System.out.println("Tous les editions :");
-        for (Edition e : allEditions) {
-            System.out.println(e);
-        }
-
-    }
 }
