@@ -2,7 +2,7 @@ package main.java.ui;
 
 import main.java.DAO.*;
 import main.java.models.Edition;
-import main.java.models.OffreEmploi;
+//import main.java.models.OffreEmploi;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

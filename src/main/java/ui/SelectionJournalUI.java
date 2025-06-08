@@ -6,16 +6,16 @@ import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.util.List;
 
-import main.java.DAO.EntrepriseDAO;
+// import main.java.DAO.EntrepriseDAO;
 import main.java.DAO.JournalDAO;
 import main.java.models.Entreprise;
 import main.java.models.Journal;
 
 public class SelectionJournalUI extends JFrame {
-    private Entreprise entreprise;
+    
 
     public SelectionJournalUI(Entreprise entreprise) {
-        this.entreprise = entreprise;
+        
 
         setTitle("Sélection du journal");
         setSize(800, 400);

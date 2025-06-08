@@ -29,10 +29,10 @@ public class JournalUI extends JFrame {
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
 
-        JButton ajouterButton = new JButton("Ajouter un journal");
-        ajouterButton.addActionListener(e -> {
-            new AjouterJournalFrame(this).setVisible(true);
-        });
+        // JButton ajouterButton = new JButton("Ajouter un journal");
+        // ajouterButton.addActionListener(e -> {
+        //     new AjouterJournalFrame(this).setVisible(true);
+        // });
 
         JButton rechercherButton = new JButton("Rechercher un journal par ID");
             rechercherButton.addActionListener(e -> {

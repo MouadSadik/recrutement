@@ -11,9 +11,9 @@ public class ConnexionEntrepriseUI extends JFrame {
         setTitle("Connexion Entreprise");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        // 🟢 PLEIN ÉCRAN
+        
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLayout(new GridBagLayout()); // Pour centrer le formulaire
+        setLayout(new GridBagLayout()); 
 
         // Composants
         JTextField txtNom = new JTextField(20);
@@ -48,7 +48,7 @@ public class ConnexionEntrepriseUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "Connexion réussie !");
                 dispose();
 
-                new InterfaceEntrepriseEspace1(nom); // ⬅ Passe bien le nom ici
+                new InterfaceEntrepriseEspace1(nom);
             } else {
                 JOptionPane.showMessageDialog(this, "Entreprise introuvable.");
             }

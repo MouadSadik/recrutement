@@ -5,7 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-// Assurez-vous que JournalUI et EntrepriseUI sont bien importés
 // import main.java.UI.JournalUI;
 // import main.java.UI.EntrepriseUI;
 

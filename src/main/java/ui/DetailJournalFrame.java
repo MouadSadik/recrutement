@@ -24,18 +24,11 @@ import java.awt.*;
         add(langueLabel);
         add(categorieLabel);
 
-        JButton modifierButton = new JButton("Modifier");
-        modifierButton.addActionListener(e -> {
-            new ModifierJournalFrame(nom, langue, idCategorie).setVisible(true);
-            dispose();
-        });
-
         JButton voirEditionsButton = new JButton("Voir les Éditions");
         voirEditionsButton.addActionListener(e -> {
             new EditionUI(codeDemandeur,codeJournal).setVisible(true);
         });
 
-        // add(modifierButton);
         add(voirEditionsButton);
     }
 }

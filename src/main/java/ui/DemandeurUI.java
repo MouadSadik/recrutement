@@ -69,25 +69,7 @@ public class DemandeurUI extends JFrame {
                                     new PostulationsUI(d.getCodeClient()).setVisible(true);
                                 });
                             }
-
-                            // Object[] options = {"liste des journaux", "Fermer"};
-                            
-                            // int choice = JOptionPane.showOptionDialog(
-                            //         null,
-                            //         message,
-                            //         "Connexion réussie",
-                            //         JOptionPane.YES_NO_OPTION,
-                            //         JOptionPane.INFORMATION_MESSAGE,
-                            //         null,
-                            //         options,
-                            //         options[0]
-                            // );
-
-                            // if (choice == JOptionPane.YES_OPTION) {
-                            //     SwingUtilities.invokeLater(() -> {
-                            //         new JournalUI(d.getCodeClient()).setVisible(true);
-                            //     });
-                            // }
+                           
                         }
 
                         else {

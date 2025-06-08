@@ -47,7 +47,7 @@ public class InterfaceEntrepriseEspace1 extends JFrame {
 
         add(buttonPanel, BorderLayout.CENTER);
 
-        // ➕ Actions à définir plus tard
+        
         btnAjouterAbonnement.addActionListener(e -> {
             new SelectionJournalUI(entreprise);
         });

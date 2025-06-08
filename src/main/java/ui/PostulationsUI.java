@@ -4,7 +4,6 @@ import main.java.DAO.PostulationDAO;
 import main.java.models.OffreEmploi;
 
 import javax.swing.*;
-// import java.awt.*;
 import java.util.List;
 
 public class PostulationsUI extends JFrame {
