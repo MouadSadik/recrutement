@@ -63,7 +63,7 @@ Ce projet est une application desktop réalisée en Java Swing dans le cadre d'u
 │           ├── 📁 DAO/            # Data Access Objects
 │           ├── 📁 models/         # Modèles de données
 │           ├── 📁 ui/             # Interfaces utilisateur
-│           ├── 📁 utils/          # Utilitaires
+│           ├── 📁 utils/          # liaison a base de donnee 
 ├── hs_err_pid21900.log           # Log des erreurs
 └── README.md                     # Documentation
 ```
@@ -73,7 +73,7 @@ Ce projet est une application desktop réalisée en Java Swing dans le cadre d'u
 - **`DAO/`** : Couche d'accès aux données (CRUD operations)
 - **`models/`** : Entités métier (Client, Entreprise, Demandeur, etc.)
 - **`ui/`** : Interfaces graphiques Swing
-- **`utils/`** : Classes utilitaires et helpers
+- **`utils/`** : Liaison base de donnees
 - **Entreprise** : gestion des offres, abonnements, recrutements  
 - **Demandeur** : gestion des profils, postulations  
 - **Journal / Édition** : gestion des éditions de journaux par catégorie  
