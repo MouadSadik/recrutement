@@ -48,7 +48,7 @@ public class ConnexionEntrepriseUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "Connexion réussie !");
                 dispose();
 
-                new InterfaceEntrepriseEspace1(nom);
+                new InterfaceEntrepriseEspace(nom);
             } else {
                 JOptionPane.showMessageDialog(this, "Entreprise introuvable.");
             }

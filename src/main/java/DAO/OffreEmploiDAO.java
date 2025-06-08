@@ -119,9 +119,10 @@ public class OffreEmploiDAO {
                 abonnement);
     }
 
+    /*
     public static List<OffreEmploi> getOffresParEntreprise(int entrepriseId) {
         List<OffreEmploi> offres = new ArrayList<>();
-        String sql = "SELECT * FROM offreemploi WHERE numoffre = ?";
+        String sql = "SELECT * FROM offreemploi WHERE idabonnement = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -165,6 +166,31 @@ public class OffreEmploiDAO {
 
         return offres;
     }
+    */
+
+    public static List<OffreEmploi> getOffresParEntreprise(int entrepriseId) {
+        List<OffreEmploi> offres = new ArrayList<>();
+        String sql = "SELECT o.* FROM OffreEmploi o " +
+                    "JOIN Abonnement a ON o.idAbonnement = a.idAbonnement " +
+                    "WHERE a.codeclient = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, entrepriseId);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                offres.add(mapResultSetToOffreEmploi(rs));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return offres;
+    }
+
 
 
     public static OffreEmploi getOffreEmploiByTitre(String titre) throws SQLException {

@@ -209,13 +209,26 @@ public class PostulationDAO {
         return new Postulation(idPostulation, datePostulation, offreEmploi, demandeur, edition);
     }
 
+
+
     public static List<Object[]> getPostulationsParOffre(int numOffre) {
         List<Object[]> postulations = new ArrayList<>();
 
         String sql = """
-            SELECT p.idpostulation, d.cin, d.nom, d.prenom, d.email, d.telephone, p.etat
+            SELECT 
+                p.idpostulation,
+                d.codeclient,
+                d.nom,
+                d.prenom,
+                d.nbanneesexperience,
+                d.salairesouhaite,
+                d.diplome,
+                c.adresse,
+                c.telephone,
+                p.datepostulation
             FROM postulation p
-            JOIN demandeur d ON p.cin = d.cin
+            JOIN demandeur d ON p.codeclient = d.codeclient
+            JOIN client c ON d.codeclient = c.codeclient
             WHERE p.numoffre = ?
         """;
 
@@ -228,12 +241,15 @@ public class PostulationDAO {
             while (rs.next()) {
                 Object[] row = new Object[]{
                     rs.getInt("idpostulation"),
-                    rs.getString("cin"),
+                    rs.getInt("codeclient"),
                     rs.getString("nom"),
                     rs.getString("prenom"),
-                    rs.getString("email"),
+                    rs.getInt("nbanneesexperience"),
+                    rs.getDouble("salairesouhaite"),
+                    rs.getString("diplome"),
+                    rs.getString("adresse"),
                     rs.getString("telephone"),
-                    rs.getString("etat")
+                    rs.getDate("datepostulation"),
                 };
                 postulations.add(row);
             }
@@ -244,6 +260,7 @@ public class PostulationDAO {
 
         return postulations;
     }
+
 
     public static void mettreAJourEtat(int idPostulation, String nouvelEtat) {
         String sql = "UPDATE postulation SET etat = ? WHERE idpostulation = ?";

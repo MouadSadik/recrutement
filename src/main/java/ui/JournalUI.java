@@ -22,7 +22,7 @@ public class JournalUI extends JFrame {
         setLocationRelativeTo(null); // Centrer la fenêtre
 
         // Colonnes
-        String[] columnNames = {"Code", "Nom", "Périodicité", "Langue", "ID Catégorie"};
+        String[] columnNames = {"Code", "Nom", "Périodicité", "Langue", "Catégorie"};
 
         // Modèle de tableau
         tableModel = new DefaultTableModel(columnNames, 0);

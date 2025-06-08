@@ -6,9 +6,9 @@ import java.awt.*;
 import main.java.DAO.EntrepriseDAO;
 import main.java.models.Entreprise;
 
-public class InterfaceEntrepriseEspace1 extends JFrame {
+public class InterfaceEntrepriseEspace extends JFrame {
 
-    public InterfaceEntrepriseEspace1(String nomEntreprise) {
+    public InterfaceEntrepriseEspace(String nomEntreprise) {
         setTitle("Espace Entreprise");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
