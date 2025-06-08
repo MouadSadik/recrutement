@@ -1,111 +1,139 @@
 # Projet Agence de Recrutement
 
-## Les membres du groupe
-
-- Mohcine EL HAKMAOUI  
-- Mouad SADIK  
-- Ali TAHIRI  
-- Badr Eddine ZIANE  
-
----
-
-## Compilation du programme
-
-Pour exécuter l’application, lancer le fichier src\main\java\ui\ClientUI.java
-
----
-
-## Description du contenu des répertoires
-
-- **imgs**  
-  Des images de conception, de maquettes, etc.
-
-- **lib**  
-  Le driver de PostgreSQL.
-
-- **DAO**  
-  Les classes pour l’accès à la base de données (Data Access Objects).
-
-- **models**  
-  Les classes représentant les entités métier  
-  (Client, Demandeur, Entreprise, etc.).
-
-- **ui**  
-  Les interfaces graphiques (UI) de l’application (fenêtres Swing, etc.).
-
-- **utils**  
-  Les classes utilitaires pour la connexion à la base de données.
-
----
+## 📌 Description
+Ce projet est une application desktop réalisée en Java Swing dans le cadre d'un projet universitaire. Elle vise à moderniser le système de gestion d'une agence de recrutement auparavant basé sur des journaux papier. L'application permet la gestion complète du processus de recrutement, de la publication d'offres jusqu'au suivi des recrutements.
 
 
+## ⚙️ Fonctionnalités principales
 
-## Description
+### 👨‍💼 Pour les entreprises :
+- Création, modification et suppression des offres d'emploi
+- Gestion des abonnements aux journaux et éditions
+- Consultation des candidatures reçues et filtrage des postulants
+- Recrutement et historique des embauches
+- Gestion du profil entreprise
 
-Ce projet est une application desktop Java Swing pour une agence de recrutement.  
-Elle permet aux entreprises de publier des offres, consulter et gérer les candidatures, et aux candidats de postuler et suivre leurs démarches.  
-
----
-
-## Fonctionnalités principales
-
-- **Pour les entreprises :**  
-  - Publication, modification et suppression des offres d’emploi  
-  - Consultation et filtrage des candidatures reçues  
-  - Recrutement et suivi des candidats  
-  - Visualisation de l’historique des recrutements  
-  - Gestion du profil entreprise
-
-- **Pour les candidats :**  
-  - Inscription et gestion de profil  
-  - Consultation des offres d’emploi disponibles  
-  - Postulation en ligne avec CV et lettre de motivation  
-  - Suivi du statut des candidatures  
-  - Notifications des nouvelles offres correspondant au profil
-
----
-
-## Capture d’écran de conception UML
-
-![UML](./imgs/uml.png)
-
----
-
-## Capture d’écran de conception de BD
-
-![BD ](./imgs/db.png)
-
----
-
-## Capture d’écran d'espace UI
-
-![Interface principale](./imgs/ui.png)
-
----
-
-## Capture d’écran d'espace entreprise
-
-![Interface Entreprise](./imgs/image.png)
+### 👨‍💻 Pour les demandeurs d'emploi :
+- Inscription avec informations complètes (diplôme, expérience, etc.)
+- Consultation des offres d'emploi disponibles
+- Postulation en ligne (avec édition consultée)
+- Suivi des candidatures
+- Interface intuitive avec filtrage par compétences
 
 
----
+## 🏗️ Architecture
 
-## Technologies utilisées
+![Diagramme UML](./imgs/uml.png)
+*Diagramme UML de l'architecture système*
 
-- **Langage :** Java 17  
-- **Interface graphique :** Java Swing  
-- **Base de données :** PostgreSql
-- **Connexion DB :** JDBC avec DAO Pattern  
-- **Outils de gestion DB :** Supabase 
-- **Gestion de versions :** Git  
+### 🛠️ Technologies Utilisées
+
+<div align="center">
+
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)
+![Swing](https://img.shields.io/badge/Java_Swing-ED8B00?style=for-the-badge&logo=java&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase&logoColor=white)
+![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ_IDEA-000000.svg?style=for-the-badge&logo=intellij-idea&logoColor=white)
+![Git](https://img.shields.io/badge/GIT-E44C30?style=for-the-badge&logo=git&logoColor=white)
+
+</div>
+
+### 📐 Patterns et Principes
+- **DAO Pattern** : Accès aux données structuré
+- **MVC Architecture** : Séparation des responsabilités
+- **Modularité** : Séparation claire entre UI, logique métier et persistance
+- **JDBC** : Connectivité base de données
+- **Exception Handling** : Gestion robuste des erreurs
+
+## 📁 Structure du Projet
+
+```
+📦 Agence-Recrutement/
+├── 📁 .vscode/                    # Configuration VS Code
+├── 📁 imgs/                       # Images et captures d'écran
+│   ├── db.jfif                    # Structure base de données
+│   ├── imag                       # Interface principale
+│   └── uml_diagram.png            # Diagramme UML
+├── 📁 lib/                        # Bibliothèques externes
+│   ├── db.sql                     # Script de création BDD
+│   └── postgresql-42.7.5.jar     # Driver PostgreSQL
+├── 📁 src/                        # Code source principal
+│   └── 📁 main/
+│       └── 📁 java/
+│           ├── 📁 DAO/            # Data Access Objects
+│           ├── 📁 models/         # Modèles de données
+│           ├── 📁 service/        # Logique métier
+│           ├── 📁 ui/             # Interfaces utilisateur
+│           ├── 📁 utils/          # Utilitaires
+│           └── 📁 resources/      # Ressources statiques
+├── 📁 test/                       # Tests unitaires
+│   └── 📁 java/
+│       └── 📁 tests/
+├── hs_err_pid21900.log           # Log des erreurs
+└── README.md                     # Documentation
+```
+
+### 🗂️ Organisation des Packages
+
+- **`DAO/`** : Couche d'accès aux données (CRUD operations)
+- **`models/`** : Entités métier (Client, Entreprise, Demandeur, etc.)
+- **`service/`** : Services et logique métier
+- **`ui/`** : Interfaces graphiques Swing
+- **`utils/`** : Classes utilitaires et helpers
+- **`resources/`** : Fichiers de configuration et ressources
+- **Entreprise** : gestion des offres, abonnements, recrutements  
+- **Demandeur** : gestion des profils, postulations  
+- **Journal / Édition** : gestion des éditions de journaux par catégorie  
+- **Recrutement** : sélection des candidats, historique  
+- **Postulation** : candidatures filtrées automatiquement selon profil
 
 ---
 
+## 🛢 Base de données
 
-## 🛢 Base de Données
+![Structure de la base de données](./imgs/db.jfif)
+*Aperçu de la structure de la base de données*
 
-- Tables principales : `client`, `entreprise`, `demandeur`, `journal`, `categorie`, `edition`, `abonnement`, `offre_emploi`, `postulation`, `recrutement`
-- Clés étrangères et héritages respectés selon le diagramme UML fourni.
+- Tables principales :  
+  `client`, `entreprise`, `demandeur`, `journal`, `categorie`, `edition`, `abonnement`, `offre`, `postulation`, `recrutement`  
+- Relations et contraintes respectées selon le diagramme UML  
+- Stockée et gérée via **Supabase Postgres**
+
+---
+
+## 🧪 Tests et Validation
+
+
+Des scénarios de test ont été mis en place :
+- Création de comptes
+- Abonnements aux journaux
+- Emission et désactivation d'offres
+- Postulations avec filtrage par expérience
+- Gestion du recrutement jusqu'à désactivation automatique des offres
+- Historique de recrutements et cohérence des données
+
+**Résultats :**
+- Aucune erreur critique rencontrée
+- Interface ergonomique
+- Fonctionnalités validées avec succès
+
+---
+
+## 🐞 Problèmes rencontrés
+- Duplicatas dans les abonnements → correction via contrôles SQL  
+- Postulation multiple à une même offre → vérification d'unicité  
+- Dépassement du nombre de recrutements → contrôle du quota  
+- Rafraîchissement des listes Swing → automatisé après chaque action
+
+---
+
+## 🚀 Perspectives
+- Passage à une interface web (React, Next.js)  
+- Notifications des utilisateurs (offres et recrutements)  
+- Moteur de recherche plus avancé  
+- Déploiement complet cloud (Heroku, Vercel)  
+- Authentification sécurisée (JWT, OAuth)
 
 ---
 
@@ -113,4 +141,25 @@ Elle permet aux entreprises de publier des offres, consulter et gérer les candi
 
 1. Cloner le projet :
    ```bash
-         git clone https://github.com/MouadSadik/recrutement.git
+   git clone https://github.com/MouadSadik/recrutement.git
+   ```
+
+2. Ouvrir le projet dans un IDE Java (IntelliJ, NetBeans, Eclipse)
+
+3. Configurer la connexion JDBC à la base de données Supabase
+
+4. Exécuter le fichier `Main.java` pour lancer l'application
+
+---
+
+## 👥 Auteurs
+- **Mouad Sadik**
+- **Badreddine Ziane**  
+- **Mohcine Elhekmaoui**
+- **Ali Tahiri**
+
+**Encadrant :** Mr. Said El Kafhali  
+**Année universitaire :** 2024–2025
+
+---
+
