@@ -15,9 +15,6 @@ Pour exécuter l’application, lancer le fichier src\main\java\ui\ClientUI.java
 
 ---
 
-
----
-
 ## Description du contenu des répertoires
 
 - **imgs**  
@@ -76,7 +73,7 @@ Elle permet aux entreprises de publier des offres, consulter et gérer les candi
 
 ## Capture d’écran de conception de BD
 
-![BD ](./imgs/db.jfif)
+![BD ](./imgs/db.png)
 
 ---
 
