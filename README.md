@@ -1,30 +1,46 @@
 # Projet Agence de Recrutement
 
-## Les des membres de groupe
+## Les membres du groupe
 
-Mohcine EL HAKMAOUI
-Mouad SADIK
-Ali TAHIRI
-Badr Eddine ZIANE
+- Mohcine EL HAKMAOUI  
+- Mouad SADIK  
+- Ali TAHIRI  
+- Badr Eddine ZIANE  
 
 ---
 
-## Compilation de programme 
+## Compilation du programme
 
-Faire run a le fichier src\main\java\ui\ClientUI.java
+Pour exécuter l’application, lancer le fichier src\main\java\ui\ClientUI.java
+
+---
+
 
 ---
 
 ## Description du contenu des répertoires
 
-imgs: des images de conception etc
-lib : le driver de PostgreSQL.
-DAO : les classes pour l’accès à la base de données (Data Access Objects).
-models : les classes représentant les entités métier (Client, Demandeur, Entreprise, etc.).
-ui : les interfaces graphiques (UI) de l’application (fenêtres Swing, etc.).
-utils : les classes utilitaires pour la connexion à la base de données.
+- **imgs**  
+  Des images de conception, de maquettes, etc.
+
+- **lib**  
+  Le driver de PostgreSQL.
+
+- **DAO**  
+  Les classes pour l’accès à la base de données (Data Access Objects).
+
+- **models**  
+  Les classes représentant les entités métier  
+  (Client, Demandeur, Entreprise, etc.).
+
+- **ui**  
+  Les interfaces graphiques (UI) de l’application (fenêtres Swing, etc.).
+
+- **utils**  
+  Les classes utilitaires pour la connexion à la base de données.
 
 ---
+
 
 
 ## Description
