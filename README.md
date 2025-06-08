@@ -41,7 +41,6 @@ Ce projet est une application desktop réalisée en Java Swing dans le cadre d'u
 
 ### 📐 Patterns et Principes
 - **DAO Pattern** : Accès aux données structuré
-- **MVC Architecture** : Séparation des responsabilités
 - **Modularité** : Séparation claire entre UI, logique métier et persistance
 - **JDBC** : Connectivité base de données
 - **Exception Handling** : Gestion robuste des erreurs
@@ -63,13 +62,8 @@ Ce projet est une application desktop réalisée en Java Swing dans le cadre d'u
 │       └── 📁 java/
 │           ├── 📁 DAO/            # Data Access Objects
 │           ├── 📁 models/         # Modèles de données
-│           ├── 📁 service/        # Logique métier
 │           ├── 📁 ui/             # Interfaces utilisateur
-│           ├── 📁 utils/          # Utilitaires
-│           └── 📁 resources/      # Ressources statiques
-├── 📁 test/                       # Tests unitaires
-│   └── 📁 java/
-│       └── 📁 tests/
+│           ├── 📁 utils/          # liaison a base de donnee 
 ├── hs_err_pid21900.log           # Log des erreurs
 └── README.md                     # Documentation
 ```
@@ -78,10 +72,8 @@ Ce projet est une application desktop réalisée en Java Swing dans le cadre d'u
 
 - **`DAO/`** : Couche d'accès aux données (CRUD operations)
 - **`models/`** : Entités métier (Client, Entreprise, Demandeur, etc.)
-- **`service/`** : Services et logique métier
 - **`ui/`** : Interfaces graphiques Swing
-- **`utils/`** : Classes utilitaires et helpers
-- **`resources/`** : Fichiers de configuration et ressources
+- **`utils/`** : Liaison base de donnees
 - **Entreprise** : gestion des offres, abonnements, recrutements  
 - **Demandeur** : gestion des profils, postulations  
 - **Journal / Édition** : gestion des éditions de journaux par catégorie  
@@ -92,7 +84,7 @@ Ce projet est une application desktop réalisée en Java Swing dans le cadre d'u
 
 ## 🛢 Base de données
 
-![Structure de la base de données](./imgs/db.jfif)
+![Structure de la base de données](./imgs/db.png)
 *Aperçu de la structure de la base de données*
 
 - Tables principales :  
@@ -144,18 +136,16 @@ Des scénarios de test ont été mis en place :
    git clone https://github.com/MouadSadik/recrutement.git
    ```
 
-2. Ouvrir le projet dans un IDE Java (IntelliJ, NetBeans, Eclipse)
+2. Ouvrir le projet dans un IDE Java (IntelliJ, VsCode, Eclipse)
 
-3. Configurer la connexion JDBC à la base de données Supabase
-
-4. Exécuter le fichier `Main.java` pour lancer l'application
+3. Exécuter le fichier `ClientUI.java` pour lancer l'application
 
 ---
 
 ## 👥 Auteurs
 - **Mouad Sadik**
 - **Badreddine Ziane**  
-- **Mohcine Elhekmaoui**
+- **Mohcine Elhakmaoui**
 - **Ali Tahiri**
 
 **Encadrant :** Mr. Said El Kafhali  
