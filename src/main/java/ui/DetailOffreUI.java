@@ -52,10 +52,18 @@ public class DetailOffreUI extends JFrame {
                 }
             });
 
-            retourButton.addActionListener(e -> dispose());
+        retourButton.setPreferredSize(new Dimension(120, 40));
+        retourButton.addActionListener(e -> {
+            new OffresEditionUI(codeDemandeur, codeJournal, numEdition).setVisible(true);;
+            dispose();
+        });
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        bottomPanel.add(retourButton);
+        add(bottomPanel, BorderLayout.SOUTH);
 
             buttonPanel.add(postulerButton);
-            buttonPanel.add(retourButton);
             content.add(buttonPanel);
 
             add(content);

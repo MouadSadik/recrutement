@@ -3,6 +3,7 @@ package main.java.ui;
 import javax.swing.*;
 
 import main.java.DAO.CategorieJournalDAO;
+import main.java.DAO.DemandeurDAO;
 
 import java.awt.*;
 
@@ -28,8 +29,17 @@ public class DetailJournalFrame extends JFrame {
         JButton voirEditionsButton = new JButton("Voir les Éditions");
         voirEditionsButton.addActionListener(e -> {
             new EditionUI(codeDemandeur, codeJournal).setVisible(true);
+            dispose();
         });
 
+        JButton retourButton = new JButton("Retour");
+        retourButton.addActionListener(e -> {
+            new JournalUI(codeDemandeur).setVisible(true);
+            dispose();
+        });
+
+
         add(voirEditionsButton);
+        add(retourButton);
     }
 }

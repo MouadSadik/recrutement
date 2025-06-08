@@ -24,10 +24,15 @@ public class ClientUI extends JFrame {
 
         // Bouton Demandeur
         JButton btnDemandeur = new JButton("Demandeur");
-        btnDemandeur.setPreferredSize(new Dimension(250, 60)); // Agrandit le bouton
+        btnDemandeur.setPreferredSize(new Dimension(250, 60));
         btnDemandeur.addActionListener(e -> {
-            SwingUtilities.invokeLater(() -> new DemandeurUI().setVisible(true));
+            SwingUtilities.invokeLater(() -> {
+                new DemandeurLoginUI().setVisible(true);
+                // new DemandeurUI().setVisible(true);
+                dispose();
+            });
         });
+
 
         gbc.gridx = 0;
         gbc.gridy = 1;
@@ -35,10 +40,14 @@ public class ClientUI extends JFrame {
 
         // Bouton Entreprise
         JButton btnEntreprise = new JButton("Entreprise");
-        btnEntreprise.setPreferredSize(new Dimension(250, 60)); // Agrandit le bouton
+        btnEntreprise.setPreferredSize(new Dimension(250, 60));
         btnEntreprise.addActionListener(e -> {
-            SwingUtilities.invokeLater(() -> new AccueilEntrepriseUI().setVisible(true));
+            SwingUtilities.invokeLater(() -> {
+                new AccueilEntrepriseUI().setVisible(true);
+                dispose();
+            });
         });
+
 
         gbc.gridx = 0;
         gbc.gridy = 2;

@@ -1,9 +1,11 @@
 package main.java.ui;
 
 import main.java.DAO.PostulationDAO;
+import main.java.DAO.DemandeurDAO;
 import main.java.models.OffreEmploi;
 
 import javax.swing.*;
+import java.awt.*;
 import java.util.List;
 
 public class PostulationsUI extends JFrame {
@@ -13,6 +15,7 @@ public class PostulationsUI extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setLayout(new BorderLayout());
 
         DefaultListModel<String> model = new DefaultListModel<>();
 
@@ -32,8 +35,22 @@ public class PostulationsUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Erreur lors du chargement des postulations : " + e.getMessage());
         }
 
+        // Liste au centre
         JList<String> list = new JList<>(model);
         JScrollPane scrollPane = new JScrollPane(list);
-        add(scrollPane);
+        add(scrollPane, BorderLayout.CENTER);
+
+        // Bouton Retour en bas
+        JButton retourButton = new JButton("Retour");
+        retourButton.setPreferredSize(new Dimension(120, 40));
+        retourButton.addActionListener(e -> {
+            new DemandeurDashboardUI(DemandeurDAO.getDemandeurById(codeDemandeur)).setVisible(true);
+            dispose();
+        });
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        bottomPanel.add(retourButton);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
 }

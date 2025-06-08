@@ -42,6 +42,7 @@ public class OffresEditionUI extends JFrame {
                     if (offre != null) {
 
                         new DetailOffreUI(codeDemandeur, codeJournal, numEdition, numOffre).setVisible(true);
+                        dispose();
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -49,6 +50,18 @@ public class OffresEditionUI extends JFrame {
                 }
             }
         });
+
+         JButton retourButton = new JButton("Retour");
+        retourButton.setPreferredSize(new Dimension(120, 40));
+        retourButton.addActionListener(e -> {
+            new EditionUI(codeDemandeur, codeJournal).setVisible(true);
+            dispose();
+        });
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        bottomPanel.add(retourButton);
+        add(bottomPanel, BorderLayout.SOUTH);
 
     }
 

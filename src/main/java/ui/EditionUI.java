@@ -2,6 +2,7 @@ package main.java.ui;
 
 import main.java.DAO.*;
 import main.java.models.Edition;
+import main.java.models.Journal;
 //import main.java.models.OffreEmploi;
 
 import javax.swing.*;
@@ -19,6 +20,7 @@ public class EditionUI extends JFrame {
     public EditionUI(int codeDemandeur, int codeJournal) {
         this.codeJournal = codeJournal;
 
+        Journal journal = JournalDAO.getJournalById(codeJournal);
         setTitle("Éditions du Journal : " + JournalDAO.getJournalById(codeJournal).getNomJournal());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -46,8 +48,27 @@ public class EditionUI extends JFrame {
                 int numEdition = (int) tableModel.getValueAt(selectedRow, 1);
                 OffresEditionUI offresUI = new OffresEditionUI(codeDemandeur, codeJournal, numEdition);
                 offresUI.setVisible(true);
+                dispose();
             }
         });
+
+        JButton retourButton = new JButton("Retour");
+        retourButton.setPreferredSize(new Dimension(120, 40));
+        retourButton.addActionListener(e -> {
+            new DetailJournalFrame(
+                    codeDemandeur,
+                    journal.getCodeJournal(),
+                    journal.getNomJournal(),
+                    journal.getLangue(),
+                    journal.getIdCategorie()
+            ).setVisible(true);
+            dispose();
+        });
+
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        bottomPanel.add(retourButton);
+        add(bottomPanel, BorderLayout.SOUTH);
 
     }
 
