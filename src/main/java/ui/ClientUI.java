@@ -12,7 +12,7 @@ public class ClientUI extends JFrame {
 
         setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20, 20, 20, 20); // Espacement autour des boutons
+        gbc.insets = new Insets(20, 20, 20, 20);
 
         // Titre
         JLabel titre = new JLabel("Bienvenue dans l'agence de Recrutement");
