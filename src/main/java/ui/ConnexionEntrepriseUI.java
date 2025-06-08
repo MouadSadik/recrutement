@@ -3,7 +3,6 @@ package main.java.ui;
 import javax.swing.*;
 import java.awt.*;
 import main.java.DAO.EntrepriseDAO;
-import test.java.tests.MainUI;
 
 public class ConnexionEntrepriseUI extends JFrame {
 
@@ -11,9 +10,8 @@ public class ConnexionEntrepriseUI extends JFrame {
         setTitle("Connexion Entreprise");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-        
         setExtendedState(JFrame.MAXIMIZED_BOTH);
-        setLayout(new GridBagLayout()); 
+        setLayout(new GridBagLayout());
 
         // Composants
         JTextField txtNom = new JTextField(20);
@@ -48,12 +46,13 @@ public class ConnexionEntrepriseUI extends JFrame {
                 JOptionPane.showMessageDialog(this, "Connexion réussie !");
                 dispose();
 
-                new InterfaceEntrepriseEspace1(nom);
+                new InterfaceEntrepriseEspace(nom);
             } else {
                 JOptionPane.showMessageDialog(this, "Entreprise introuvable.");
             }
         });
 
+        
         btnRetour.addActionListener(e -> {
             dispose();
             new AccueilEntrepriseUI();

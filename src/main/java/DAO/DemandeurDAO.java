@@ -194,34 +194,32 @@ public class DemandeurDAO {
     }
 
     public static Demandeur getDemandeurByNom(String nom) throws SQLException {
-    // String sql = "SELECT * FROM Demandeur WHERE nom = ?";
+        // String sql = "SELECT * FROM Demandeur WHERE nom = ?";
 
-    String sql = "SELECT c.codeclient, c.adresse, c.telephone, d.nom, d.prenom, d.nbanneesexperience, d.salairesouhaite, d.diplome "
-               + "FROM client c JOIN demandeur d ON c.codeclient = d.codeclient WHERE d.nom = ?";
+        String sql = "SELECT c.codeclient, c.adresse, c.telephone, d.nom, d.prenom, d.nbanneesexperience, d.salairesouhaite, d.diplome "
+                + "FROM client c JOIN demandeur d ON c.codeclient = d.codeclient WHERE d.nom = ?";
 
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement statement = conn.prepareStatement(sql)) {
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement statement = conn.prepareStatement(sql)) {
 
-        statement.setString(1, nom);
+            statement.setString(1, nom);
 
-        try (ResultSet rs = statement.executeQuery()) {
-            if (rs.next()) {
-                return new Demandeur(
-                    rs.getInt("codeClient"),
-                    rs.getString("adresse"),
-                    rs.getString("telephone"),
-                    rs.getString("nom"),
-                    rs.getString("prenom"),
-                    rs.getInt("nbanneesexperience"),
-                    rs.getDouble("salairesouhaite"),
-                    rs.getString("diplome")
-                );
+            try (ResultSet rs = statement.executeQuery()) {
+                if (rs.next()) {
+                    return new Demandeur(
+                            rs.getInt("codeClient"),
+                            rs.getString("adresse"),
+                            rs.getString("telephone"),
+                            rs.getString("nom"),
+                            rs.getString("prenom"),
+                            rs.getInt("nbanneesexperience"),
+                            rs.getDouble("salairesouhaite"),
+                            rs.getString("diplome"));
+                }
             }
         }
+        return null;
     }
-    return null;
-}
-
 
     public static void main(String[] args) {
 

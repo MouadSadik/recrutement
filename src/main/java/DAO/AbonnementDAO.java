@@ -14,7 +14,7 @@ public class AbonnementDAO {
     public static boolean ajouterAbonnement(int codeClient, int codeJournal, int nbrMois) {
         String sql = "INSERT INTO abonnement (codeclient, codejournal, datedebut, dateexpiration, etat) VALUES (?, ?, ?, ?, ?)";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             LocalDate dateDebut = LocalDate.now();
             LocalDate dateExpiration = dateDebut.plusMonths(nbrMois);
@@ -37,20 +37,19 @@ public class AbonnementDAO {
     public static Abonnement getAbonnementById(int idAbonnement) {
         String sql = "SELECT * FROM abonnement WHERE idabonnement = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idAbonnement);
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {
                 return new Abonnement(
-                    rs.getInt("idabonnement"),
-                    rs.getInt("codeclient"),
-                    rs.getInt("codejournal"),
-                    rs.getDate("datedebut").toLocalDate(),
-                    rs.getDate("dateexpiration").toLocalDate(),
-                    rs.getBoolean("etat")
-                );
+                        rs.getInt("idabonnement"),
+                        rs.getInt("codeclient"),
+                        rs.getInt("codejournal"),
+                        rs.getDate("datedebut").toLocalDate(),
+                        rs.getDate("dateexpiration").toLocalDate(),
+                        rs.getBoolean("etat"));
             }
 
         } catch (SQLException e) {
@@ -63,7 +62,7 @@ public class AbonnementDAO {
     public static Abonnement getAbonnementActif(int codeClient, int codeJournal) {
         String sql = "SELECT * FROM abonnement WHERE codeclient = ? AND codejournal = ? AND etat = true AND dateexpiration > CURRENT_DATE";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, codeClient);
             stmt.setInt(2, codeJournal);
@@ -72,13 +71,12 @@ public class AbonnementDAO {
 
             if (rs.next()) {
                 return new Abonnement(
-                    rs.getInt("idabonnement"),
-                    rs.getInt("codeclient"),
-                    rs.getInt("codejournal"),
-                    rs.getDate("datedebut").toLocalDate(),
-                    rs.getDate("dateexpiration").toLocalDate(),
-                    rs.getBoolean("etat")
-                );
+                        rs.getInt("idabonnement"),
+                        rs.getInt("codeclient"),
+                        rs.getInt("codejournal"),
+                        rs.getDate("datedebut").toLocalDate(),
+                        rs.getDate("dateexpiration").toLocalDate(),
+                        rs.getBoolean("etat"));
             }
 
         } catch (SQLException e) {
@@ -92,18 +90,17 @@ public class AbonnementDAO {
         List<Abonnement> abonnements = new ArrayList<>();
         String sql = "SELECT * FROM abonnement";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
                 Abonnement ab = new Abonnement(
-                    rs.getInt("idabonnement"),
-                    rs.getInt("codeclient"),
-                    rs.getInt("codejournal"),
-                    rs.getDate("datedebut").toLocalDate(),
-                    rs.getDate("dateexpiration").toLocalDate(),
-                    rs.getBoolean("etat")
-                );
+                        rs.getInt("idabonnement"),
+                        rs.getInt("codeclient"),
+                        rs.getInt("codejournal"),
+                        rs.getDate("datedebut").toLocalDate(),
+                        rs.getDate("dateexpiration").toLocalDate(),
+                        rs.getBoolean("etat"));
                 abonnements.add(ab);
             }
 
@@ -117,7 +114,7 @@ public class AbonnementDAO {
     public static boolean supprimerAbonnement(int idAbonnement) {
         String sql = "DELETE FROM abonnement WHERE idabonnement = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idAbonnement);
             int rows = stmt.executeUpdate();
@@ -133,7 +130,7 @@ public class AbonnementDAO {
     public static boolean desactiverAbonnement(int idAbonnement) {
         String sql = "UPDATE abonnement SET etat = false WHERE idabonnement = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, idAbonnement);
             int rows = stmt.executeUpdate();
@@ -150,7 +147,7 @@ public class AbonnementDAO {
         String sql = "SELECT * FROM abonnement WHERE codeclient = ? AND etat = true";
 
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, codeClient);
             ResultSet rs = stmt.executeQuery();
@@ -162,8 +159,7 @@ public class AbonnementDAO {
                         rs.getInt("codejournal"),
                         rs.getDate("datedebut").toLocalDate(),
                         rs.getDate("dateexpiration").toLocalDate(),
-                        rs.getBoolean("etat")
-                ));
+                        rs.getBoolean("etat")));
             }
 
         } catch (SQLException e) {
@@ -176,25 +172,25 @@ public class AbonnementDAO {
     public static List<Object[]> getAbonnementsActifsParClient(int codeClient) {
         List<Object[]> resultats = new ArrayList<>();
         String sql = """
-            SELECT a.idabonnement, j.codejournal, j.nom, a.datedebut, a.dateexpiration
-            FROM abonnement a
-            JOIN journal j ON a.codejournal = j.codejournal
-            WHERE a.codeclient = ? AND a.etat = true AND a.dateexpiration > CURRENT_DATE
-        """;
+                    SELECT a.idabonnement, j.codejournal, j.nom, a.datedebut, a.dateexpiration
+                    FROM abonnement a
+                    JOIN journal j ON a.codejournal = j.codejournal
+                    WHERE a.codeclient = ? AND a.etat = true AND a.dateexpiration > CURRENT_DATE
+                """;
 
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, codeClient);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Object[] row = new Object[]{
-                    rs.getInt("idabonnement"),
-                    rs.getInt("codejournal"),
-                    rs.getString("nom"),
-                    rs.getDate("datedebut").toLocalDate(),
-                    rs.getDate("dateexpiration").toLocalDate()
+                Object[] row = new Object[] {
+                        rs.getInt("idabonnement"),
+                        rs.getInt("codejournal"),
+                        rs.getString("nom"),
+                        rs.getDate("datedebut").toLocalDate(),
+                        rs.getDate("dateexpiration").toLocalDate()
                 };
                 resultats.add(row);
             }
@@ -204,8 +200,5 @@ public class AbonnementDAO {
 
         return resultats;
     }
-
-
-    
 
 }

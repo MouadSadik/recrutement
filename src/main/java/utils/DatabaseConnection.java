@@ -11,7 +11,7 @@ public class DatabaseConnection {
     private static final String PASSWORD = "Badrmane2020.";
 
     private DatabaseConnection() {
-        // Empêche l’instanciation
+        
     }
 
     public static Connection getConnection() throws SQLException {

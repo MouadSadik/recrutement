@@ -11,11 +11,11 @@ public class VoirAbonnementsUI extends JFrame {
 
     public VoirAbonnementsUI(int codeClient) {
         setTitle("Mes Abonnements Actifs");
-        setSize(600, 300);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        String[] columns = {"ID Abonnement", "ID Journal", "Nom Journal", "Date Début", "Date Expiration"};
+        String[] columns = { "ID Abonnement", "ID Journal", "Nom Journal", "Date Début", "Date Expiration" };
         DefaultTableModel model = new DefaultTableModel(columns, 0);
 
         List<Object[]> abonnements = AbonnementDAO.getAbonnementsActifsParClient(codeClient);

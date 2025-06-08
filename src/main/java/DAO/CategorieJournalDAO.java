@@ -44,20 +44,19 @@ public class CategorieJournalDAO {
     public static int getCategorieByIdJournal(int idJournal) {
         String sql = "SELECT idcategorie FROM journal WHERE codejournal = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idJournal);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    int idCategorie = rs.getInt("idcategorie");  // Récupération de la valeur
+                    int idCategorie = rs.getInt("idcategorie"); // Récupération de la valeur
                     return idCategorie;
                 }
             }
         } catch (SQLException e) {
             System.err.println("Erreur SQL (lecture) : " + e.getMessage());
         }
-        return -1;  // Valeur par défaut si non trouvé ou erreur
+        return -1; // Valeur par défaut si non trouvé ou erreur
     }
-
 
     // Read (toutes les categories)
     public static List<CategorieJournal> getAllCategories() {

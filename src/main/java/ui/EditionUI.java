@@ -21,10 +21,10 @@ public class EditionUI extends JFrame {
 
         setTitle("Éditions du Journal : " + JournalDAO.getJournalById(codeJournal).getNomJournal());
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setSize(800, 400);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
-        String[] columnNames = {"Code Journal", "Numéro d'Édition", "Date de Parution"};
+        String[] columnNames = { "Code Journal", "Numéro d'Édition", "Date de Parution" };
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
@@ -39,17 +39,15 @@ public class EditionUI extends JFrame {
 
         loadEditions();
 
-    table.getSelectionModel().addListSelectionListener(event -> {
-        if (!event.getValueIsAdjusting() && table.getSelectedRow() != -1) {
-            int selectedRow = table.getSelectedRow();
+        table.getSelectionModel().addListSelectionListener(event -> {
+            if (!event.getValueIsAdjusting() && table.getSelectedRow() != -1) {
+                int selectedRow = table.getSelectedRow();
 
-            int numEdition = (int) tableModel.getValueAt(selectedRow, 1);
-            OffresEditionUI offresUI = new OffresEditionUI(codeDemandeur, codeJournal, numEdition);
-            offresUI.setVisible(true);
-        }
-    });
-
-
+                int numEdition = (int) tableModel.getValueAt(selectedRow, 1);
+                OffresEditionUI offresUI = new OffresEditionUI(codeDemandeur, codeJournal, numEdition);
+                offresUI.setVisible(true);
+            }
+        });
 
     }
 
@@ -61,9 +59,9 @@ public class EditionUI extends JFrame {
         for (Edition e : all) {
             if (e.getCodeJournal() == codeJournal) {
                 Object[] row = {
-                    e.getCodeJournal(),
-                    e.getNumEdition(),
-                    e.getDateParution().format(formatter)
+                        e.getCodeJournal(),
+                        e.getNumEdition(),
+                        e.getDateParution().format(formatter)
                 };
                 tableModel.addRow(row);
             }

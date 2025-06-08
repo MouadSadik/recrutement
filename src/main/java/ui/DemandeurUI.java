@@ -16,8 +16,8 @@ public class DemandeurUI extends JFrame {
 
     public DemandeurUI() {
         setTitle("Connexion / Inscription Demandeur");
-        setSize(400, 200);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
 
         // UI Elements
@@ -45,10 +45,10 @@ public class DemandeurUI extends JFrame {
 
                         if (d != null) {
                             String message = "Bienvenue " + d.getPrenom() + " " + d.getNom() +
-                                            "\nExpérience: " + d.getAnneeExp() + " ans" +
-                                            "\nSalaire souhaité: " + d.getSalaiireSouhaite();
+                                    "\nExpérience: " + d.getAnneeExp() + " ans" +
+                                    "\nSalaire souhaité: " + d.getSalaiireSouhaite();
 
-                            Object[] options = {"Liste des journaux", "Mes postulations", "Fermer"};
+                            Object[] options = { "Liste des journaux", "Mes postulations", "Fermer" };
                             int choice = JOptionPane.showOptionDialog(
                                     null,
                                     message,
@@ -57,8 +57,7 @@ public class DemandeurUI extends JFrame {
                                     JOptionPane.INFORMATION_MESSAGE,
                                     null,
                                     options,
-                                    options[0]
-                            );
+                                    options[0]);
 
                             if (choice == 0) {
                                 SwingUtilities.invokeLater(() -> {
@@ -69,14 +68,16 @@ public class DemandeurUI extends JFrame {
                                     new PostulationsUI(d.getCodeClient()).setVisible(true);
                                 });
                             }
-                           
+
                         }
 
                         else {
-                            JOptionPane.showMessageDialog(null, "Demandeur non trouvé.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                            JOptionPane.showMessageDialog(null, "Demandeur non trouvé.", "Erreur",
+                                    JOptionPane.ERROR_MESSAGE);
                         }
                     } catch (Exception ex) {
-                        JOptionPane.showMessageDialog(null, "Erreur lors de la connexion : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null, "Erreur lors de la connexion : " + ex.getMessage(),
+                                "Erreur", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -89,8 +90,6 @@ public class DemandeurUI extends JFrame {
             }
         });
     }
-
-    
 
     private void ouvrirFormulaireInscription() {
         JFrame frame = new JFrame("Inscription Demandeur");
@@ -138,19 +137,21 @@ public class DemandeurUI extends JFrame {
                             prenom.getText(),
                             Integer.parseInt(experience.getText()),
                             Double.parseDouble(salaire.getText()),
-                            diplome.getText()
-                    );
+                            diplome.getText());
 
                     boolean success = DemandeurDAO.ajouterDemandeur(nouveau);
                     if (success) {
-                        JOptionPane.showMessageDialog(frame, "Inscription réussie !", "Succès", JOptionPane.INFORMATION_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Inscription réussie !", "Succès",
+                                JOptionPane.INFORMATION_MESSAGE);
                         frame.dispose();
                     } else {
-                        JOptionPane.showMessageDialog(frame, "Erreur lors de l'inscription.", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(frame, "Erreur lors de l'inscription.", "Erreur",
+                                JOptionPane.ERROR_MESSAGE);
                     }
 
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(frame, "Erreur : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(frame, "Erreur : " + ex.getMessage(), "Erreur",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             }
         });
@@ -162,4 +163,3 @@ public class DemandeurUI extends JFrame {
         });
     }
 }
-

@@ -15,7 +15,7 @@ public class SelectionOffreUI extends JFrame {
 
     public SelectionOffreUI(int entrepriseId) {
         setTitle("Sélectionner une offre pour voir les postulations");
-        setSize(500, 400);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -24,7 +24,7 @@ public class SelectionOffreUI extends JFrame {
 
         for (OffreEmploi offre : offres) {
             String line = "Offre #" + offre.getNumOffre() + " | " + offre.getTitre() +
-                          " | Compétences: " + offre.getCompetences();
+                    " | Compétences: " + offre.getCompetences();
             listModel.addElement(line);
         }
 

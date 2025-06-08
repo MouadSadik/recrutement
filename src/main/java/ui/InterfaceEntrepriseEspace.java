@@ -6,15 +6,15 @@ import java.awt.*;
 import main.java.DAO.EntrepriseDAO;
 import main.java.models.Entreprise;
 
-public class InterfaceEntrepriseEspace1 extends JFrame {
+public class InterfaceEntrepriseEspace extends JFrame {
 
-    public InterfaceEntrepriseEspace1(String nomEntreprise) {
+    public InterfaceEntrepriseEspace(String nomEntreprise) {
         setTitle("Espace Entreprise");
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLayout(new BorderLayout(20, 20));
 
-        // 🔍 Récupération de l'entreprise
+        // Récupération de l'entreprise
         Entreprise entreprise = EntrepriseDAO.getEntrepriseParNom(nomEntreprise);
         if (entreprise == null) {
             JOptionPane.showMessageDialog(this, "Erreur : entreprise non trouvée.");
@@ -22,7 +22,7 @@ public class InterfaceEntrepriseEspace1 extends JFrame {
             return;
         }
 
-        // 🔷 Informations entreprise (haut de la fenêtre)
+        // Informations entreprise (haut de la fenêtre)
         JPanel infoPanel = new JPanel(new GridLayout(4, 1));
         infoPanel.setBorder(BorderFactory.createTitledBorder("Informations de l'entreprise"));
         infoPanel.add(new JLabel("Raison Sociale : " + entreprise.getRaisonSociale()));
@@ -31,7 +31,7 @@ public class InterfaceEntrepriseEspace1 extends JFrame {
         infoPanel.add(new JLabel("Activités : " + entreprise.getDescriptionActivite()));
         add(infoPanel, BorderLayout.NORTH);
 
-        // 🔘 Boutons (centre de la fenêtre)
+        // Boutons 
         JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 20, 20));
         buttonPanel.setBorder(BorderFactory.createTitledBorder("Actions"));
 

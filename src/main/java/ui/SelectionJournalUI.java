@@ -1,6 +1,5 @@
 package main.java.ui;
 
-
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -12,13 +11,11 @@ import main.java.models.Entreprise;
 import main.java.models.Journal;
 
 public class SelectionJournalUI extends JFrame {
-    
 
     public SelectionJournalUI(Entreprise entreprise) {
-        
 
         setTitle("Sélection du journal");
-        setSize(800, 400);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -41,6 +38,7 @@ public class SelectionJournalUI extends JFrame {
         JScrollPane scrollPane = new JScrollPane(table);
 
         JButton btnSAbonner = new JButton("S'abonner au journal sélectionné");
+        JButton btnRetour = new JButton("Retour");
 
         btnSAbonner.addActionListener(e -> {
             int selectedRow = table.getSelectedRow();
@@ -54,6 +52,12 @@ public class SelectionJournalUI extends JFrame {
             }
         });
 
+         
+        btnRetour.addActionListener(e -> {
+            dispose();
+            new AccueilEntrepriseUI();
+        });
+
         setLayout(new BorderLayout());
         add(new JLabel("Sélectionnez un journal pour vous abonner :", JLabel.CENTER), BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
@@ -62,4 +66,3 @@ public class SelectionJournalUI extends JFrame {
         setVisible(true);
     }
 }
-

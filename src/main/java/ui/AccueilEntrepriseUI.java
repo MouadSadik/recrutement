@@ -11,9 +11,9 @@ public class AccueilEntrepriseUI extends JFrame {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setLayout(new GridLayout(3, 1, 10, 10));
 
-        // Ajuster la taille de la fenêtre à une taille spécifique (par exemple, 800x600)
         setLocationRelativeTo(null); // Centrer la fenêtre
         setExtendedState(JFrame.MAXIMIZED_BOTH);
+        
 
         // Composants
         JButton btnConnexion = new JButton("Connexion");

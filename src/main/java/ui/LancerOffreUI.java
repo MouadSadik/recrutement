@@ -13,7 +13,7 @@ public class LancerOffreUI extends JFrame {
 
     public LancerOffreUI(Entreprise entreprise) {
         setTitle("Lancer une Offre");
-        setSize(600, 500);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -30,12 +30,18 @@ public class LancerOffreUI extends JFrame {
 
         JButton btnPublier = new JButton("Publier l'offre");
 
-        panel.add(new JLabel("Journal :")); panel.add(comboJournaux);
-        panel.add(new JLabel("Titre de l'offre :")); panel.add(txtTitre);
-        panel.add(new JLabel("Compétences :")); panel.add(new JScrollPane(txtCompetences));
-        panel.add(new JLabel("Années d'expérience :")); panel.add(txtExperience);
-        panel.add(new JLabel("Nombre de postes :")); panel.add(txtNbPostes);
-        panel.add(new JLabel()); panel.add(btnPublier);
+        panel.add(new JLabel("Journal :"));
+        panel.add(comboJournaux);
+        panel.add(new JLabel("Titre de l'offre :"));
+        panel.add(txtTitre);
+        panel.add(new JLabel("Compétences :"));
+        panel.add(new JScrollPane(txtCompetences));
+        panel.add(new JLabel("Années d'expérience :"));
+        panel.add(txtExperience);
+        panel.add(new JLabel("Nombre de postes :"));
+        panel.add(txtNbPostes);
+        panel.add(new JLabel());
+        panel.add(btnPublier);
 
         add(panel);
 
@@ -80,8 +86,7 @@ public class LancerOffreUI extends JFrame {
                         Integer.parseInt(txtNbPostes.getText().trim()),
                         OffreEmploi.EtatOffre.ACTIVE,
                         derniereEdition,
-                        abonnement
-                );
+                        abonnement);
 
                 OffreEmploiDAO.addOffreEmploi(offre);
                 JOptionPane.showMessageDialog(this, "Offre publiée avec succès !");

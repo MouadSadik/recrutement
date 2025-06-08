@@ -48,22 +48,21 @@ public class EditionDAO {
     }
 
     public static boolean modifierEdition(Edition edition) {
-    String sql = "UPDATE edition SET dateparution = ? WHERE codejournal = ? AND numedition = ?";
+        String sql = "UPDATE edition SET dateparution = ? WHERE codejournal = ? AND numedition = ?";
 
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement statement = conn.prepareStatement(sql)) {
-        statement.setDate(1, java.sql.Date.valueOf(edition.getDateParution()));
-        statement.setInt(2, edition.getCodeJournal());
-        statement.setInt(3, edition.getNumEdition());
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement statement = conn.prepareStatement(sql)) {
+            statement.setDate(1, java.sql.Date.valueOf(edition.getDateParution()));
+            statement.setInt(2, edition.getCodeJournal());
+            statement.setInt(3, edition.getNumEdition());
 
-        int rowsUpdated = statement.executeUpdate();
-        return rowsUpdated > 0;
-    } catch (SQLException e) {
-        System.out.println("Erreur SQL (UPDATE) :" + e.getMessage());
-        return false;
+            int rowsUpdated = statement.executeUpdate();
+            return rowsUpdated > 0;
+        } catch (SQLException e) {
+            System.out.println("Erreur SQL (UPDATE) :" + e.getMessage());
+            return false;
+        }
     }
-}
-
 
     public static Edition getEditionById(int codeJournal, int numEdition) {
         String sql = "SELECT * FROM edition WHERE numEdition = ? AND codejournal = ? ";
@@ -72,7 +71,7 @@ public class EditionDAO {
 
             stmt.setInt(1, numEdition);
             stmt.setInt(2, codeJournal);
-            
+
             ResultSet rs = stmt.executeQuery();
 
             if (rs.next()) {

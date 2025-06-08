@@ -15,14 +15,16 @@ public class PostulationDAO {
 
     // Ajouter une postulation
 
-    public static void ajouterPostulation(int codeDemandeur, int codeJournal, int numEdition, int numOffre) throws SQLException {
+    public static void ajouterPostulation(int codeDemandeur, int codeJournal, int numEdition, int numOffre)
+            throws SQLException {
         try (Connection conn = DatabaseConnection.getConnection()) {
             conn.setAutoCommit(false);
 
             try {
                 // 1. Charger l'offre
                 OffreEmploi offre = OffreEmploiDAO.getOffreEmploiById(numOffre);
-                if (offre == null) throw new SQLException("Offre introuvable.");
+                if (offre == null)
+                    throw new SQLException("Offre introuvable.");
 
                 // 2. Vérifier que l'offre est ACTIVE
                 if (offre.getEtat() != OffreEmploi.EtatOffre.ACTIVE) {
@@ -31,7 +33,8 @@ public class PostulationDAO {
 
                 // 3. Charger le demandeur
                 Demandeur demandeur = DemandeurDAO.getDemandeurById(codeDemandeur);
-                if (demandeur == null) throw new SQLException("Demandeur introuvable.");
+                if (demandeur == null)
+                    throw new SQLException("Demandeur introuvable.");
 
                 // 4. Vérifier l'expérience
                 if (demandeur.getAnneeExp() < offre.getNbAnneeExperienceDemandee()) {
@@ -45,7 +48,8 @@ public class PostulationDAO {
                 try (PreparedStatement countStmt = conn.prepareStatement(countSql)) {
                     countStmt.setInt(1, numOffre);
                     try (ResultSet rs = countStmt.executeQuery()) {
-                        if (rs.next()) nbPostulations = rs.getInt(1);
+                        if (rs.next())
+                            nbPostulations = rs.getInt(1);
                     }
                 }
 
@@ -54,8 +58,9 @@ public class PostulationDAO {
                 }
 
                 // 6. Insérer la postulation
-                String insertSql = "INSERT INTO Postulation (codeClient, numOffre, codeJournal, numEdition, datePostulation) " +
-                                "VALUES (?, ?, ?, ?, ?)";
+                String insertSql = "INSERT INTO Postulation (codeClient, numOffre, codeJournal, numEdition, datePostulation) "
+                        +
+                        "VALUES (?, ?, ?, ?, ?)";
 
                 try (PreparedStatement insertStmt = conn.prepareStatement(insertSql)) {
                     insertStmt.setInt(1, codeDemandeur);
@@ -123,21 +128,20 @@ public class PostulationDAO {
     }
 
     public static List<OffreEmploi> getPostulationsByDemandeur(int codeDemandeur) throws SQLException {
-    List<OffreEmploi> offres = new ArrayList<>();
-    String sql = "SELECT o.* FROM Postulation p JOIN OffreEmploi o ON p.numOffre = o.numOffre WHERE p.codeClient = ?";
+        List<OffreEmploi> offres = new ArrayList<>();
+        String sql = "SELECT o.* FROM Postulation p JOIN OffreEmploi o ON p.numOffre = o.numOffre WHERE p.codeClient = ?";
 
-    try (Connection conn = DatabaseConnection.getConnection();
-         PreparedStatement stmt = conn.prepareStatement(sql)) {
-        stmt.setInt(1, codeDemandeur);
-        ResultSet rs = stmt.executeQuery();
+        try (Connection conn = DatabaseConnection.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, codeDemandeur);
+            ResultSet rs = stmt.executeQuery();
 
-        while (rs.next()) {
-            offres.add(OffreEmploiDAO.getOffreEmploiById(rs.getInt("numOffre")));
+            while (rs.next()) {
+                offres.add(OffreEmploiDAO.getOffreEmploiById(rs.getInt("numOffre")));
+            }
         }
+        return offres;
     }
-    return offres;
-}
-
 
     // Récupérer toutes les postulations
     public static List<Postulation> getAllPostulations() throws SQLException {
@@ -168,19 +172,19 @@ public class PostulationDAO {
         }
     }
 
-        public static List<Postulation> getPostulationsByEntreprise(String nomEntreprise) throws SQLException {
-            String sql = """
-                SELECT p.* FROM Postulation p
-                JOIN OffreEmploi o ON p.numOffre = o.numOffre
-                JOIN Abonnement a ON o.idAbonnement = a.idAbonnement
-                JOIN Entreprise e ON a.idEntreprise = e.idEntreprise
-                WHERE e.nom = ?
-            """;
+    public static List<Postulation> getPostulationsByEntreprise(String nomEntreprise) throws SQLException {
+        String sql = """
+                    SELECT p.* FROM Postulation p
+                    JOIN OffreEmploi o ON p.numOffre = o.numOffre
+                    JOIN Abonnement a ON o.idAbonnement = a.idAbonnement
+                    JOIN Entreprise e ON a.idEntreprise = e.idEntreprise
+                    WHERE e.nom = ?
+                """;
 
         List<Postulation> postulations = new ArrayList<>();
 
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, nomEntreprise);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -191,7 +195,6 @@ public class PostulationDAO {
         }
         return postulations;
     }
-
 
     // Mapper un ResultSet vers une instance de Postulation
     private static Postulation mapResultSetToPostulation(ResultSet resultSet) throws SQLException {
@@ -213,27 +216,41 @@ public class PostulationDAO {
         List<Object[]> postulations = new ArrayList<>();
 
         String sql = """
-            SELECT p.idpostulation, d.cin, d.nom, d.prenom, d.email, d.telephone, p.etat
-            FROM postulation p
-            JOIN demandeur d ON p.cin = d.cin
-            WHERE p.numoffre = ?
-        """;
+                    SELECT
+                        p.idpostulation,
+                        d.codeclient,
+                        d.nom,
+                        d.prenom,
+                        d.nbanneesexperience,
+                        d.salairesouhaite,
+                        d.diplome,
+                        c.adresse,
+                        c.telephone,
+                        p.datepostulation
+                    FROM postulation p
+                    JOIN demandeur d ON p.codeclient = d.codeclient
+                    JOIN client c ON d.codeclient = c.codeclient
+                    WHERE p.numoffre = ?
+                """;
 
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, numOffre);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
-                Object[] row = new Object[]{
-                    rs.getInt("idpostulation"),
-                    rs.getString("cin"),
-                    rs.getString("nom"),
-                    rs.getString("prenom"),
-                    rs.getString("email"),
-                    rs.getString("telephone"),
-                    rs.getString("etat")
+                Object[] row = new Object[] {
+                        rs.getInt("idpostulation"),
+                        rs.getInt("codeclient"),
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getInt("nbanneesexperience"),
+                        rs.getDouble("salairesouhaite"),
+                        rs.getString("diplome"),
+                        rs.getString("adresse"),
+                        rs.getString("telephone"),
+                        rs.getDate("datepostulation"),
                 };
                 postulations.add(row);
             }
@@ -248,7 +265,7 @@ public class PostulationDAO {
     public static void mettreAJourEtat(int idPostulation, String nouvelEtat) {
         String sql = "UPDATE postulation SET etat = ? WHERE idpostulation = ?";
         try (Connection conn = DatabaseConnection.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setString(1, nouvelEtat);
             stmt.setInt(2, idPostulation);
             stmt.executeUpdate();
@@ -256,7 +273,5 @@ public class PostulationDAO {
             System.err.println("Erreur SQL (maj état postulation) : " + e.getMessage());
         }
     }
-
-    
 
 }

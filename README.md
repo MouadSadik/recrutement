@@ -23,7 +23,7 @@ Ce projet est une application desktop réalisée en Java Swing dans le cadre d'u
 
 ## 🏗️ Architecture
 
-![Diagramme UML](./imgs/uml_diagram.png)
+![Diagramme UML](./imgs/uml.png)
 *Diagramme UML de l'architecture système*
 
 ### 🛠️ Technologies Utilisées

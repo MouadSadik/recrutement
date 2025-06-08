@@ -13,7 +13,7 @@ public class ClientDAO {
         String sql = "INSERT INTO client (codeclient, adresse, telephone) VALUES (?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, client.getCodeClient());
             stmt.setString(2, client.getAdresse());
@@ -32,7 +32,7 @@ public class ClientDAO {
         String sql = "DELETE FROM client WHERE codeclient = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, codeClient);
 
@@ -49,7 +49,7 @@ public class ClientDAO {
         String sql = "UPDATE client SET adresse = ?, telephone = ? WHERE codeclient = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setString(1, client.getAdresse());
             stmt.setString(2, client.getTelephone());
@@ -68,7 +68,7 @@ public class ClientDAO {
         String sql = "SELECT * FROM client WHERE codeclient = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql)) {
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
 
             stmt.setInt(1, codeClient);
 
@@ -76,7 +76,8 @@ public class ClientDAO {
 
             if (rs.next()) {
                 // Comme Client est abstrait, on crée une instance anonyme
-                return new Client(rs.getInt("codeclient"), rs.getString("adresse"), rs.getString("telephone")) {};
+                return new Client(rs.getInt("codeclient"), rs.getString("adresse"), rs.getString("telephone")) {
+                };
             }
 
         } catch (SQLException e) {
@@ -91,11 +92,12 @@ public class ClientDAO {
         String sql = "SELECT * FROM client";
 
         try (Connection conn = DatabaseConnection.getConnection();
-             PreparedStatement stmt = conn.prepareStatement(sql);
-             ResultSet rs = stmt.executeQuery()) {
+                PreparedStatement stmt = conn.prepareStatement(sql);
+                ResultSet rs = stmt.executeQuery()) {
 
             while (rs.next()) {
-                Client c = new Client(rs.getInt("codeclient"), rs.getString("adresse"), rs.getString("telephone")) {};
+                Client c = new Client(rs.getInt("codeclient"), rs.getString("adresse"), rs.getString("telephone")) {
+                };
                 clients.add(c);
             }
 
@@ -109,12 +111,14 @@ public class ClientDAO {
     // MAIN DE TEST
     public static void main(String[] args) {
         // Ajouter clients
-        Client c1 = new Client(1, "Rue 123, Casablanca", "0612345678") {};
+        Client c1 = new Client(1, "Rue 123, Casablanca", "0612345678") {
+        };
         if (ajouterClient(c1)) {
             System.out.println("Client ajouté.");
         }
 
-        Client c2 = new Client(2, "Avenue Hassan II, Rabat", "0623456789") {};
+        Client c2 = new Client(2, "Avenue Hassan II, Rabat", "0623456789") {
+        };
         if (ajouterClient(c2)) {
             System.out.println("Client ajouté.");
         }
