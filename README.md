@@ -41,7 +41,6 @@ Ce projet est une application desktop réalisée en Java Swing dans le cadre d'u
 
 ### 📐 Patterns et Principes
 - **DAO Pattern** : Accès aux données structuré
-- **MVC Architecture** : Séparation des responsabilités
 - **Modularité** : Séparation claire entre UI, logique métier et persistance
 - **JDBC** : Connectivité base de données
 - **Exception Handling** : Gestion robuste des erreurs
