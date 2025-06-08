@@ -60,9 +60,6 @@ public class JournalUI extends JFrame {
 
         add(topPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
-
-        
-
         
         JButton retourButton = new JButton("Retour");
         retourButton.setPreferredSize(new Dimension(250, 60));
@@ -89,7 +86,6 @@ public class JournalUI extends JFrame {
                 int code = Integer.parseInt(table.getValueAt(selectedRow, 0).toString());
                 String nom = table.getValueAt(selectedRow, 1).toString();
                 String langue = table.getValueAt(selectedRow, 3).toString();
-                // String Categorie = table.getValueAt(selectedRow, 4).toString();
 
                 // CategorieJournalDAO.getCategorieByIdJournal(code);
                 new DetailJournalFrame(codeDemandeur, code, nom, langue,

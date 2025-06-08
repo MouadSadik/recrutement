@@ -28,7 +28,6 @@ public class ClientUI extends JFrame {
         btnDemandeur.addActionListener(e -> {
             SwingUtilities.invokeLater(() -> {
                 new DemandeurLoginUI().setVisible(true);
-                // new DemandeurUI().setVisible(true);
                 dispose();
             });
         });

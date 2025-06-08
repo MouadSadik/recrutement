@@ -35,12 +35,10 @@ public class PostulationsUI extends JFrame {
             JOptionPane.showMessageDialog(this, "Erreur lors du chargement des postulations : " + e.getMessage());
         }
 
-        // Liste au centre
         JList<String> list = new JList<>(model);
         JScrollPane scrollPane = new JScrollPane(list);
         add(scrollPane, BorderLayout.CENTER);
 
-        // Bouton Retour en bas
         JButton retourButton = new JButton("Retour");
         retourButton.setPreferredSize(new Dimension(120, 40));
         retourButton.addActionListener(e -> {
