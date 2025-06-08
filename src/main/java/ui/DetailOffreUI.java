@@ -20,7 +20,7 @@ public class DetailOffreUI extends JFrame {
             }
 
             setTitle("Détail de l'offre : " + offre.getTitre());
-            setSize(500, 400);
+            setExtendedState(JFrame.MAXIMIZED_BOTH);
             setLocationRelativeTo(null);
             setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -47,7 +47,8 @@ public class DetailOffreUI extends JFrame {
                     JOptionPane.showMessageDialog(this, "Votre candidature a été enregistrée avec succès !");
                 } catch (Exception ex) {
                     ex.printStackTrace();
-                    JOptionPane.showMessageDialog(this, "Erreur lors de la postulation : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Erreur lors de la postulation : " + ex.getMessage(), "Erreur",
+                            JOptionPane.ERROR_MESSAGE);
                 }
             });
 
@@ -61,10 +62,10 @@ public class DetailOffreUI extends JFrame {
 
         } catch (Exception ex) {
             ex.printStackTrace();
-            JOptionPane.showMessageDialog(this, "Erreur lors du chargement de l'offre : " + ex.getMessage(), "Erreur", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Erreur lors du chargement de l'offre : " + ex.getMessage(), "Erreur",
+                    JOptionPane.ERROR_MESSAGE);
             dispose();
         }
     }
 
 }
-

@@ -14,7 +14,7 @@ public class VoirPostulationsUI extends JFrame {
 
     public VoirPostulationsUI(int numOffre) {
         setTitle("Postulations de l'offre " + numOffre);
-        setSize(500, 400);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -23,9 +23,9 @@ public class VoirPostulationsUI extends JFrame {
 
         for (Object[] postulation : postulations) {
             String ligne = "Nom: " + postulation[2] + " " + postulation[3] +
-               ", Email: " + postulation[7] +
-               ", Téléphone: " + postulation[8] +
-               ", test: " + postulation[9];
+                    ", Email: " + postulation[7] +
+                    ", Téléphone: " + postulation[8] +
+                    ", test: " + postulation[9];
 
             listModel.addElement(ligne);
         }
@@ -73,5 +73,5 @@ public class VoirPostulationsUI extends JFrame {
             new VoirPostulationsUI(9).setVisible(true);
         });
     }
-    
+
 }

@@ -1,5 +1,32 @@
 # Projet Agence de Recrutement
 
+## Les des membres de groupe
+
+Mohcine EL HAKMAOUI
+Mouad SADIK
+Ali TAHIRI
+Badr Eddine ZIANE
+
+---
+
+## Compilation de programme 
+
+Faire run a le fichier src\main\java\ui\ClientUI.java
+
+---
+
+## Description du contenu des répertoires
+
+imgs: des images de conception etc
+lib : le driver de PostgreSQL.
+DAO : les classes pour l’accès à la base de données (Data Access Objects).
+models : les classes représentant les entités métier (Client, Demandeur, Entreprise, etc.).
+ui : les interfaces graphiques (UI) de l’application (fenêtres Swing, etc.).
+utils : les classes utilitaires pour la connexion à la base de données.
+
+---
+
+
 ## Description
 
 Ce projet est une application desktop Java Swing pour une agence de recrutement.  
@@ -25,9 +52,27 @@ Elle permet aux entreprises de publier des offres, consulter et gérer les candi
 
 ---
 
-## Capture d’écran
+## Capture d’écran de conception UML
 
-![Interface principale](./imgs/image.png)
+![UML](./imgs/uml.png)
+
+---
+
+## Capture d’écran de conception de BD
+
+![BD ](./imgs/db.jfif)
+
+---
+
+## Capture d’écran d'espace UI
+
+![Interface principale](./imgs/ui.png)
+
+---
+
+## Capture d’écran d'espace entreprise
+
+![Interface Entreprise](./imgs/image.png)
 
 
 ---

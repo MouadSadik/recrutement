@@ -10,7 +10,7 @@ public class PostulationsUI extends JFrame {
 
     public PostulationsUI(int codeDemandeur) {
         setTitle("Mes Postulations");
-        setSize(600, 400);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
@@ -23,7 +23,8 @@ public class PostulationsUI extends JFrame {
                 model.addElement(offre.getTitre() + " | " +
                         offre.getCompetences() + " | " +
                         offre.getEtat() + " | " +
-                        "Journal : " + offre.getEdition().getCodeJournal() + " |  Édition " + offre.getEdition().getNumEdition());
+                        "Journal : " + offre.getEdition().getCodeJournal() + " |  Édition "
+                        + offre.getEdition().getNumEdition());
             }
 
         } catch (Exception e) {
@@ -36,4 +37,3 @@ public class PostulationsUI extends JFrame {
         add(scrollPane);
     }
 }
-

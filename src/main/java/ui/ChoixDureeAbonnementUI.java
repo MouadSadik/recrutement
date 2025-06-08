@@ -21,7 +21,8 @@ public class ChoixDureeAbonnementUI extends JFrame {
 
         btnConfirmer.addActionListener(e -> {
             int nbrMois = (int) spinner.getValue();
-            boolean success = AbonnementDAO.ajouterAbonnement(entreprise.getCodeClient(), journal.getCodeJournal(), nbrMois);
+            boolean success = AbonnementDAO.ajouterAbonnement(entreprise.getCodeClient(), journal.getCodeJournal(),
+                    nbrMois);
 
             if (success) {
                 JOptionPane.showMessageDialog(this, "Abonnement ajouté avec succès !");

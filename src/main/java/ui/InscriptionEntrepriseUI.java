@@ -21,8 +21,6 @@ public class InscriptionEntrepriseUI extends JFrame {
         JLabel lblTitre = new JLabel("Inscription Entreprise");
         lblTitre.setFont(new Font("Arial", Font.BOLD, 32));
         JButton btnRetour = new JButton("Retour");
-        
-
 
         JPanel panelForm = new JPanel(new GridLayout(6, 2, 10, 10));
         panelForm.add(new JLabel("Adresse :"));
@@ -49,11 +47,10 @@ public class InscriptionEntrepriseUI extends JFrame {
 
         btnValider.addActionListener(e -> {
             Entreprise entreprise = new Entreprise(
-                txtAdresse.getText(),
-                txtTelephone.getText(),
-                txtRaison.getText(),
-                txtDescription.getText()
-            );
+                    txtAdresse.getText(),
+                    txtTelephone.getText(),
+                    txtRaison.getText(),
+                    txtDescription.getText());
 
             boolean success = EntrepriseDAO.ajouterEntreprise(entreprise);
             if (success) {

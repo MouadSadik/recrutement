@@ -18,11 +18,11 @@ public class OffresEditionUI extends JFrame {
     public OffresEditionUI(int codeDemandeur, int codeJournal, int numEdition) {
         Edition edition = EditionDAO.getEditionById(codeJournal, numEdition);
         setTitle("Offres d'emploi pour l'édition : " + edition.getNumEdition());
-        setSize(800, 400);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        String[] columnNames = {"numOffre","Titre", "État", "Competences", "Nbr Annee Experience Demandee"};
+        String[] columnNames = { "numOffre", "Titre", "État", "Competences", "Nbr Annee Experience Demandee" };
         tableModel = new DefaultTableModel(columnNames, 0);
         table = new JTable(tableModel);
         JScrollPane scrollPane = new JScrollPane(table);
