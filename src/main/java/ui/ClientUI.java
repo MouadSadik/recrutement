@@ -47,7 +47,6 @@ public class ClientUI extends JFrame {
             });
         });
 
-
         gbc.gridx = 0;
         gbc.gridy = 2;
         add(btnEntreprise, gbc);
