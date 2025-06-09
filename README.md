@@ -5,7 +5,7 @@ Ce projet est une application desktop réalisée en Java Swing dans le cadre d'u
 
 
 ## ⚙️ Fonctionnalités principales
-
+ 
 ### 👨‍💼 Pour les entreprises :
 - Création, modification et suppression des offres d'emploi
 - Gestion des abonnements aux journaux et éditions
