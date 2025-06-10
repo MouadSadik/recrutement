@@ -23,9 +23,9 @@ public class VoirPostulationsUI extends JFrame {
 
         for (Object[] postulation : postulations) {
             String ligne = "Nom: " + postulation[2] + " " + postulation[3] +
-                    ", Email: " + postulation[7] +
+                    ", adresse: " + postulation[7] +
                     ", Téléphone: " + postulation[8] +
-                    ", test: " + postulation[9];
+                    ", date postulation: " + postulation[9];
 
             listModel.addElement(ligne);
         }

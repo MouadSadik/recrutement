@@ -119,54 +119,6 @@ public class OffreEmploiDAO {
                 abonnement);
     }
 
-    /*
-     * public static List<OffreEmploi> getOffresParEntreprise(int entrepriseId) {
-     * List<OffreEmploi> offres = new ArrayList<>();
-     * String sql = "SELECT * FROM offreemploi WHERE idabonnement = ?";
-     * 
-     * try (Connection conn = DatabaseConnection.getConnection();
-     * PreparedStatement stmt = conn.prepareStatement(sql)) {
-     * 
-     * stmt.setInt(1, entrepriseId);
-     * ResultSet rs = stmt.executeQuery();
-     * 
-     * while (rs.next()) {
-     * int numOffre = rs.getInt("numoffre");
-     * String titre = rs.getString("titre");
-     * String competences = rs.getString("competences");
-     * int nbAnneeExperience = rs.getInt("nbanneeexperiencedemandee");
-     * int nbPostes = rs.getInt("nbpostes");
-     * int codeJournal = rs.getInt("codejournal");
-     * 
-     * EtatOffre etat = EtatOffre.valueOf(rs.getString("etat"));
-     * 
-     * int editionId = rs.getInt("numedition");
-     * Edition edition = EditionDAO.getEditionById(codeJournal, editionId);
-     * 
-     * int abonnementId = rs.getInt("idabonnement");
-     * Abonnement abonnement = AbonnementDAO.getAbonnementById(abonnementId);
-     * 
-     * // Création de l'objet OffreEmploi
-     * OffreEmploi offre = new OffreEmploi(
-     * numOffre,
-     * titre,
-     * competences,
-     * nbAnneeExperience,
-     * nbPostes,
-     * etat,
-     * edition,
-     * abonnement);
-     * 
-     * offres.add(offre);
-     * }
-     * 
-     * } catch (SQLException e) {
-     * e.printStackTrace();
-     * }
-     * 
-     * return offres;
-     * }
-     */
 
     public static List<OffreEmploi> getOffresParEntreprise(int entrepriseId) {
         List<OffreEmploi> offres = new ArrayList<>();

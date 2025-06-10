@@ -19,7 +19,7 @@ public class DetailJournalFrame extends JFrame {
         JLabel nomLabel = new JLabel("Nom : " + nom);
         JLabel langueLabel = new JLabel("Langue : " + langue);
         JLabel categorieLabel = new JLabel(
-                "ID Catégorie : " + CategorieJournalDAO.getCategorieById(idCategorie).getLibelle());
+                "Catégorie : " + CategorieJournalDAO.getCategorieById(idCategorie).getLibelle());
 
         setLayout(new GridLayout(5, 1));
         add(nomLabel);
